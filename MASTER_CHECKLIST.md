@@ -28,6 +28,36 @@
 - **P2 — Medium:** maintainability, usability, performance, and portfolio quality.
 - **P3 — Polish:** optional refinements after core quality is established.
 
+
+## Phase 0 — repository baseline update (2026-11-23)
+
+### Verified remotely
+- Repository is private, active (not archived), and its default branch is `master`.
+- Current `master` baseline: `23b2323933f9a58b9ba7338b48887d80b57d7db8` (`Initial Commit`, 2026-11-22).
+- GitHub currently exposes one commit in the repository history. This means there is no earlier repository history available through the current GitHub API view to inspect.
+- Branches currently visible: `master` and `docs/master-project-checklist`; both report unprotected.
+- No Git tags are currently visible.
+- No `.github/workflows/` files are present in the recursive repository tree.
+- Recursive tree scan found `backend/.env.example` as the only environment-file match; no tracked `.env`, database dump, SQLite database, private-key file, `vendor/`, Flutter `build/`, or `.dart_tool/` path was found.
+- Root `.gitignore` excludes environment files other than `.env.example`, Laravel vendor/cache/log paths, Flutter build/cache paths, and common OS/log files.
+- `backend/.env.example` contains blank database password and blank optional demo-password values; it contains no populated credential value.
+- README currently describes a responsive storefront/admin dashboard, product/post/user management screens, Passport authentication, and local setup. It does not claim checkout/payment is complete; the blog starts empty.
+- Runtime baseline (Flutter analyzer/tests/build, Pint/PHPUnit, migrations, Passport setup) has not been run. GitHub file access alone cannot establish whether those commands pass.
+
+### Phase 0 gate status
+- [x] Confirm remote default branch, current commit, visible branch list, and available commit history.
+- [x] Check visible tags and whether the default branch is protected.
+- [x] Inspect tracked-path inventory for obvious environment files, database exports, private-key files, and generated dependency/build directories.
+- [ ] Create a backup tag before the first destructive cleanup/rename. No destructive work is authorized or underway; create it immediately before that phase.
+- [ ] Complete a content-level secrets scan across all tracked files and the available commit history. The path scan above is not a secrets scan.
+- [ ] Run a clean-clone setup and all baseline commands in a real local/dev environment.
+- [ ] Capture current UI screenshots at the agreed target breakpoints.
+- [ ] Confirm product scope and platform targets with the project owner.
+
+### Owner decisions still required
+The next blocking decision is the product goal: should Scup-Shop remain a portfolio-quality demonstration of the currently implemented storefront/admin/API, or should the roadmap target a genuinely operational online shop with cart, checkout, orders, and payment integration? This decision changes the data model, API scope, security work, test plan, UI flows, and delivery estimate.
+
+
 ---
 
 # Phase 0 — Baseline, scope, and safe working process

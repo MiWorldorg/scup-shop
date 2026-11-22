@@ -1,0 +1,118 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sculpture_shop/core/variable/page_padding_var.dart';
+import 'package:sculpture_shop/core/widgets/async_state_view.dart';
+import 'package:sculpture_shop/core/widgets/header.dart';
+import 'package:sculpture_shop/core/widgets/sections_header.dart';
+import 'package:sculpture_shop/core/widgets/website_drawer_mobile.dart';
+import 'package:sculpture_shop/core/widgets/website_footer.dart';
+import 'package:sculpture_shop/features/public/shop/presentation/controllers/shop_controller.dart';
+import 'package:sculpture_shop/features/public/shop/presentation/pages/shop-products-tile.dart';
+import 'package:sculpture_shop/features/public/shop/presentation/widgets/product_card_widget.dart';
+
+class ShopPage extends GetView<ShopController> {
+  ShopPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    final colors = Theme.of(context).colorScheme;
+
+    return Scaffold(
+      drawer: MobileDrawer(),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: getResponsivePadding(context, width),
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Header(selectedIndex: 1.obs),
+                const SizedBox(height: 28),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 28,
+                    vertical: 30,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Theme.of(context).cardColor,
+                        colors.secondary.withOpacity(0.22),
+                      ],
+                    ),
+                    border: Border.all(color: colors.primary.withOpacity(0.16)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'THE COLLECTION',
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: colors.primary,
+                          letterSpacing: 2,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Sculptures with a story',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      const SizedBox(height: 8),
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 620),
+                        child: Text(
+                          'Explore carefully selected pieces shaped by material, craft, and character.',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: colors.onBackground.withOpacity(0.72),
+                              ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 30),
+                const SectionsHeader(title: 'Shop the collection'),
+                Obx(
+                  () => AsyncStateView(
+                    isLoading: controller.isLoading.value,
+                    errorMessage: controller.errorMessage.value,
+                    isEmpty: controller.products.isEmpty,
+                    emptyMessage: 'New pieces will appear here soon.',
+                    onRetry: controller.fetchLatestProduct,
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 310,
+                            mainAxisExtent: 412,
+                            crossAxisSpacing: 18,
+                            mainAxisSpacing: 18,
+                          ),
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: controller.products.length,
+                      itemBuilder: (context, index) {
+                        final product = controller.products[index];
+                        return ProductCart(
+                          productModel: product,
+                          page: ShopProductsTile(product: product),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 36),
+                const Footer(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

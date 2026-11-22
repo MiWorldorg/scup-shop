@@ -1,0 +1,29 @@
+# Local environment and secrets
+**/.env
+**/.env.*
+!**/.env.example
+
+# PHP / Laravel
+backend/vendor/
+backend/node_modules/
+backend/public/hot
+backend/public/storage
+backend/storage/logs/*.log
+backend/bootstrap/cache/*.php
+backend/database/*.sqlite
+backend/storage/framework/cache/data/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/storage/framework/testing/*
+
+# Flutter / Dart
+frontend/.dart_tool/
+frontend/build/
+frontend/.idea/
+frontend/**/local.properties
+frontend/**/*.iml
+
+# General
+.DS_Store
+Thumbs.db
+*.log

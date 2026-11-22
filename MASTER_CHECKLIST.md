@@ -52,10 +52,10 @@
 - [ ] Complete a content-level secrets scan across all tracked files and the available commit history. The path scan above is not a secrets scan.
 - [ ] Run a clean-clone setup and all baseline commands in a real local/dev environment.
 - [ ] Capture current UI screenshots at the agreed target breakpoints.
-- [ ] Confirm product scope and platform targets with the project owner.
+- [x] Confirmed product scope and shared responsive Flutter approach with the project owner; blog is public and administrator-managed. Platform builds/runtime support remain pending.
 
 ### Owner decisions still required
-Owner decisions recorded: portfolio-quality demonstration of the currently implemented storefront/admin/API; no complete transactional purchase flow is required. One shared Flutter codebase is the delivery approach; responsive/adaptive behavior across mobile, tablet, desktop, web, and app contexts is the UX target. Platform builds and runtime support still require verification.
+Owner decisions recorded: portfolio-quality demonstration of the currently implemented storefront/admin/API; no complete transactional purchase flow is required. One shared Flutter codebase is the delivery approach; responsive/adaptive behavior across mobile, tablet, desktop, web, and app contexts is the UX target. The blog is intended to be public, with posts managed by administrators (create, edit, publish/unpublish, delete). Platform builds and runtime support still require verification.
 
 
 ---
@@ -67,7 +67,7 @@ Owner decisions recorded: portfolio-quality demonstration of the currently imple
 - [x] **P0** Product goal: portfolio-quality project demonstrating the currently implemented storefront/admin/API; do not expand scope to a complete transactional shop.
 - [x] **P0** Confirm the delivery approach: one shared Flutter codebase, with responsive/adaptive UX as the cross-platform requirement (mobile, tablet, desktop; web and app output behavior verified separately). Actual platform support remains unverified until builds and tests run on each declared target.
 - [x] **P0** Checkout, cart, orders, and payment are not required deliverables for this portfolio scope; document related existing schema as incomplete/unused where appropriate, without claiming a working purchase flow.
-- [ ] **P0** Decide whether the blog is intended to be editable by administrators or remain read-only/static for this release.
+- [x] **P0** Blog scope: public, read-capable blog with administrator-managed posts (create, edit, publish/unpublish, and delete); implementation and runtime verification remain pending.
 - [ ] **P1** Confirm whether contact messages should be sent through a real backend/email workflow or whether the page should remain informational. Current UI explicitly tells the visitor that online sending is unavailable.
 - [ ] **P1** Confirm the product's actual audience, currency, locale, and language policy. The current interface is English and product form labels use Toman.
 - [ ] **P1** Confirm project role (solo/team), team size if applicable, and exact project period before publishing portfolio claims.
@@ -396,4 +396,5 @@ These are observations from the current repository snapshot, not claims that tes
 | --- | --- | --- | --- |
 | 2026-11-23 | Created the master checklist from repository source review; no application code changed. | Project | Draft for review |
 | 2026-11-23 | Confirmed portfolio-quality scope, excluded a complete checkout/payment flow, and selected one shared responsive Flutter codebase as the cross-platform approach. | Project owner | Recorded; runtime/platform verification pending |
+| 2026-11-23 | Selected a public blog with administrator-managed post lifecycle (create, edit, publish/unpublish, delete). | Project owner | Recorded; implementation/runtime verification pending |
 

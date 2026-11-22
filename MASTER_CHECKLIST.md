@@ -68,9 +68,14 @@ Owner decisions recorded: portfolio-quality demonstration of the currently imple
 - [x] **P0** Confirm the delivery approach: one shared Flutter codebase, with responsive/adaptive UX as the cross-platform requirement (mobile, tablet, desktop; web and app output behavior verified separately). Actual platform support remains unverified until builds and tests run on each declared target.
 - [x] **P0** Checkout, cart, orders, and payment are not required deliverables for this portfolio scope; document related existing schema as incomplete/unused where appropriate, without claiming a working purchase flow.
 - [x] **P0** Blog scope: public, read-capable blog with administrator-managed posts (create, edit, publish/unpublish, and delete); implementation and runtime verification remain pending.
-- [ ] **P1** Confirm whether contact messages should be sent through a real backend/email workflow or whether the page should remain informational. Current UI explicitly tells the visitor that online sending is unavailable.
-- [ ] **P1** Confirm the product's actual audience, currency, locale, and language policy. The current interface is English and product form labels use Toman.
-- [ ] **P1** Confirm project role (solo/team), team size if applicable, and exact project period before publishing portfolio claims.
+- [x] **P1** Contact page scope: implement a real message form connected to the Laravel backend and an email-delivery workflow. Do not show success until delivery/acceptance is confirmed; protect the endpoint with validation, rate limiting, spam controls, and safe error handling.
+- [x] **P1** Audience: general visitors and people interested in art/sculpture.
+- [x] **P1** UI/content language: English for the agreed portfolio release. Localization/multilingual support is not assumed unless separately approved.
+- [x] **P1** Product currency: USD. Centralize currency formatting and ensure API/database representation is unambiguous; do not merely relabel existing Toman values as USD.
+- [x] **P1** Visual direction: professional, coherent redesign while preserving Scup-Shop's sculpture/art identity.
+- [x] **P1** Repository visibility/licensing: keep the project private for now and do not add a public open-source license. Revisit only after ownership and third-party asset/content rights are checked.
+- [x] **P1** Portfolio role: solo developer, as stated by the owner. Do not infer team size or claim specific contributions beyond verified work.
+- [x] **P1** Portfolio status: in development. Exact project period is unknown; omit dates from portfolio claims until verified.
 
 **Acceptance:** A short product-scope decision is recorded in `docs/product-scope.md`; every planned feature has one of: implemented, in-scope to build, explicitly out-of-scope.
 
@@ -235,7 +240,7 @@ Scup-Shop/
 - [ ] **P1** Redesign product detail to show complete product information, gallery, category, availability, price, and clear next action. Do not imply add-to-cart or purchase behavior until implemented.
 - [ ] **P1** Redesign blog cards and article detail with readable editorial typography, image treatment, publication metadata, and responsive content width.
 - [ ] **P2** Refine gallery browsing, image viewing, and mobile interactions.
-- [ ] **P1** Make the contact page honest and functional: either connect a real message endpoint or clearly present available contact methods. Never display a success state for a message that was not sent.
+- [ ] **P1** Implement the agreed real contact form connected to a backend/email workflow. Never display success for a message that was not actually accepted/sent.
 - [ ] **P2** Review navigation, footer, active states, mobile drawer, and page-to-page consistency.
 
 ## 3.3 Admin experience
@@ -251,6 +256,7 @@ Scup-Shop/
 ## 3.4 Responsive and visual QA
 
 - [ ] **P1** Define supported widths and test narrow mobile, large mobile, tablet, laptop, and wide desktop.
+- [x] **P1** Owner-selected release targets: Android, Web, Windows, and Linux. iOS and macOS are not currently in the agreed target set; revisit only by explicit scope change.
 - [ ] **P1** Fix overflow, clipped dialogs, fixed-width assumptions, grid density, and long text behavior.
 - [ ] **P1** Verify images have meaningful alt/semantic labels where relevant and use optimized assets.
 - [ ] **P2** Add image size optimization and caching; consider WebP/AVIF variants where platform support and source assets permit.
@@ -268,7 +274,7 @@ Scup-Shop/
 - [ ] **P1** Add role, period, status, repository/demo/media links, and a CI badge only when the workflow exists.
 - [ ] **P1** Add problem, solution, screenshots/demo, architecture, key decisions/trade-offs, challenges, future improvements, tech stack, getting started, project structure, learning, and license sections.
 - [ ] **P1** Clearly state that checkout/payment/order workflows are not implemented if they remain out of scope.
-- [ ] **P1** Clearly state that contact form submission is unavailable unless a real backend workflow is added.
+- [ ] **P1** Document the real contact form/backend/email workflow only after it is implemented and verified; until then clearly label it as planned, not working.
 - [ ] **P1** Update backend and frontend READMEs so setup steps, versions, routes, environment variables, and commands are accurate and non-duplicative.
 - [ ] **P1** Expand `docs/architecture.md` with a diagram, module responsibilities, request flow, auth flow, and deployment boundaries.
 - [ ] **P1** Expand `docs/database.md` with ER diagram, table purpose, relationships, indexes, migration/seed behavior, and known unused schema.
@@ -276,7 +282,7 @@ Scup-Shop/
 - [ ] **P1** Add `docs/product-scope.md` recording implemented/out-of-scope/planned features and decisions.
 - [ ] **P2** Add short ADRs in `docs/decisions/` for meaningful choices such as state management, API response format, auth token storage, and order-flow scope.
 - [ ] **P1** Add curated screenshots to `docs/images/` with captions and no personal or sensitive data.
-- [ ] **P1** Add a root LICENSE only after the owner confirms the intended license and has the right to license included assets/content.
+- [ ] **P1** Keep the repository private and omit a LICENSE file for now, per owner decision. Revisit public licensing only after ownership and third-party asset/content rights are verified.
 - [ ] **P2** Add contribution guidance, issue templates, and a concise code-of-conduct only if the project is being opened to outside contributions.
 - [ ] **P2** Add a LinkedIn/Wellfound post snippet based on verified project facts.
 
@@ -320,7 +326,7 @@ Scup-Shop/
 - [ ] **P1** Ensure CI uses test-only environment variables and disposable databases; never expose production secrets.
 - [ ] **P1** Add dependency/security scanning and secret scanning appropriate to repository visibility.
 - [ ] **P1** Make required checks pass before merge.
-- [ ] **P2** Add build jobs only for platforms the project explicitly supports.
+- [ ] **P2** Add build jobs for the agreed targets only: Android, Web, Windows, and Linux.
 - [ ] **P2** Add release/versioning guidance if releases are planned.
 
 **Acceptance:** A clean checkout passes CI; test suites exercise the real critical flows; no known failing starter test or unverified quality claim remains.
@@ -397,4 +403,7 @@ These are observations from the current repository snapshot, not claims that tes
 | 2026-11-23 | Created the master checklist from repository source review; no application code changed. | Project | Draft for review |
 | 2026-11-23 | Confirmed portfolio-quality scope, excluded a complete checkout/payment flow, and selected one shared responsive Flutter codebase as the cross-platform approach. | Project owner | Recorded; runtime/platform verification pending |
 | 2026-11-23 | Selected a public blog with administrator-managed post lifecycle (create, edit, publish/unpublish, delete). | Project owner | Recorded; implementation/runtime verification pending |
+| 2026-11-23 | Confirmed real backend/email contact form; general art audience; English UI; USD currency; professional redesign preserving art identity. | Project owner | Recorded; implementation and data/currency verification pending |
+| 2026-11-23 | Confirmed private repository with no open-source license for now; solo developer; project remains in development; exact dates unknown. | Project owner | Recorded; do not invent dates or publish unsupported portfolio claims |
+| 2026-11-23 | Confirmed release targets: Android, Web, Windows, Linux; iOS/macOS excluded from current target set. | Project owner | Recorded; platform build/runtime verification pending |
 

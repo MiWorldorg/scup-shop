@@ -55,7 +55,7 @@
 - [ ] Confirm product scope and platform targets with the project owner.
 
 ### Owner decisions still required
-The next blocking decision is the product goal: should Scup-Shop remain a portfolio-quality demonstration of the currently implemented storefront/admin/API, or should the roadmap target a genuinely operational online shop with cart, checkout, orders, and payment integration? This decision changes the data model, API scope, security work, test plan, UI flows, and delivery estimate.
+Owner decisions recorded: portfolio-quality demonstration of the currently implemented storefront/admin/API; no complete transactional purchase flow is required. One shared Flutter codebase is the delivery approach; responsive/adaptive behavior across mobile, tablet, desktop, web, and app contexts is the UX target. Platform builds and runtime support still require verification.
 
 
 ---
@@ -64,9 +64,9 @@ The next blocking decision is the product goal: should Scup-Shop remain a portfo
 
 ## 0.1 Confirm project scope and product decisions
 
-- [ ] **P0** Confirm whether this repository is an archived university project to be polished as-is, or a product intended to become a functioning online shop.
-- [ ] **P0** Decide the intended delivery target: Flutter Web only, Android/iOS, desktop, or a defined combination. Do not promise all Flutter platforms just because scaffold folders exist.
-- [ ] **P0** Decide whether checkout, cart, orders, and payment are in scope. Current evidence shows schema tables, but no complete customer-facing cart/checkout/payment/order workflow.
+- [x] **P0** Product goal: portfolio-quality project demonstrating the currently implemented storefront/admin/API; do not expand scope to a complete transactional shop.
+- [x] **P0** Confirm the delivery approach: one shared Flutter codebase, with responsive/adaptive UX as the cross-platform requirement (mobile, tablet, desktop; web and app output behavior verified separately). Actual platform support remains unverified until builds and tests run on each declared target.
+- [x] **P0** Checkout, cart, orders, and payment are not required deliverables for this portfolio scope; document related existing schema as incomplete/unused where appropriate, without claiming a working purchase flow.
 - [ ] **P0** Decide whether the blog is intended to be editable by administrators or remain read-only/static for this release.
 - [ ] **P1** Confirm whether contact messages should be sent through a real backend/email workflow or whether the page should remain informational. Current UI explicitly tells the visitor that online sending is unavailable.
 - [ ] **P1** Confirm the product's actual audience, currency, locale, and language policy. The current interface is English and product form labels use Toman.
@@ -395,4 +395,5 @@ These are observations from the current repository snapshot, not claims that tes
 | Date | Decision / update | Owner | Status |
 | --- | --- | --- | --- |
 | 2026-11-23 | Created the master checklist from repository source review; no application code changed. | Project | Draft for review |
+| 2026-11-23 | Confirmed portfolio-quality scope, excluded a complete checkout/payment flow, and selected one shared responsive Flutter codebase as the cross-platform approach. | Project owner | Recorded; runtime/platform verification pending |
 

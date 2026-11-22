@@ -344,7 +344,7 @@ These are observations from the current repository snapshot, not claims that tes
 - Cart/order/payment-related migrations and models exist, but no complete customer checkout/order/payment workflow was found in the reviewed routes and Flutter feature tree.
 - The Flutter auth token is held in a static in-memory `ApiSession`; persistence across app restarts is not implemented there.
 - The root README is more concise than the required portfolio README structure and does not currently include screenshots, CI badge, full decision/challenge sections, or license section.
-- The current product parser reads `json['id']` for `productId`; the older AUDIT.md claim that it reads `category_id` is stale and should not be repeated as a current bug.
+- The current product parser correctly reads `json['id']` for `productId`; the older AUDIT.md claim that it reads `category_id` is stale. However, the storefront product card and product-detail page still infer category labels from `productId == 1` instead of using the API's `categoryName`.
 - Root `.gitignore` excludes environment files, Flutter build/cache directories, and Laravel vendor/cache paths. Tracking/history still needs an explicit audit before destructive cleanup.
 - The current root README and backend README use environment-configured local demo passwords; the older AUDIT.md statement that fixed demo passwords are in the current README is stale. Verify the full Git history and all tracked files before declaring secrets clean.
 

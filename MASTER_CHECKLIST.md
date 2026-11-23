@@ -309,6 +309,21 @@ Implementation is available for review in [draft PR #4](https://github.com/MiWor
 
 **Acceptance:** A new developer can understand the product, architecture, setup, test commands, API, and current limitations without asking for undocumented information.
 
+
+### Phase 4 implementation log — 2026-11-23
+
+Documentation work is available for review in the stacked draft PR for Phase 4.
+
+- Rewrote the root README to follow the portfolio-project standard and describe only implemented source behavior, known limits, current status, and missing demo/screenshots/CI honestly.
+- Updated backend and frontend setup guides, including API origin overrides, target platforms, Passport, secure token storage, contact mail configuration, and deferred verification status.
+- Reworked architecture documentation to match current Flutter composition, Laravel actions/repositories, authentication, and contact-email behavior.
+- Added a Mermaid database ER diagram, table ownership/relationships, legacy order/cart schema notes, USD sample-price migration details, and seed behavior.
+- Added an API reference for public/auth/admin/contact routes, request fields, pagination envelopes, and error status codes.
+- Added product-scope documentation, three ADRs, and a fact-checked portfolio post draft.
+- No CI badge, screenshots, live demo, or LICENSE file was invented or added.
+
+**Still pending before Phase 4 acceptance:** verify all docs against the completed Phase 3 implementation after its review; verify clean-clone setup commands and API examples during final QA; add screenshots only after real runtime capture. No test/build/setup verification is claimed.
+
 ---
 
 # Phase 5 — Tests, static analysis, security checks, and CI

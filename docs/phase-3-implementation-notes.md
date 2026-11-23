@@ -43,9 +43,19 @@
   - \`MAIL_MAILER=smtp\`, \`MAIL_HOST\`, \`MAIL_PORT\`, \`MAIL_USERNAME\`, \`MAIL_PASSWORD\`, \`MAIL_ENCRYPTION\`, and \`MAIL_FROM_ADDRESS\`.
 - \`.env.example\` contains placeholders only. SMTP delivery has not been verified; do not describe email delivery as operational until real environment values are configured and a final integration check succeeds.
 
-## Known decision required before currency acceptance
+## Currency and demo catalog
 
-The agreed release currency is USD, but the current database schema stores a bare integer \`price\` with no currency field, and the existing product seeder uses values such as \`24,500,000\` while the UI labels them Toman. No approved exchange-rate source, conversion date, or rounding policy is recorded. Phase 3 deliberately does not relabel or convert those values. The USD display/data migration remains blocked until the owner provides an approved conversion basis or confirms that the database values have already been converted.
+USD is the agreed display currency. Product prices are stored as whole USD amounts in the existing integer `price` column; no exchange-rate conversion is implied. The five portfolio demo SKUs have been assigned illustrative sample prices:
+
+| Product | Demo price |
+| --- | ---: |
+| Marble Thinker | $1,250 |
+| Seated Marble Figure | $890 |
+| Greek Guardian | $1,650 |
+| Butterfly Object | $185 |
+| Infinity Stone | $240 |
+
+A reversible migration updates these known demo SKUs in existing databases, and `ProductSeeder` now uses the same USD values. The admin editor labels its price field USD; storefront and admin lists display a dollar symbol and grouped digits. These are portfolio sample prices, not market valuations. Any additional products must be entered in USD.
 
 ## Verification policy
 

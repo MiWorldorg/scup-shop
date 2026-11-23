@@ -13,9 +13,5 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Map<String, dynamic>> currentUser() => service.currentUser();
 
   @override
-  Future<void> logout() async {
-    final session = await service.currentUser();
-    // The service revokes the bearer token currently held by ApiSession.
-    await service.logout(session['token']?.toString() ?? '');
-  }
+  Future<void> logout() => service.logout();
 }

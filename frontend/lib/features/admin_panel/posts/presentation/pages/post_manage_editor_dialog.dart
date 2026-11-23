@@ -14,6 +14,12 @@ class PostManageEditorDialog extends StatefulWidget {
 }
 
 class _PostManageEditorDialogState extends State<PostManageEditorDialog> {
+  static const _bundledCoverImages = [
+    'assets/images/posts/ferdosi-post.jpg',
+    'assets/images/posts/harrah-post.jpg',
+    'assets/images/posts/rostam-post.png',
+    'assets/images/posts/zahak-post.jpg',
+  ];
   final _formKey = GlobalKey<FormState>();
   final _controller = Get.find<PostsManageController>();
   late final TextEditingController _title;
@@ -74,6 +80,30 @@ class _PostManageEditorDialogState extends State<PostManageEditorDialog> {
                 const SizedBox(height: 12),
                 _field(_content, 'Article content', maxLines: 8),
                 const SizedBox(height: 12),
+                DropdownButtonFormField<String>(
+                  value: _bundledCoverImages.contains(_image.text)
+                      ? _image.text
+                      : null,
+                  decoration: const InputDecoration(
+                    labelText: 'Choose a bundled cover image',
+                  ),
+                  items: _bundledCoverImages
+                      .map(
+                        (path) => DropdownMenuItem<String>(
+                          value: path,
+                          child: Text(
+                            path.split('/').last,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      )
+                      .toList(growable: false),
+                  onChanged: (value) {
+                    if (value != null) setState(() => _image.text = value);
+                  },
+                ),
+                const SizedBox(height: 14),
                 if (_image.text.trim().isNotEmpty) ...[
                   Text(
                     'Cover image preview',

@@ -11,7 +11,7 @@ The original API repository classes combined list queries, request validation, m
 
 Use thin controllers at the HTTP boundary. Form Requests validate input. Focused application actions own multi-step writes and transaction boundaries. Repository contracts are used for reusable read-query composition and are bound in Laravel's service container. API Resources define product and post response data.
 
-The first extracted actions are `ManageProducts`, `ManagePosts`, and `ChangeUserRole`.
+The extracted actions are `AuthenticateUser`, `RegisterUser`, `ManageProducts`, `ManagePosts`, and `ChangeUserRole`. Repositories now return paginated query results; controllers apply resources and format the HTTP envelope.
 
 ## Consequences
 

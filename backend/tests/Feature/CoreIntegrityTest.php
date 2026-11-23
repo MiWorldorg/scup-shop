@@ -110,6 +110,31 @@ class CoreIntegrityTest extends TestCase
             ->assertJsonPath('data.author_id', $admin->id)
             ->assertJsonPath('data.published', null);
 
+        $this->postJson('/api/v1/admin/post/create', [
+            'category_id' => $categoryId,
+            'slug' => 'published-story',
+            'title' => 'Duplicate slug',
+            'summary' => 'A duplicate.',
+            'content' => 'Duplicate content.',
+        ])->assertUnprocessable();
+
+        $this->postJson('/api/v1/admin/post/create', [
+            'category_id' => 999999,
+            'slug' => 'invalid-category',
+            'title' => 'Invalid category',
+            'summary' => 'A summary.',
+            'content' => 'Article content.',
+        ])->assertUnprocessable();
+
+        $this->postJson('/api/v1/admin/post/create', [
+            'category_id' => $categoryId,
+            'slug' => 'remote-image-post',
+            'title' => 'Remote image post',
+            'summary' => 'A summary.',
+            'content' => 'Article content.',
+            'post_picture' => 'https://example.test/image.png',
+        ])->assertUnprocessable();
+
         $this->putJson('/api/v1/admin/post/update', [
             'id' => $draft->id + 999,
             'title' => 'Missing post',
@@ -159,6 +184,15 @@ class CoreIntegrityTest extends TestCase
             'category_id' => $category->id,
             'inventory_id' => $inventory->id,
             'quantity' => 4,
+            'price' => 150,
+        ])->assertUnprocessable();
+
+        $this->postJson('/api/v1/admin/product/create', [
+            'name' => 'Remote image product',
+            'desc' => 'Invalid external image.',
+            'sku' => 'REMOTE-IMAGE-001',
+            'category_id' => $category->id,
+            'image' => 'https://example.test/image.png',
             'price' => 150,
         ])->assertUnprocessable();
 

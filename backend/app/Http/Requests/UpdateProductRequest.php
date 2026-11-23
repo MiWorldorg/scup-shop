@@ -17,7 +17,7 @@ class UpdateProductRequest extends FormRequest
         $productId = $this->input('id');
 
         return [
-            'id' => ['required', 'integer', 'exists:products,id'],
+            'id' => ['required', 'integer'],
             'name' => ['sometimes', 'required', 'string', 'max:255'],
             'desc' => ['sometimes', 'required', 'string', 'max:255'],
             'sku' => [

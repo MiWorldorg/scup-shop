@@ -110,6 +110,7 @@ class ShopProductsTile extends StatelessWidget {
       child: Image.asset(
         product.image,
         fit: BoxFit.contain,
+        semanticLabel: product.name,
         errorBuilder: (_, __, ___) => Icon(
           Icons.image_not_supported_outlined,
           size: 56,

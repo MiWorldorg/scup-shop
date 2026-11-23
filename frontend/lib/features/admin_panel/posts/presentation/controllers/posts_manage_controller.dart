@@ -1,14 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sculpture_shop/core/api/api_response.dart';
 import 'package:sculpture_shop/features/admin_panel/posts/data/entity/post_response.dart';
 import 'package:sculpture_shop/features/admin_panel/posts/domain/repository/post_repository.dart';
 
 class PostsManageController extends GetxController {
-  final TextEditingController slug = TextEditingController();
-  final TextEditingController title = TextEditingController();
-  final TextEditingController content = TextEditingController();
-
   final PostManageRepository repo;
   PostsManageController({required this.repo});
 
@@ -93,13 +88,5 @@ class PostsManageController extends GetxController {
       currentPage.value--;
     }
     await fetchLatestPosts();
-  }
-
-  @override
-  void onClose() {
-    slug.dispose();
-    title.dispose();
-    content.dispose();
-    super.onClose();
   }
 }

@@ -10,6 +10,7 @@ class _ControlledShopRepository implements ShopRepository {
   final Completer<ApiPaginatedResult> firstRequest = Completer();
   final requests = <({int page, int? categoryId, String? search})>[];
   int callCount = 0;
+  bool holdFirstRequest = false;
 
   ApiPaginatedResult _page(int id, int page) => ApiPaginatedResult(
     rows: [
@@ -39,7 +40,7 @@ class _ControlledShopRepository implements ShopRepository {
   }) {
     requests.add((page: page, categoryId: categoryId, search: search));
     callCount++;
-    if (callCount == 1) return firstRequest.future;
+    if (callCount == 1 && holdFirstRequest) return firstRequest.future;
     return Future.value(_page(2, page));
   }
 
@@ -61,6 +62,7 @@ void main() {
   });
 
   test('ignores an older response when a newer request completes first', () async {
+    repository.holdFirstRequest = true;
     final olderRequest = controller.fetchLatestProduct();
     final newerRequest = controller.fetchLatestProduct();
 

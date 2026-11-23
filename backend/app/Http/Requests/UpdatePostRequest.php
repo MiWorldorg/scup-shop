@@ -30,7 +30,13 @@ class UpdatePostRequest extends FormRequest
             'published' => ['sometimes', 'nullable', 'date'],
             'summary' => ['sometimes', 'required', 'string', 'max:1000'],
             'content' => ['sometimes', 'required', 'string'],
-            'post_picture' => ['sometimes', 'nullable', 'string', 'max:255'],
+            'post_picture' => [
+                'sometimes',
+                'nullable',
+                'string',
+                'max:255',
+                'regex:/^assets\\/images\\/posts\\/[A-Za-z0-9 _.-]+\\.(png|jpe?g|webp)$/i',
+            ],
         ];
     }
 }

@@ -99,9 +99,10 @@ flowchart TD
 - `Actions/Admin/ManageProducts` owns product creation/update/deletion and inventory transactions.
 - `Actions/Admin/ManagePosts` owns post create/update/delete use cases.
 - `Actions/Admin/ChangeUserRole` owns role-change invariants, including stale-actor checks, self-demotion prevention, and last-administrator protection.
-- Product and post repository contracts are read-focused query boundaries.
+- `Actions/Auth/AuthenticateUser` and `Actions/Auth/RegisterUser` own credential verification, safe account creation, and Passport token issuance.
+- Product, post, and user repository contracts return paginated query results; controllers apply API Resources and build the JSON envelope.
 - The user repository contract owns the paginated account-list query.
-- Authentication token issuance/registration currently remains in `AuthRepositoryApi`; it is a known candidate for extraction into dedicated authentication actions during the next backend cleanup pass.
+- The former `AuthRepositoryApi` and its contract remain as unused legacy source files pending the verified backup/cleanup pass; active auth routes use the new application actions.
 
 ### Container bindings
 

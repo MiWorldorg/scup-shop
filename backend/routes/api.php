@@ -22,6 +22,9 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 Route::prefix('v1')->group(function () {
+    Route::post('/contact', [ContactController::class, 'store'])
+        ->middleware('throttle:5,1');
+
     Route::get('/me', function (Request $request) {
         return response()->json([
             'code' => 1,

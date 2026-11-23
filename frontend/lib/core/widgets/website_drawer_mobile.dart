@@ -93,7 +93,7 @@ class MobileDrawer extends StatelessWidget {
                   Navigator.of(context).pop();
                   Get.toNamed(AppRoutes.adminLogin);
                 },
-                icon: const Icon(Icons.dashboard_outlined),
+                icon: const Icon(Icons.admin_panel_settings_outlined),
                 label: const Text('Admin sign in'),
               ),
             ),

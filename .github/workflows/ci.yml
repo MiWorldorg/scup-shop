@@ -62,7 +62,7 @@ jobs:
 
   flutter-build:
     name: Flutter build (${{ matrix.target }})
-    needs: flutter-quality
+    needs: [backend-quality, flutter-quality]
     strategy:
       fail-fast: false
       matrix:
@@ -96,6 +96,8 @@ jobs:
           flutter-version: '3.32.8'
           channel: stable
           cache: true
+      - name: Install Flutter dependencies
+        run: flutter pub get
       - name: Enable desktop targets
         if: matrix.target == 'windows' || matrix.target == 'linux'
         run: flutter config --enable-${{ matrix.target }}-desktop

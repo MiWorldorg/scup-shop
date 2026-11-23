@@ -52,7 +52,7 @@ class BlogPage extends GetView<PostController> {
                       const SizedBox(height: 8),
                       Text(
                         'Stories behind the art',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       const SizedBox(height: 8),
                       Text(

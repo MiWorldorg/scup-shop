@@ -11,6 +11,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\ProductCategory;
 use App\Repository\api\Contract\ProductRepositoryInterfaceApi;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {

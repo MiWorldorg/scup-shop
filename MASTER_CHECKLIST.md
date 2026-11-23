@@ -360,6 +360,20 @@ Documentation work is available for review in the stacked draft PR for Phase 4.
 
 **Acceptance:** A clean checkout passes CI; test suites exercise the real critical flows; no known failing starter test or unverified quality claim remains.
 
+
+### Phase 5 implementation log — 2026-11-23
+
+Implementation is available for review in the stacked draft PR for Phase 5.
+
+- Expanded Flutter DTO/API response tests, added whole-dollar price formatter tests, and replaced the starter widget check with a landing-route smoke test using fake repositories.
+- Added ShopController tests for stale-request protection, search reset behavior, and category selection.
+- Added Laravel feature tests for contact validation/rate limits/mail failure and catalog search/category filters across public and admin routes.
+- Added a manual-only GitHub Actions workflow for Laravel tests/Pint, Flutter format/analyze/tests, and Android/Web/Windows/Linux builds.
+- Added docs/testing.md with coverage mapping and final verification commands.
+- Fixed a product DTO gap discovered during test planning: product inventory quantity is now parsed for the storefront stock indicator.
+
+**Execution remains deferred:** no test suite, formatter, analyzer, or build has been run. The CI workflow has only workflow_dispatch and must not be triggered until the implementation phases are complete. Phase 5 acceptance remains pending final QA and any issues found during that run.
+
 ---
 
 # Phase 6 — Performance, accessibility, and operational readiness

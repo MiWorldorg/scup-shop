@@ -15,7 +15,7 @@
 
 - [ ] Work phase by phase in the order below; do not start a later phase while a blocking decision from an earlier phase is unresolved.
 - [ ] Each implementation task gets a focused branch/commit or a small logical commit.
-- [ ] Add tests with bug fixes and behavior changes; do not defer all tests to the end.
+- [ ] Maintain a final-QA coverage list as behavior changes are implemented. Per owner instruction, execute the complete automated test/analysis/build suite after the implementation phases are complete; do not mark acceptance complete until it passes.
 - [ ] Keep this file updated in the same change that completes each meaningful task.
 - [ ] A task is complete only when its acceptance criteria pass locally and, where applicable, in CI.
 - [ ] Do not delete or rename existing code until a verified backup/tag exists and references have been searched.
@@ -428,9 +428,9 @@ These are observations from the current repository snapshot, not claims that tes
 
 ### Verification gates still open
 
-- [ ] Run backend migrations and feature tests against the configured test database; run Pint.
+- [ ] Run backend migrations and feature tests against the configured test database; run Pint. (Execution deferred to final QA per owner instruction.)
 - [ ] Test the legacy admin-to-user author migration against a disposable copy containing representative existing rows; verify rollback.
-- [ ] Run `flutter pub get`, commit the generated `pubspec.lock` update, then run Dart format, analyzer, and Flutter tests.
+- [ ] Run `flutter pub get`, commit the generated `pubspec.lock` update, then run Dart format, analyzer, and Flutter tests. (Execution deferred to final QA per owner instruction.)
 - [ ] Verify Passport keys/client setup, token revocation/expiry, and protected-route behavior in a running environment.
 - [ ] Verify secure storage on Android, Web (HTTPS), Windows, and Linux (Secret Service/libsecret).
 - [ ] Review production CORS/HTTPS configuration and image upload/path contract.
@@ -440,3 +440,32 @@ These are observations from the current repository snapshot, not claims that tes
 **Current phase status:** Implementation work is present on the working branch; Phase 1 is not accepted as complete because runtime verification is unavailable in the current environment.
 
 - **Review handoff:** draft PR #2, `work/phase-1-core-integrity-review` (single squashed implementation commit). The earlier 101-commit draft was closed as superseded; the original work branch is retained for traceability.
+
+---
+
+## Phase 2 implementation log — 2026-11-23 (acceptance pending)
+
+**Working branch:** `work/phase-2-architecture`  
+**Implementation notes:** `docs/phase-2-implementation-notes.md`  
+**Architecture reference:** `docs/architecture.md`
+
+### Implemented on the Phase 2 branch
+
+- Added a shared Flutter `ApiClient` with centralized base URL, timeout, request headers, and bearer-token handling; migrated authentication, public blog/catalog, and admin product/post/user services.
+- Added `AppBindings` as the Flutter composition root; repository implementations now receive services through constructors and feature controllers are resolved through route/dashboard bindings.
+- Removed direct `Get.put` construction of the main feature controllers/repositories from landing, product, post-management, and user-management page widgets.
+- Added explicit composition for landing-page product and editorial state and registered all controllers used inside the admin dashboard.
+- Cleaned Laravel repository contracts, registered interface bindings, and changed controllers to depend on contracts.
+- Extracted product/inventory writes, post writes, and administrator-role invariants into focused application actions.
+- Added dedicated Form Requests for product deletion, post deletion, and role changes.
+- Expanded the architecture guide and recorded ADRs for Flutter dependency composition and Laravel application actions.
+
+### Remaining before Phase 2 acceptance
+
+- [ ] Complete naming/path normalization after a verified backup tag is available.
+- [ ] Review and remove unused empty landing data-layer scaffolding after reference/history checks.
+- [ ] Extract authentication registration/token issuance from the remaining auth repository.
+- [ ] Audit remaining service/repository/controller construction patterns across every feature.
+- [ ] Execute the full final QA suite after all implementation phases, as requested by the owner.
+
+**Current phase status:** Main architecture boundaries and dependency composition are implemented on the working branch. Phase 2 remains unaccepted until the remaining cleanup and final QA gates are complete.

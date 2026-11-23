@@ -3,26 +3,21 @@ import 'package:sculpture_shop/features/admin_panel/products/data/entity/product
 import 'package:sculpture_shop/features/admin_panel/products/data/service/products_list_service.dart';
 import 'package:sculpture_shop/features/admin_panel/products/domain/repository/products_list_repository.dart';
 
-class ProductListRepositoryImpl extends ProductListRepository {
+class ProductListRepositoryImpl implements ProductListRepository {
   final ProductListService service;
-
-  ProductListRepositoryImpl({ProductListService? service})
-    : service = service ?? ProductListService();
+  ProductListRepositoryImpl({required this.service});
 
   @override
   Future<ApiPaginatedResult> getProductsList(int page) => service.call(page);
 
   @override
-  Future<List<ProductCategoryResponse>> getCategories() =>
-      service.getCategories();
+  Future<List<ProductCategoryResponse>> getCategories() => service.getCategories();
 
   @override
-  Future<void> createProduct(Map<String, dynamic> product) =>
-      service.createProduct(product);
+  Future<void> createProduct(Map<String, dynamic> product) => service.createProduct(product);
 
   @override
-  Future<void> updateProduct(int id, Map<String, dynamic> product) =>
-      service.updateProduct(id, product);
+  Future<void> updateProduct(int id, Map<String, dynamic> product) => service.updateProduct(id, product);
 
   @override
   Future<void> deleteProduct(int id) => service.deleteProduct(id);

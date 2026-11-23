@@ -20,51 +20,68 @@ import 'package:sculpture_shop/features/public/shop/data/repository/shop_reposit
 import 'package:sculpture_shop/features/public/shop/data/service/shop_service.dart';
 import 'package:sculpture_shop/features/public/shop/domain/repository/shop_repository.dart';
 
-/// Application composition root. Shared transports and repositories live here;
-/// route bindings own short-lived presentation controllers.
+/// Composition root for shared application dependencies.
 class AppBindings extends Bindings {
   @override
   void dependencies() {
     Get.put<ApiClient>(ApiClient(), permanent: true);
 
-    Get.lazyPut<AuthService>(() => AuthService(client: Get.find()));
+    Get.lazyPut<AuthService>(
+      () => AuthService(client: Get.find<ApiClient>()),
+      fenix: true,
+    );
     Get.lazyPut<AuthRepository>(
-      () => AuthRepositoryImpl(service: Get.find()),
+      () => AuthRepositoryImpl(service: Get.find<AuthService>()),
+      fenix: true,
     );
     Get.put<AuthController>(
-      AuthController(repository: Get.find()),
+      AuthController(repository: Get.find<AuthRepository>()),
       permanent: true,
     );
 
-    Get.lazyPut<ShopService>(() => ShopService(client: Get.find()));
+    Get.lazyPut<ShopService>(
+      () => ShopService(client: Get.find<ApiClient>()),
+      fenix: true,
+    );
     Get.lazyPut<ShopRepository>(
-      () => ShopRepositoryImpl(service: Get.find()),
+      () => ShopRepositoryImpl(service: Get.find<ShopService>()),
+      fenix: true,
     );
 
-    Get.lazyPut<PostService>(() => PostService(client: Get.find()));
+    Get.lazyPut<PostService>(
+      () => PostService(client: Get.find<ApiClient>()),
+      fenix: true,
+    );
     Get.lazyPut<PostRepository>(
-      () => PostRepositoryImpl(service: Get.find()),
+      () => PostRepositoryImpl(service: Get.find<PostService>()),
+      fenix: true,
     );
 
     Get.lazyPut<ProductListService>(
-      () => ProductListService(client: Get.find()),
+      () => ProductListService(client: Get.find<ApiClient>()),
+      fenix: true,
     );
     Get.lazyPut<ProductListRepository>(
-      () => ProductListRepositoryImpl(service: Get.find()),
+      () => ProductListRepositoryImpl(service: Get.find<ProductListService>()),
+      fenix: true,
     );
 
     Get.lazyPut<PostManageService>(
-      () => PostManageService(client: Get.find()),
+      () => PostManageService(client: Get.find<ApiClient>()),
+      fenix: true,
     );
     Get.lazyPut<PostManageRepository>(
-      () => PostManageRepositoryImpl(service: Get.find()),
+      () => PostManageRepositoryImpl(service: Get.find<PostManageService>()),
+      fenix: true,
     );
 
     Get.lazyPut<UsersManageService>(
-      () => UsersManageService(client: Get.find()),
+      () => UsersManageService(client: Get.find<ApiClient>()),
+      fenix: true,
     );
     Get.lazyPut<UsersManageRepository>(
-      () => UsersManageRepositoryImpl(service: Get.find()),
+      () => UsersManageRepositoryImpl(service: Get.find<UsersManageService>()),
+      fenix: true,
     );
   }
 }

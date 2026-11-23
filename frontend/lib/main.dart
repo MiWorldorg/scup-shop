@@ -4,6 +4,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:sculpture_shop/app/app_bindings.dart';
 import 'package:sculpture_shop/core/api/api_session.dart';
 import 'package:sculpture_shop/core/constants/routes.dart';
+import 'package:sculpture_shop/core/theme/design_tokens.dart';
 import 'package:sculpture_shop/core/theme/theme_light.dart';
 import 'package:sculpture_shop/features/authentication/presentation/controllers/auth_controller.dart';
 
@@ -27,10 +28,26 @@ class MyApp extends StatelessWidget {
         builder: (context, child) => ResponsiveBreakpoints.builder(
           child: child!,
           breakpoints: [
-            const Breakpoint(start: 0, end: 450, name: MOBILE),
-            const Breakpoint(start: 451, end: 800, name: TABLET),
-            const Breakpoint(start: 801, end: 1920, name: DESKTOP),
-            const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
+            const Breakpoint(
+              start: 0,
+              end: AppBreakpoints.mobile,
+              name: MOBILE,
+            ),
+            const Breakpoint(
+              start: AppBreakpoints.mobile + 1,
+              end: AppBreakpoints.tablet,
+              name: TABLET,
+            ),
+            const Breakpoint(
+              start: AppBreakpoints.tablet + 1,
+              end: 1920,
+              name: DESKTOP,
+            ),
+            const Breakpoint(
+              start: 1921,
+              end: double.infinity,
+              name: '4K',
+            ),
           ],
         ),
         debugShowCheckedModeBanner: false,

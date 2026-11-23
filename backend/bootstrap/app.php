@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\EnsureAdmin;
+use App\Http\Middleware\RequireHttps;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -13,8 +15,14 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'admin' => App\Http\Middleware\EnsureAdmin::class,
+            'admin' => EnsureAdmin::class,
         ]);
+        $middleware->api(append: [RequireHttps::class]);
+        $trustedProxies = array_values(array_filter(array_map(
+            'trim',
+            explode(',', env('TRUSTED_PROXIES', ''))
+        )));
+        $middleware->trustProxies(at: $trustedProxies);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

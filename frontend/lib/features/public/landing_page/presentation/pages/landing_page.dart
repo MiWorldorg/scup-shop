@@ -19,7 +19,7 @@ import 'package:sculpture_shop/features/public/blog/presentation/widgets/post_ca
 import 'package:sculpture_shop/features/public/landing_page/presentation/widgets/features_cart_item.dart';
 import 'package:sculpture_shop/features/public/landing_page/presentation/widgets/slider_products_banner_widget.dart';
 import 'package:sculpture_shop/features/public/shop/presentation/controllers/shop_controller.dart';
-import 'package:sculpture_shop/features/public/shop/presentation/pages/shop-products-tile.dart';
+import 'package:sculpture_shop/features/public/shop/presentation/pages/shop_product_tile.dart';
 import 'package:sculpture_shop/features/public/shop/presentation/widgets/product_card_widget.dart';
 
 import '../controllers/landing_controller.dart';

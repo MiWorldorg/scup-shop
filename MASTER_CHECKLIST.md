@@ -391,6 +391,21 @@ Implementation is available for review in the stacked draft PR for Phase 5.
 
 **Acceptance:** Performance changes are backed by measurements; production settings are documented; backup/restore and migration procedures are rehearsed in a non-production environment.
 
+
+### Phase 6 implementation log — 2026-11-23
+
+Implementation is available for review in the stacked draft PR for Phase 6.
+
+- Added API response security headers: nosniff, frame denial, no-referrer, and a restrictive Permissions-Policy; HSTS is limited to secure production API requests.
+- Added security-header and HSTS assertions to the backend test suite (not executed).
+- Added database indexes for user role filtering and post publication/creation ordering; existing foreign-key indexes continue to support catalog/category relations.
+- Fixed the wide-viewport gutter fallback to consistently use the normalized viewport width.
+- Added semantic live regions for async loading, refresh, empty, and error states.
+- Improved dark-theme error and border colors; added an automated contrast-threshold test and documented calculated ratios.
+- Added deployment operations guidance covering production environment, HTTPS/proxy setup, health checks, backups, restore rehearsal, migrations, and contact mail verification.
+
+**Still pending:** query-plan/performance measurements with representative data; keyboard-only and screen-reader checks; 200% text scaling; full viewport/platform visual review; backup/restore rehearsal; production TLS/proxy validation; and final QA execution. No tests, formatters, analyzers, builds, or runtime checks have been run.
+
 ---
 
 # Phase 7 — Final release and portfolio readiness

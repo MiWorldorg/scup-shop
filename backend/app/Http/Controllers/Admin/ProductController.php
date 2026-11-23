@@ -14,9 +14,11 @@ use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
-    public function select(ProductRepositoryInterfaceApi $products): JsonResponse
+    public function select(Request $request, ProductRepositoryInterfaceApi $products): JsonResponse
     {
-        $data = ProductResource::collection($products->select())
+        $categoryId = $request->integer('category_id') ?: null;
+        $search = trim($request->string('search')->toString());
+        $data = ProductResource::collection($products->select($categoryId, $search !== '' ? $search : null))
             ->response()
             ->getData(true);
 

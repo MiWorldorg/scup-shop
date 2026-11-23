@@ -3,7 +3,10 @@ import 'package:sculpture_shop/core/theme/design_tokens.dart';
 
 /// Shared responsive page gutters for public and admin screens.
 EdgeInsets getResponsivePadding(BuildContext context, double screenWidth) {
-  final horizontal = switch (screenWidth) {
+  final width = screenWidth.isFinite && screenWidth > 0
+      ? screenWidth
+      : MediaQuery.sizeOf(context).width;
+  final horizontal = switch (width) {
     < AppBreakpoints.mobile => 16.0,
     < AppBreakpoints.tablet => 24.0,
     < AppBreakpoints.desktop => 36.0,
@@ -14,7 +17,7 @@ EdgeInsets getResponsivePadding(BuildContext context, double screenWidth) {
 
   return EdgeInsets.fromLTRB(
     horizontal,
-    screenWidth < AppBreakpoints.mobile ? 12 : 24,
+    width < AppBreakpoints.mobile ? 12 : 24,
     horizontal,
     0,
   );

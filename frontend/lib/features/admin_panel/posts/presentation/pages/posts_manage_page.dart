@@ -58,6 +58,21 @@ class PostManagePage extends GetView<PostsManageController> {
               ),
             ),
             const SizedBox(height: 18),
+            TextField(
+              controller: controller.searchController,
+              textInputAction: TextInputAction.search,
+              onSubmitted: controller.search,
+              decoration: InputDecoration(
+                hintText: 'Search posts by title, slug, or summary',
+                prefixIcon: const Icon(Icons.search_rounded),
+                suffixIcon: IconButton(
+                  tooltip: 'Clear search',
+                  onPressed: controller.clearSearch,
+                  icon: const Icon(Icons.close_rounded),
+                ),
+              ),
+            ),
+            const SizedBox(height: 14),
             Obx(
               () => AsyncStateView(
                 isLoading: controller.isLoading.value,

@@ -15,7 +15,7 @@
 
 ## Public storefront
 
-- Reworked the landing page's fixed-height editorial section to size to its content on narrow screens.
+- Reworked the landing page's fixed-height editorial section to size to its content on narrow screens and show stock availability on product detail pages.
 - Removed unsupported operational promises from the home page FAQ and feature cards (for example, delivery and support guarantees).
 - Refined the brand story and footer to avoid unverified personal names, addresses, and phone numbers.
 - Changed public navigation's admin entry to lead to the sign-in screen.
@@ -28,7 +28,7 @@
 - Reworked the dashboard shell to use a fixed-width desktop navigation rail and a mobile drawer.
 - Made product/post list headers and admin content spacing adapt to narrow viewports.
 - Consolidated post row actions into a compact menu to avoid narrow-screen overflow.
-- Added product and post cover image previews to the existing asset-path editors.
+- Added bundled-asset selection and live image previews to product and post editors; arbitrary file uploads are not part of the current backend contract.
 - Added server-side search to admin product and post lists; kept pagination and user search/role filters.
 - Kept destructive-action confirmations and role-change confirmation behavior.
 

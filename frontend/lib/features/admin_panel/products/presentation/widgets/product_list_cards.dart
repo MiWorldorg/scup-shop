@@ -66,7 +66,7 @@ class ProductListCard extends StatelessWidget {
                             if (product.categoryName.isNotEmpty)
                               product.categoryName,
                             'Stock ${product.quantity}',
-                            '${PriceFormatter.amount(product.price)} USD',
+                            '${PriceFormatter.amount(product.price)}',
                           ]
                           .map(
                             (label) => Text(

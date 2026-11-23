@@ -56,7 +56,7 @@ class PostRepositoryApi implements PostRepositoryInterfaceApi
     public function destroy(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'id' => ['required', 'integer', 'exists:posts,id'],
+            'id' => ['required', 'integer'],
         ]);
 
         $post = Post::findOrFail($validated['id']);

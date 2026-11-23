@@ -13,6 +13,7 @@ import 'package:sculpture_shop/features/authentication/data/repository/auth_repo
 import 'package:sculpture_shop/features/authentication/data/service/auth_service.dart';
 import 'package:sculpture_shop/features/authentication/domain/repository/auth_repository.dart';
 import 'package:sculpture_shop/features/authentication/presentation/controllers/auth_controller.dart';
+import 'package:sculpture_shop/features/public/contact/data/service/contact_service.dart';
 import 'package:sculpture_shop/features/public/blog/data/repository/post_repository_imp.dart';
 import 'package:sculpture_shop/features/public/blog/data/service/post_service.dart';
 import 'package:sculpture_shop/features/public/blog/domain/repository/post_repository.dart';
@@ -44,6 +45,13 @@ class AppBindings extends Bindings {
       Get.put<AuthController>(
         AuthController(repository: Get.find<AuthRepository>()),
         permanent: true,
+      );
+    }
+
+    if (!Get.isRegistered<ContactService>()) {
+      Get.lazyPut<ContactService>(
+        () => ContactService(client: Get.find<ApiClient>()),
+        fenix: true,
       );
     }
 

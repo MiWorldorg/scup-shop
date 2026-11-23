@@ -29,7 +29,8 @@
 - Made product/post list headers and admin content spacing adapt to narrow viewports.
 - Consolidated post row actions into a compact menu to avoid narrow-screen overflow.
 - Added product and post cover image previews to the existing asset-path editors.
-- Kept existing pagination, user search/role filters, destructive confirmations, and role-change confirmation behavior.
+- Added server-side search to admin product and post lists; kept pagination and user search/role filters.
+- Kept destructive-action confirmations and role-change confirmation behavior.
 
 ## Contact form and email workflow
 

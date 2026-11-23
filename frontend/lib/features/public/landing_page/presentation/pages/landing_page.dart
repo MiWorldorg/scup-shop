@@ -14,7 +14,7 @@ import 'package:sculpture_shop/core/widgets/sections_header.dart';
 import 'package:sculpture_shop/core/widgets/website_drawer_mobile.dart';
 import 'package:sculpture_shop/core/widgets/website_footer.dart';
 import 'package:sculpture_shop/features/public/blog/presentation/controllers/post_controller.dart';
-import 'package:sculpture_shop/features/public/blog/presentation/pages/blog-posts-tile.dart';
+import 'package:sculpture_shop/features/public/blog/presentation/pages/blog_post_tile.dart';
 import 'package:sculpture_shop/features/public/blog/presentation/widgets/post_card_widget.dart';
 import 'package:sculpture_shop/features/public/landing_page/presentation/widgets/features_cart_item.dart';
 import 'package:sculpture_shop/features/public/landing_page/presentation/widgets/slider_products_banner_widget.dart';

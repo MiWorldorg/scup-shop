@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\ApiSecurityHeaders;
 use App\Http\Middleware\EnsureAdmin;
 use App\Http\Middleware\RequireHttps;
 use Illuminate\Auth\Access\AuthorizationException;

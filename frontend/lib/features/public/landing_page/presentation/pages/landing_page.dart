@@ -70,7 +70,8 @@ class LandingPage extends GetView<LandingController> {
                   FadeIn(
                     delay: const Duration(milliseconds: 1000),
                     child: Container(
-                      height: isMobile ? 760 : 480,
+                      width: double.infinity,
+                      constraints: BoxConstraints(minHeight: isMobile ? 0 : 420),
                       padding: EdgeInsets.all(isMobile ? 10 : 20),
                       decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
@@ -103,9 +104,9 @@ class LandingPage extends GetView<LandingController> {
                                 children: [
                                   Text(
                                     'A closer look at quality',
-                                    style: Theme.of(context).textTheme.bodyLarge
+                                    style: Theme.of(context).textTheme.headlineMedium
                                         ?.copyWith(
-                                          fontSize: isMobile ? 30 : 40,
+                                          fontSize: isMobile ? 28 : 36,
                                         ),
                                   ),
                                   Text(
@@ -266,41 +267,35 @@ class LandingPage extends GetView<LandingController> {
                           headerBackgroundColor: Theme.of(context).cardColor,
                           children: [
                             AccordionSection(
-                              header: const Text('1. Why shop with us?'),
+                              header: const Text('1. What is Scup-Shop?'),
                               content: const Text(
-                                'With more than 10 years of experience selling sculptures, we have earned the trust of customers across the country. Our focus has always been to improve the quality of our work.',
+                                'Scup-Shop is a portfolio storefront for discovering sculpture and decorative art pieces.',
                               ),
                             ),
                             AccordionSection(
                               header: const Text(
-                                '2. What materials are the sculptures made from?',
+                                '2. What can I learn about a piece?',
                               ),
                               content: const Text(
-                                'We aim to offer pieces worthy of our customers, using quality ceramic, metal, wood, and stone.',
+                                'Open a product detail page to explore its description, category, and listed price.',
                               ),
                             ),
                             AccordionSection(
-                              header: const Text(
-                                '3. How long does delivery take?',
-                              ),
+                              header: const Text('3. Can I check out online?'),
                               content: const Text(
-                                'Orders placed during business hours are packed and shipped the same day. Orders placed later are prepared on the next business day.',
+                                'Online checkout and payment are not part of the current portfolio release. Use the contact page to ask about a piece.',
                               ),
                             ),
                             AccordionSection(
-                              header: const Text(
-                                '4. How are orders delivered?',
-                              ),
+                              header: const Text('4. What is the journal about?'),
                               content: const Text(
-                                'In Tehran, choose the shop’s courier for delivery in under 24 hours. For other cities, express post usually takes 3–5 business days.',
+                                'The journal explores sculpture, materials, craft, and ideas behind visual art.',
                               ),
                             ),
                             AccordionSection(
-                              header: const Text(
-                                '5. What should I do if an item is damaged during delivery?',
-                              ),
+                              header: const Text('5. How can I get in touch?'),
                               content: const Text(
-                                'We pack each item carefully to reduce the risk of damage. If an item arrives damaged, contact the shop’s support team to arrange a return and replacement.',
+                                'Use the contact form to send a message to the configured Scup-Shop contact address.',
                               ),
                             ),
                           ],

@@ -102,7 +102,7 @@ flowchart TD
 - `Actions/Auth/AuthenticateUser` and `Actions/Auth/RegisterUser` own credential verification, safe account creation, and Passport token issuance.
 - Product, post, and user repository contracts return paginated query results; controllers apply API Resources and build the JSON envelope.
 - The user repository contract owns the paginated account-list query.
-- The former `AuthRepositoryApi` and its contract remain as unused legacy source files pending the verified backup/cleanup pass; active auth routes use the new application actions.
+- Authentication no longer uses a repository layer; the active login and registration flows use focused application actions.
 
 ### Container bindings
 

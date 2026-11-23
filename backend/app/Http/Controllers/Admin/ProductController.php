@@ -16,7 +16,15 @@ class ProductController extends Controller
 {
     public function select(ProductRepositoryInterfaceApi $products): JsonResponse
     {
-        return $products->select();
+        $data = ProductResource::collection($products->select())
+            ->response()
+            ->getData(true);
+
+        return response()->json([
+            'code' => 1,
+            'message' => 'Products.',
+            'data' => $data,
+        ]);
     }
 
     public function categories(): JsonResponse

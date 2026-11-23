@@ -16,7 +16,10 @@ class UserController extends Controller
         Request $request,
         UserRepositoryInterfaceApi $userRepository
     ): JsonResponse {
-        $data = UserResource::collection($userRepository->select($request))
+        $data = UserResource::collection($userRepository->select(
+                $request->query('search'),
+                $request->query('role'),
+            ))
             ->response()
             ->getData(true);
 

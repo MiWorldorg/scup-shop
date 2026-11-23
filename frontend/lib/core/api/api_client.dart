@@ -9,9 +9,12 @@ class ApiClient extends GetConnect {
     httpClient.timeout = const Duration(seconds: 20);
   }
 
-  Map<String, String> _headers({bool authenticated = false}) => {
+  Map<String, String> _headers({bool authenticated = false, String? bearerToken}) => {
     'Accept': 'application/json',
-    if (authenticated) ...ApiSession.headers,
+    if (bearerToken != null && bearerToken.isNotEmpty)
+      'Authorization': 'Bearer $bearerToken'
+    else if (authenticated)
+      ...ApiSession.headers,
   };
 
   Future<Response<dynamic>> getJson(
@@ -28,10 +31,11 @@ class ApiClient extends GetConnect {
     String path,
     dynamic body, {
     bool authenticated = false,
+    String? bearerToken,
   }) => post(
     path,
     body,
-    headers: _headers(authenticated: authenticated),
+    headers: _headers(authenticated: authenticated, bearerToken: bearerToken),
   );
 
   Future<Response<dynamic>> putJson(

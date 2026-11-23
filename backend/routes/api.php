@@ -7,10 +7,36 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
-    return $request->user();
+    return response()->json([
+        'code' => 1,
+        'message' => 'Authenticated user.',
+        'data' => $request->user()->only([
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+            'role',
+        ]),
+    ]);
 })->middleware('auth:api');
 
 Route::prefix('v1')->group(function () {
+    Route::get('/me', function (Request $request) {
+        return response()->json([
+            'code' => 1,
+            'message' => 'Authenticated user.',
+            'data' => $request->user()->only([
+                'id',
+                'username',
+                'first_name',
+                'last_name',
+                'email',
+                'role',
+            ]),
+        ]);
+    })->middleware('auth:api');
+
     Route::prefix('admin')->middleware(['auth:api', 'admin'])->group(function () {
         Route::prefix('product')->group(function () {
             Route::get('/', [ProductController::class, 'select']);

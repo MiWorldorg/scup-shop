@@ -14,6 +14,12 @@ class TextThemes {
       height: 1.12,
       letterSpacing: -1.1,
     ),
+    displaySmall: TextStyle(
+      fontFamily: displayFont,
+      fontSize: 36,
+      fontWeight: FontWeight.w600,
+      height: 1.18,
+    ),
     displayMedium: TextStyle(
       fontFamily: displayFont,
       fontSize: 44,
@@ -80,6 +86,13 @@ class TextThemes {
       fontSize: 14,
       fontWeight: FontWeight.w600,
       height: 1.35,
+    ),
+    labelSmall: TextStyle(
+      fontFamily: bodyFont,
+      fontSize: 11,
+      fontWeight: FontWeight.w600,
+      height: 1.3,
+      letterSpacing: 0.35,
     ),
     labelMedium: TextStyle(
       fontFamily: bodyFont,

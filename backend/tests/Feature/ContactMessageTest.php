@@ -28,7 +28,7 @@ class ContactMessageTest extends TestCase
         Mail::shouldReceive('raw')->once();
 
         $this->postJson('/api/v1/contact', $this->validPayload())
-            ->assertAccepted()
+            ->assertStatus(202)
             ->assertJsonPath('code', 1)
             ->assertJsonPath('data', true);
     }
@@ -51,7 +51,7 @@ class ContactMessageTest extends TestCase
         config(['contact.to_address' => null]);
 
         $this->postJson('/api/v1/contact', $this->validPayload())
-            ->assertServiceUnavailable()
+            ->assertStatus(503)
             ->assertJsonPath('code', 2);
     }
 
@@ -61,7 +61,7 @@ class ContactMessageTest extends TestCase
         Mail::shouldReceive('raw')->once()->andThrow(new RuntimeException('SMTP unavailable'));
 
         $this->postJson('/api/v1/contact', $this->validPayload())
-            ->assertServiceUnavailable();
+            ->assertStatus(503);
     }
 
     public function test_contact_endpoint_is_rate_limited_to_five_requests_per_minute(): void
@@ -71,10 +71,10 @@ class ContactMessageTest extends TestCase
 
         for ($attempt = 0; $attempt < 5; $attempt++) {
             $this->postJson('/api/v1/contact', $this->validPayload())
-                ->assertAccepted();
+                ->assertStatus(202);
         }
 
         $this->postJson('/api/v1/contact', $this->validPayload())
-            ->assertTooManyRequests();
+            ->assertStatus(429);
     }
 }

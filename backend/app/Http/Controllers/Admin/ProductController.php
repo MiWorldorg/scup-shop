@@ -6,12 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\ProductCategory;
-use App\Repository\api\ProductRepositoryApi;
+use App\Repository\api\Contract\ProductRepositoryInterfaceApi;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function select(ProductRepositoryApi $productRepositoryApi)
+    public function select(ProductRepositoryInterfaceApi $productRepositoryApi)
     {
         return $productRepositoryApi->select();
     }

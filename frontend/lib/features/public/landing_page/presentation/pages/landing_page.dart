@@ -13,13 +13,11 @@ import 'package:sculpture_shop/core/widgets/header.dart';
 import 'package:sculpture_shop/core/widgets/sections_header.dart';
 import 'package:sculpture_shop/core/widgets/website_drawer_mobile.dart';
 import 'package:sculpture_shop/core/widgets/website_footer.dart';
-import 'package:sculpture_shop/features/public/blog/data/repository/post_repository_imp.dart';
 import 'package:sculpture_shop/features/public/blog/presentation/controllers/post_controller.dart';
 import 'package:sculpture_shop/features/public/blog/presentation/pages/blog-posts-tile.dart';
 import 'package:sculpture_shop/features/public/blog/presentation/widgets/post_card_widget.dart';
 import 'package:sculpture_shop/features/public/landing_page/presentation/widgets/features_cart_item.dart';
 import 'package:sculpture_shop/features/public/landing_page/presentation/widgets/slider_products_banner_widget.dart';
-import 'package:sculpture_shop/features/public/shop/data/repository/shop_repository_imp.dart';
 import 'package:sculpture_shop/features/public/shop/presentation/controllers/shop_controller.dart';
 import 'package:sculpture_shop/features/public/shop/presentation/pages/shop-products-tile.dart';
 import 'package:sculpture_shop/features/public/shop/presentation/widgets/product_card_widget.dart';
@@ -27,12 +25,8 @@ import 'package:sculpture_shop/features/public/shop/presentation/widgets/product
 import '../controllers/landing_controller.dart';
 
 class LandingPage extends GetView<LandingController> {
-  final ShopController shopController = Get.put(
-    ShopController(repo: ShopRepositoryImpl()),
-  );
-  final PostController postController = Get.put(
-    PostController(repo: PostRepositoryImpl()),
-  );
+  ShopController get shopController => controller.shopController;
+  PostController get postController => controller.postController;
   LandingPage({super.key});
 
   @override

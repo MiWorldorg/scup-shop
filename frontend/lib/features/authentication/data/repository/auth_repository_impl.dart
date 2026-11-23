@@ -13,12 +13,5 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Map<String, dynamic>> currentUser() => service.currentUser();
 
   @override
-  Future<void> logout({String? token}) async {
-    if (token != null && token.isNotEmpty) {
-      await service.logout(token);
-      return;
-    }
-    // The active token is supplied by the shared session.
-    await service.logout('');
-  }
+  Future<void> logout({String? token}) => service.logout(token: token);
 }

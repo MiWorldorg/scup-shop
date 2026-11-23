@@ -54,7 +54,9 @@ class _PostManageEditorDialogState extends State<PostManageEditorDialog> {
     return AlertDialog(
       title: Text(widget.post == null ? 'Create post' : 'Edit post'),
       content: SizedBox(
-        width: 520,
+        width: MediaQuery.sizeOf(context).width < 560
+            ? MediaQuery.sizeOf(context).width - 48
+            : 520,
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -95,6 +97,8 @@ class _PostManageEditorDialogState extends State<PostManageEditorDialog> {
           ),
         ),
       ),
+      actionsOverflowDirection: VerticalDirection.up,
+      actionsOverflowButtonSpacing: 8,
       actions: [
         TextButton(
           onPressed: _isSaving ? null : () => Navigator.of(context).pop(false),

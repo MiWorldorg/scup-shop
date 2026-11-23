@@ -1,10 +1,10 @@
 <?php
 
-namespace App\\Http\\Controllers;
+namespace App\Http\Controllers;
 
-use App\\Http\\Requests\\ContactMessageRequest;
-use Illuminate\\Http\\JsonResponse;
-use Illuminate\\Support\\Facades\\Mail;
+use App\Http\Requests\ContactMessageRequest;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Mail;
 use Throwable;
 
 class ContactController extends Controller
@@ -23,7 +23,7 @@ class ContactController extends Controller
 
         $message = $request->validated();
         $senderName = trim($message['first_name'].' '.$message['last_name']);
-        $body = implode("\\n", [
+        $body = implode("\n", [
             'A new message was submitted through the Scup-Shop contact form.',
             '',
             'Name: '.$senderName,

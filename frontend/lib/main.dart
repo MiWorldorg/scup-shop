@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:sculpture_shop/core/api/api_session.dart';
 import 'package:sculpture_shop/core/constants/routes.dart';
 import 'package:sculpture_shop/core/theme/theme_light.dart';
-import 'package:sculpture_shop/features/authentication/presentation/bindings/auth_binding.dart';
+import 'package:sculpture_shop/features/authentication/presentation/controllers/auth_controller.dart';
 
-void main() async {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await ApiSession.initialize();
+  final authController = AuthController();
+  Get.put<AuthController>(authController, permanent: true);
+  await authController.restoreSession();
   runApp(const MyApp());
 }
 
@@ -27,7 +33,6 @@ class MyApp extends StatelessWidget {
           ],
         ),
         debugShowCheckedModeBanner: false,
-        initialBinding: AuthBinding(),
         theme: AppThemes.lightTheme,
         getPages: AppRoutes.pages,
         initialRoute: AppRoutes.landing,

@@ -23,7 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => EnsureAdmin::class,
         ]);
-        $middleware->api(append: [RequireHttps::class]);
+        $middleware->api(append: [ApiSecurityHeaders::class, RequireHttps::class]);
         $middleware->trustProxies(at: config('app.trusted_proxies', []));
     })
     ->withExceptions(function (Exceptions $exceptions) {

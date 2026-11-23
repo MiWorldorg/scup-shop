@@ -92,6 +92,7 @@ flowchart TD
 - Repository contracts/implementations own reusable read-query composition.
 - Eloquent models own relationships, casts, and persistence mapping.
 - API Resources define stable public response shapes.
+- `bootstrap/app.php` maps API validation, authentication, authorization, and not-found exceptions to a consistent JSON envelope; web routes retain Laravel's normal exception rendering.
 
 ### Current action/repository boundaries
 

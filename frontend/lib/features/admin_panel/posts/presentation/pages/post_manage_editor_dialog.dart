@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sculpture_shop/core/api/api_response.dart';
+import 'package:scup_shop/core/api/api_response.dart';
 import 'package:sculpture_shop/features/admin_panel/posts/data/entity/post_response.dart';
 import 'package:sculpture_shop/features/admin_panel/posts/presentation/controllers/posts_manage_controller.dart';
 

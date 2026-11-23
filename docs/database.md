@@ -84,7 +84,8 @@ The author-migration should be validated against a disposable copy containing re
 - Primary keys are created for all application tables.
 - Foreign-key indexes are provided by Laravel's foreignId/constrained definitions.
 - Unique indexes protect products.sku, posts.slug, and the one-to-one products.inventory_id relationship.
-- Additional filter indexes should be introduced only after query plans and real data volumes are reviewed.
+- Migration 2026_11_23_000004_add_catalog_query_indexes adds users.role, posts.published, and posts.created_at indexes for the known role filter and editorial ordering paths.
+- Product category and post foreign-key indexes support category/relationship queries. Contains-style LIKE search patterns still require measurement before considering full-text search or other specialized indexes.
 
 ## Known limitations
 

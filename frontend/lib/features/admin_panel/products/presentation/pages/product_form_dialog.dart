@@ -15,6 +15,13 @@ class ProductFormDialog extends StatefulWidget {
 }
 
 class _ProductFormDialogState extends State<ProductFormDialog> {
+  static const _bundledProductImages = [
+    'assets/images/products/marble-think.png',
+    'assets/images/products/marble-sit.png',
+    'assets/images/products/ancient-greek -statues.png',
+    'assets/images/products/butterfly-object.png',
+    'assets/images/products/infinity-stone.png',
+  ];
   final _formKey = GlobalKey<FormState>();
   final _controller = Get.find<ProductListController>();
   late final TextEditingController _name;
@@ -111,6 +118,30 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
                   ],
                 ),
                 const SizedBox(height: 12),
+                DropdownButtonFormField<String>(
+                  value: _bundledProductImages.contains(_image.text)
+                      ? _image.text
+                      : null,
+                  decoration: const InputDecoration(
+                    labelText: 'Choose a bundled product image',
+                  ),
+                  items: _bundledProductImages
+                      .map(
+                        (path) => DropdownMenuItem<String>(
+                          value: path,
+                          child: Text(
+                            path.split('/').last,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      )
+                      .toList(growable: false),
+                  onChanged: (value) {
+                    if (value != null) setState(() => _image.text = value);
+                  },
+                ),
+                const SizedBox(height: 14),
                 Text(
                   'Image preview',
                   style: Theme.of(context).textTheme.labelLarge,

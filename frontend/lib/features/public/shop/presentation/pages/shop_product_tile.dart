@@ -136,7 +136,7 @@ class ShopProductsTile extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        Text(product.name, style: Theme.of(context).textTheme.bodyLarge),
+        Text(product.name, style: Theme.of(context).textTheme.headlineMedium),
         const SizedBox(height: 18),
         Text(
           'SKU  ${product.sku}',

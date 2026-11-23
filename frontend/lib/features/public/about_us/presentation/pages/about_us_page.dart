@@ -4,7 +4,7 @@ import 'package:sculpture_shop/core/variable/page_padding_var.dart';
 import 'package:sculpture_shop/core/widgets/header.dart';
 import 'package:sculpture_shop/core/widgets/website_drawer_mobile.dart';
 import 'package:sculpture_shop/core/widgets/website_footer.dart';
-import 'package:sculpture_shop/features/public/about_us/presentation/controllers/about_us_controlelr.dart';
+import 'package:sculpture_shop/features/public/about_us/presentation/controllers/about_us_controller.dart';
 
 class AboutUsPage extends GetView<AboutUsController> {
   AboutUsPage({super.key});

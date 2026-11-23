@@ -24,20 +24,20 @@ class PostManageService extends GetConnect {
     ).map(PostCategoryResponse.fromJson).toList(growable: false);
   }
 
-  Future<void> createPost(Map<String, dynamic> post) async {
-    final response = await postRequest(
+  Future<void> createPost(Map<String, dynamic> payload) async {
+    final response = await post(
       '${BaseUrl.apiUrlV1}${EndPoints.apPostCreate}',
-      post,
+      payload,
       headers: ApiSession.headers,
     );
     ApiResponse.object(response);
   }
 
-  Future<void> updatePost(Map<String, dynamic> post) async {
+  Future<void> updatePost(Map<String, dynamic> payload) async {
     final response = await put(
       '${BaseUrl.apiUrlV1}${EndPoints.apPostUpdate}',
       headers: ApiSession.headers,
-      body: post,
+      body: payload,
     );
     ApiResponse.object(response);
   }

@@ -60,7 +60,7 @@ class ShopPage extends GetView<ShopController> {
                       const SizedBox(height: 8),
                       Text(
                         'Sculptures with a story',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       const SizedBox(height: 8),
                       ConstrainedBox(

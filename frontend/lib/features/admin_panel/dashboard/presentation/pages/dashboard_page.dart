@@ -16,7 +16,7 @@ class DashboardPage extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final isDesktop = width >= 800;
+    final isDesktop = width >= 960;
 
     return Directionality(
       textDirection: TextDirection.ltr,

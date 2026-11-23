@@ -28,7 +28,7 @@ class AppBreakpoints {
   static const double mobile = 600;
   static const double tablet = 900;
   static const double desktop = 1280;
-  static const double contentMaxWidth = 1280;
+  static const double contentMaxWidth = 1440;
 }
 
 class AppMotion {

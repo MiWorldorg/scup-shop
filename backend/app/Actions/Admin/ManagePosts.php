@@ -3,7 +3,6 @@
 namespace App\Actions\Admin;
 
 use App\Models\Post;
-use Illuminate\Support\Facades\DB;
 
 class ManagePosts
 {

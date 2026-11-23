@@ -23,6 +23,7 @@
 - Bound authentication, post, product, and user repository contracts to their implementations in `AppServiceProvider`.
 - Changed API controllers to request repository contracts rather than concrete repository classes.
 - Added application actions:
+  - `Actions/Auth/AuthenticateUser` and `Actions/Auth/RegisterUser`: credential verification, safe registration, and token issuance.
   - `Actions/Admin/ManageProducts`: product writes, inventory updates, transactions, and legacy cart/order deletion guard.
   - `Actions/Admin/ManagePosts`: post create/update/delete.
   - `Actions/Admin/ChangeUserRole`: administrator authorization re-check, self-demotion rule, and last-admin invariant inside a transaction.

@@ -24,64 +24,92 @@ import 'package:sculpture_shop/features/public/shop/domain/repository/shop_repos
 class AppBindings extends Bindings {
   @override
   void dependencies() {
-    Get.put<ApiClient>(ApiClient(), permanent: true);
+    if (!Get.isRegistered<ApiClient>()) {
+      Get.put<ApiClient>(ApiClient(), permanent: true);
+    }
 
-    Get.lazyPut<AuthService>(
+    if (!Get.isRegistered<AuthService>()) {
+      Get.lazyPut<AuthService>(
       () => AuthService(client: Get.find<ApiClient>()),
       fenix: true,
-    );
-    Get.lazyPut<AuthRepository>(
+      );
+    }
+    if (!Get.isRegistered<AuthRepository>()) {
+      Get.lazyPut<AuthRepository>(
       () => AuthRepositoryImpl(service: Get.find<AuthService>()),
       fenix: true,
-    );
-    Get.put<AuthController>(
-      AuthController(repository: Get.find<AuthRepository>()),
-      permanent: true,
-    );
+      );
+    }
+    if (!Get.isRegistered<AuthController>()) {
+      Get.put<AuthController>(
+        AuthController(repository: Get.find<AuthRepository>()),
+        permanent: true,
+      );
+    }
 
-    Get.lazyPut<ShopService>(
+    if (!Get.isRegistered<ShopService>()) {
+      Get.lazyPut<ShopService>(
       () => ShopService(client: Get.find<ApiClient>()),
       fenix: true,
-    );
-    Get.lazyPut<ShopRepository>(
+      );
+    }
+    if (!Get.isRegistered<ShopRepository>()) {
+      Get.lazyPut<ShopRepository>(
       () => ShopRepositoryImpl(service: Get.find<ShopService>()),
       fenix: true,
-    );
+      );
+    }
 
-    Get.lazyPut<PostService>(
+    if (!Get.isRegistered<PostService>()) {
+      Get.lazyPut<PostService>(
       () => PostService(client: Get.find<ApiClient>()),
       fenix: true,
-    );
-    Get.lazyPut<PostRepository>(
+      );
+    }
+    if (!Get.isRegistered<PostRepository>()) {
+      Get.lazyPut<PostRepository>(
       () => PostRepositoryImpl(service: Get.find<PostService>()),
       fenix: true,
-    );
+      );
+    }
 
-    Get.lazyPut<ProductListService>(
+    if (!Get.isRegistered<ProductListService>()) {
+      Get.lazyPut<ProductListService>(
       () => ProductListService(client: Get.find<ApiClient>()),
       fenix: true,
-    );
-    Get.lazyPut<ProductListRepository>(
+      );
+    }
+    if (!Get.isRegistered<ProductListRepository>()) {
+      Get.lazyPut<ProductListRepository>(
       () => ProductListRepositoryImpl(service: Get.find<ProductListService>()),
       fenix: true,
-    );
+      );
+    }
 
-    Get.lazyPut<PostManageService>(
+    if (!Get.isRegistered<PostManageService>()) {
+      Get.lazyPut<PostManageService>(
       () => PostManageService(client: Get.find<ApiClient>()),
       fenix: true,
-    );
-    Get.lazyPut<PostManageRepository>(
+      );
+    }
+    if (!Get.isRegistered<PostManageRepository>()) {
+      Get.lazyPut<PostManageRepository>(
       () => PostManageRepositoryImpl(service: Get.find<PostManageService>()),
       fenix: true,
-    );
+      );
+    }
 
-    Get.lazyPut<UsersManageService>(
+    if (!Get.isRegistered<UsersManageService>()) {
+      Get.lazyPut<UsersManageService>(
       () => UsersManageService(client: Get.find<ApiClient>()),
       fenix: true,
-    );
-    Get.lazyPut<UsersManageRepository>(
+      );
+    }
+    if (!Get.isRegistered<UsersManageRepository>()) {
+      Get.lazyPut<UsersManageRepository>(
       () => UsersManageRepositoryImpl(service: Get.find<UsersManageService>()),
       fenix: true,
-    );
+      );
+    }
   }
 }

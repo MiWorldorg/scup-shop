@@ -33,6 +33,7 @@ class LandingPage extends GetView<LandingController> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final isMobile = ResponsiveBreakpoints.of(context).isMobile;
+    final reduceMotion = MediaQuery.disableAnimationsOf(context);
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
@@ -43,9 +44,9 @@ class LandingPage extends GetView<LandingController> {
             child: SafeArea(
               child: Column(
                 children: [
-                  FadeIn(child: Header(selectedIndex: 0.obs)),
+                  FadeIn(animate: !reduceMotion, child: Header(selectedIndex: 0.obs)),
                   const SizedBox(height: 32),
-                  FadeIn(
+                  FadeIn(animate: !reduceMotion, 
                     delay: const Duration(milliseconds: 500),
                     child: SizedBox(
                       height: isMobile ? 390 : 500,
@@ -67,7 +68,7 @@ class LandingPage extends GetView<LandingController> {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  FadeIn(
+                  FadeIn(animate: !reduceMotion, 
                     delay: const Duration(milliseconds: 1000),
                     child: Container(
                       width: double.infinity,
@@ -138,7 +139,7 @@ class LandingPage extends GetView<LandingController> {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  FadeIn(
+                  FadeIn(animate: !reduceMotion, 
                     delay: const Duration(milliseconds: 1500),
                     child: GridView.builder(
                       shrinkWrap: true,
@@ -172,7 +173,7 @@ class LandingPage extends GetView<LandingController> {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  FadeIn(
+                  FadeIn(animate: !reduceMotion, 
                     delay: const Duration(milliseconds: 2000),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -211,7 +212,7 @@ class LandingPage extends GetView<LandingController> {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  FadeIn(
+                  FadeIn(animate: !reduceMotion, 
                     delay: const Duration(milliseconds: 2500),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -250,7 +251,7 @@ class LandingPage extends GetView<LandingController> {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  FadeIn(
+                  FadeIn(animate: !reduceMotion, 
                     delay: const Duration(milliseconds: 3000),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -304,7 +305,7 @@ class LandingPage extends GetView<LandingController> {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  FadeIn(
+                  FadeIn(animate: !reduceMotion, 
                     delay: const Duration(milliseconds: 3500),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,

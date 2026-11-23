@@ -88,14 +88,19 @@ class ProductRepositoryApi implements ProductRepositoryInterfaceApi
 
         $product = DB::transaction(function () use ($id, $data) {
             $product = Product::lockForUpdate()->findOrFail($id);
+            $previousInventoryId = $product->inventory_id;
             $quantity = $data['quantity'] ?? null;
-            $inventoryId = $data['inventory_id'] ?? $product->inventory_id;
+            $inventoryId = $data['inventory_id'] ?? $previousInventoryId;
             unset($data['quantity']);
 
             $product->update($data);
 
             if ($quantity !== null) {
                 ProductInventory::whereKey($inventoryId)->update(['quantity' => $quantity]);
+            }
+
+            if ($inventoryId !== $previousInventoryId) {
+                ProductInventory::whereKey($previousInventoryId)->delete();
             }
 
             return $product->refresh()->load(['category:id,name', 'inventory:id,quantity']);

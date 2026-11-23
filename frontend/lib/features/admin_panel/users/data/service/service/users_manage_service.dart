@@ -1,45 +1,43 @@
-import 'package:get/get_connect/connect.dart';
+import 'package:sculpture_shop/core/api/api_client.dart';
 import 'package:sculpture_shop/core/api/api_response.dart';
-import 'package:sculpture_shop/core/api/api_session.dart';
 import 'package:sculpture_shop/core/api/endpoints.dart';
-import 'package:sculpture_shop/core/api/url.dart';
 import 'package:sculpture_shop/features/admin_panel/users/data/entity/users_list_response.dart';
 
-class UsersManageService extends GetConnect {
+class UsersManageService {
+  final ApiClient client;
+  UsersManageService({required this.client});
+
   Future<UsersPageResponse> getUsers(
     int page, {
     String search = '',
     String role = 'all',
   }) async {
-    try {
-      final url = Uri.parse('${BaseUrl.apiUrlV1}${EndPoints.apUser}').replace(
-        queryParameters: {
-          'page': page.toString(),
-          if (search.trim().isNotEmpty) 'search': search.trim(),
-          if (role != 'all') 'role': role,
-        },
-      );
-      final response = await get(url.toString(), headers: ApiSession.headers);
-      final result = ApiResponse.paginated(response);
-      return UsersPageResponse(
-        users: result.rows
-            .map(UsersListResponse.fromJson)
-            .toList(growable: false),
-        currentPage: result.currentPage,
-        lastPage: result.lastPage,
-        total: result.total,
-      );
-    } catch (_) {
-      rethrow;
-    }
+    final result = await client.getJson(
+      EndPoints.apUser,
+      query: {
+        'page': page.toString(),
+        if (search.trim().isNotEmpty) 'search': search.trim(),
+        if (role != 'all') 'role': role,
+      },
+      authenticated: true,
+    );
+    final response = ApiResponse.paginated(result);
+    return UsersPageResponse(
+      users: response.rows
+          .map(UsersListResponse.fromJson)
+          .toList(growable: false),
+      currentPage: response.currentPage,
+      lastPage: response.lastPage,
+      total: response.total,
+    );
   }
 
   Future<void> updateRole(int id, String role) async {
-    final url = Uri.parse('${BaseUrl.apiUrlV1}${EndPoints.apUserRole}');
-    final response = await put(url.toString(), {
-      'id': id,
-      'role': role,
-    }, headers: ApiSession.headers);
+    final response = await client.putJson(
+      EndPoints.apUserRole,
+      {'id': id, 'role': role},
+      authenticated: true,
+    );
     ApiResponse.object(response);
   }
 }

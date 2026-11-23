@@ -276,7 +276,7 @@ Implementation is available for review in [draft PR #4](https://github.com/MiWor
 - Connected the contact form to a rate-limited Laravel endpoint and configurable mail transport.
 - Added implementation detail and runtime configuration notes in `docs/phase-3-implementation-notes.md`.
 
-**Still pending before Phase 3 acceptance:** visual review at all agreed viewport sizes; Flutter/Laravel formatting, analysis, tests, and builds; accessibility checks; real SMTP configuration and delivery verification; and an approved USD conversion basis for the existing Toman-denominated product prices. Per owner instruction, the full verification suite is deferred until all implementation phases are complete. No Phase 3 acceptance checkboxes are marked complete yet.
+**Still pending before Phase 3 acceptance:** visual review at all agreed viewport sizes; Flutter/Laravel formatting, analysis, tests, and builds; accessibility checks; and real SMTP configuration and delivery verification. The USD price decision is resolved: five demo SKUs now have explicit illustrative whole-dollar prices, a reversible migration updates existing seeded records, and the seeder/admin/storefront use USD. Per owner instruction, the full verification suite is deferred until all implementation phases are complete. No Phase 3 acceptance checkboxes are marked complete yet.
 
 ---
 

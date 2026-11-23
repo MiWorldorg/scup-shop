@@ -13,7 +13,7 @@ class UsersWidget extends GetView<UsersManageController> {
     final colors = Theme.of(context).colorScheme;
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(28),
+        padding: EdgeInsets.all(MediaQuery.sizeOf(context).width < 600 ? 16 : 28),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

@@ -6,7 +6,7 @@
 
 **Links:** [Private GitHub repository](https://github.com/MiWorldorg/Scup-Shop) · Live demo: not deployed · Screenshots: pending final runtime capture
 
-> This repository is private. No CI badge is shown because a CI workflow has not yet been added. The project is not licensed for redistribution; no LICENSE file is included by owner decision.
+> This repository is private. A manual-only CI workflow is present for the final verification pass; it has not yet been run, so no passing badge is shown. The project is not licensed for redistribution; no LICENSE file is included by owner decision.
 
 ---
 

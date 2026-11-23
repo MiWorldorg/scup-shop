@@ -15,6 +15,7 @@ class SliderBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final compact = MediaQuery.sizeOf(context).width < 600;
+    final reduceMotion = MediaQuery.disableAnimationsOf(context);
     return CarouselSlider.builder(
       itemCount: _slides.length,
       itemBuilder: (context, index, realIndex) {
@@ -29,7 +30,7 @@ class SliderBanner extends StatelessWidget {
       options: CarouselOptions(
         height: compact ? 390 : 500,
         viewportFraction: 1,
-        autoPlay: true,
+        autoPlay: !reduceMotion,
         autoPlayInterval: const Duration(seconds: 6),
         autoPlayAnimationDuration: const Duration(milliseconds: 800),
         pauseAutoPlayOnTouch: true,
@@ -93,7 +94,7 @@ class SliderBanner extends StatelessWidget {
                   title,
                   style: Theme.of(
                     context,
-                  ).textTheme.bodyLarge?.copyWith(fontSize: 42, height: 1.12),
+                  ).textTheme.headlineMedium?.copyWith(fontSize: 42, height: 1.12),
                 ),
                 const SizedBox(height: 14),
                 Text(

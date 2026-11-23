@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Actions\Admin\ChangeUserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateUserRoleRequest;
+use App\Http\Resources\UserResource;
 use App\Repository\api\Contract\UserRepositoryInterfaceApi;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,7 +16,15 @@ class UserController extends Controller
         Request $request,
         UserRepositoryInterfaceApi $userRepository
     ): JsonResponse {
-        return $userRepository->select($request);
+        $data = UserResource::collection($userRepository->select($request))
+            ->response()
+            ->getData(true);
+
+        return response()->json([
+            'code' => 1,
+            'message' => 'Users.',
+            'data' => $data,
+        ]);
     }
 
     public function updateRole(

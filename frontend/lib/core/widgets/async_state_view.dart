@@ -26,7 +26,13 @@ class AsyncStateView extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 64),
         child: Center(
-          child: CircularProgressIndicator(color: theme.colorScheme.primary),
+          child: Semantics(
+            label: 'Loading content',
+            liveRegion: true,
+            child: CircularProgressIndicator(
+              color: theme.colorScheme.primary,
+            ),
+          ),
         ),
       );
     }
@@ -91,11 +97,14 @@ class _InlineError extends StatelessWidget {
           Icon(Icons.info_outline_rounded, color: colors.error, size: 18),
           const SizedBox(width: 8),
           Expanded(
-            child: Text(
-              message,
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: colors.error),
+            child: Semantics(
+              liveRegion: true,
+              child: Text(
+                message,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: colors.error),
+              ),
             ),
           ),
           TextButton.icon(

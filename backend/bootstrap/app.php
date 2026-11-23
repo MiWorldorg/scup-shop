@@ -18,11 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => EnsureAdmin::class,
         ]);
         $middleware->api(append: [RequireHttps::class]);
-        $trustedProxies = array_values(array_filter(array_map(
-            'trim',
-            explode(',', env('TRUSTED_PROXIES', ''))
-        )));
-        $middleware->trustProxies(at: $trustedProxies);
+        $middleware->trustProxies(at: config('app.trusted_proxies', []));
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

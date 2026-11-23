@@ -7,7 +7,7 @@ import 'package:sculpture_shop/core/widgets/sections_header.dart';
 import 'package:sculpture_shop/core/widgets/website_drawer_mobile.dart';
 import 'package:sculpture_shop/core/widgets/website_footer.dart';
 import 'package:sculpture_shop/features/public/shop/presentation/controllers/shop_controller.dart';
-import 'package:sculpture_shop/features/public/shop/presentation/pages/shop-products-tile.dart';
+import 'package:sculpture_shop/features/public/shop/presentation/pages/shop_product_tile.dart';
 import 'package:sculpture_shop/features/public/shop/presentation/widgets/product_card_widget.dart';
 
 class ShopPage extends GetView<ShopController> {

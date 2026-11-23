@@ -64,7 +64,7 @@ class SliderBanner extends StatelessWidget {
           child: const Text('Explore the collection'),
         ),
         const SizedBox(height: 6),
-        Expanded(child: _slideArt(context, image)),
+        Expanded(child: _slideArt(context, image, title)),
       ],
     );
   }
@@ -121,18 +121,19 @@ class SliderBanner extends StatelessWidget {
     );
   }
 
-  Widget _slideArt(BuildContext context, String image) {
+  Widget _slideArt(BuildContext context, String image, String title) {
     return Stack(
       alignment: Alignment.center,
       children: [
         Image.asset(
           'assets/images/sculpture-banner-background.png',
           fit: BoxFit.contain,
-          semanticLabel: 'Decorative sculpture illustration background',
+          excludeFromSemantics: true,
         ),
         Image.asset(
           image,
           fit: BoxFit.contain,
+          semanticLabel: title,
           errorBuilder: (_, __, ___) => Icon(
             Icons.image_not_supported_outlined,
             size: 48,

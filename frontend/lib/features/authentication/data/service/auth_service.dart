@@ -13,6 +13,14 @@ class AuthService extends GetConnect {
     return ApiResponse.object(response);
   }
 
+  Future<Map<String, dynamic>> currentUser() async {
+    final response = await get(
+      '${BaseUrl.apiUrlV1}${EndPoints.me}',
+      headers: const {'Accept': 'application/json'},
+    );
+    return ApiResponse.object(response);
+  }
+
   Future<void> logout(String token) async {
     final response = await post(
       '${BaseUrl.apiUrlV1}${EndPoints.logout}',

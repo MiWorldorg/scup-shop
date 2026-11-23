@@ -2,10 +2,10 @@
 
 namespace App\Repository\api\Contract;
 
+use App\Http\Requests\DeleteProductRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 interface ProductRepositoryInterfaceApi
 {
@@ -13,7 +13,7 @@ interface ProductRepositoryInterfaceApi
 
     public function insert(StoreProductRequest $request): JsonResponse;
 
-    public function destroy(Request $request): JsonResponse;
+    public function destroy(DeleteProductRequest $request): JsonResponse;
 
     public function update(UpdateProductRequest $request): JsonResponse;
 }

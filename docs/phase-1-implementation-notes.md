@@ -11,6 +11,8 @@
 - Login uses the same generic credential error for unknown emails and wrong passwords and returns HTTP 401. Login and registration routes are rate-limited.
 - Passport personal-access tokens created by `createToken()` expire after 30 days. OAuth access tokens created through the authorization-code flow use a two-hour expiry; refresh tokens use 30 days.
 - Flutter stores the access token using `flutter_secure_storage`, restores it before routing, and verifies it against the authenticated `/api/v1/me` endpoint. Logout revokes the server token when reachable and clears local session state.
+- Production API requests now require HTTPS; trusted reverse proxies are configured through `TRUSTED_PROXIES`. Session cookies default to Secure in production.
+- CORS is explicit and origin-allowlisted through `CORS_ALLOWED_ORIGINS`; credentials are disabled. The deployed Flutter Web origin must be added to that environment setting.
 - The `admins` table is retained as legacy data. A migration copies administrator identities into `users` by email and remaps post authors to the shared `users` identity. It does not drop the legacy table.
 - Role management retains self-demotion and last-administrator safeguards.
 
@@ -34,6 +36,7 @@
 - A quantity of zero is treated as a real update, not as a missing value.
 - Product and post API resources provide stable field shapes and Laravel pagination metadata. Flutter now reads nested resource metadata and exposes pagination in the public catalog and administrator product/post lists.
 - Product cards use the category supplied by the API rather than inferring category from a product ID.
+- Product and post image fields accept only bundled assets under their respective `assets/images/.../` folders. No arbitrary remote URLs or upload endpoint are supported yet.
 
 ### Price/currency data remains unresolved
 

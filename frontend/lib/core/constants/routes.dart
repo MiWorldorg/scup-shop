@@ -8,6 +8,7 @@ import 'package:sculpture_shop/features/admin_panel/products/presentation/bindin
 import 'package:sculpture_shop/features/admin_panel/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:sculpture_shop/features/admin_panel/products/presentation/pages/products_page.dart';
 import 'package:sculpture_shop/features/admin_panel/users/presentation/pages/users_page.dart';
+import 'package:sculpture_shop/features/admin_panel/users/presentation/bindings/users_manage_binding.dart';
 import 'package:sculpture_shop/features/public/blog/presentation/bindings/post_binding.dart';
 import 'package:sculpture_shop/features/public/blog/presentation/pages/blog_page.dart';
 import 'package:sculpture_shop/features/public/contact/presentation/binding/contact_us_binding.dart';
@@ -54,7 +55,7 @@ class AppRoutes {
     GetPage(
       name: AppRoutes.users,
       page: () => UsersWidget(),
-      binding: null,
+      binding: UsersManageBinding(),
       middlewares: [AdminRouteMiddleware()],
     ),
     GetPage(

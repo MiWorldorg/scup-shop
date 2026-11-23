@@ -8,7 +8,8 @@ class PostManageRepositoryImpl implements PostManageRepository {
   PostManageRepositoryImpl({required this.service});
 
   @override
-  Future<ApiPaginatedResult> getPosts(int page) => service.call(page);
+  Future<ApiPaginatedResult> getPosts(int page, {String? search}) =>
+      service.call(page, search: search);
 
   @override
   Future<List<PostCategoryResponse>> getCategories() => service.getCategories();

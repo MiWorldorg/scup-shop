@@ -46,11 +46,14 @@ class ApiResponse {
       );
     }
 
+    final metadata = payload['meta'] is Map
+        ? payload['meta'] as Map
+        : payload;
     return ApiPaginatedResult(
       rows: rows,
-      currentPage: _integer(payload['current_page'], 1),
-      lastPage: _integer(payload['last_page'], 1),
-      total: _integer(payload['total'], rows.length),
+      currentPage: _integer(metadata['current_page'], 1),
+      lastPage: _integer(metadata['last_page'], 1),
+      total: _integer(metadata['total'], rows.length),
     );
   }
 

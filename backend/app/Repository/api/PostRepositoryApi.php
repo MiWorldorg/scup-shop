@@ -3,12 +3,12 @@
 namespace App\Repository\api;
 
 use App\Http\Requests\CreatePostRequest;
+use App\Http\Requests\DeletePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Repository\api\Contract\PostRepositoryInterfaceApi;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class PostRepositoryApi implements PostRepositoryInterfaceApi
 {
@@ -53,7 +53,7 @@ class PostRepositoryApi implements PostRepositoryInterfaceApi
         ], 201);
     }
 
-    public function destroy(Request $request): JsonResponse
+    public function destroy(DeletePostRequest $request): JsonResponse
     {
         $validated = $request->validate([
             'id' => ['required', 'integer'],

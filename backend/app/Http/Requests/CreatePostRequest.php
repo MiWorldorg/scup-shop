@@ -3,32 +3,25 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreatePostRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            "author_id"=>"required",
-            "category_id"=>"required",
-            "slug"=>"required",
-            "title"=>"required",
-            "published"=>"required",
-            "summary"=>"required",
-            "content"=>"required",
+            'category_id' => ['required', 'integer', 'exists:post_categories,id'],
+            'slug' => ['required', 'string', 'max:255', Rule::unique('posts', 'slug')],
+            'title' => ['required', 'string', 'max:255'],
+            'published' => ['nullable', 'date'],
+            'summary' => ['required', 'string', 'max:1000'],
+            'content' => ['required', 'string'],
+            'post_picture' => ['nullable', 'string', 'max:255'],
         ];
     }
 }

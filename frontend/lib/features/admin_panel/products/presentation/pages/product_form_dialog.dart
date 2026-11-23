@@ -111,7 +111,39 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
                   ],
                 ),
                 const SizedBox(height: 12),
-                _textField(_image, 'Flutter asset path'),
+                Text(
+                  'Image preview',
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  height: 150,
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
+                  ),
+                  child: Image.asset(
+                    _image.text,
+                    fit: BoxFit.contain,
+                    semanticLabel: _name.text.isEmpty
+                        ? 'Product image preview'
+                        : '${_name.text} image preview',
+                    errorBuilder: (_, __, ___) => const Center(
+                      child: Text('Asset preview unavailable'),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                _textField(
+                  _image,
+                  'Flutter asset path',
+                  onChanged: (_) => setState(() {}),
+                ),
                 if (_errorMessage != null) ...[
                   const SizedBox(height: 12),
                   Text(
@@ -201,6 +233,7 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
     TextInputType? keyboardType,
     List<TextInputFormatter>? inputFormatters,
     String? Function(String?)? validator,
+    ValueChanged<String>? onChanged,
   }) {
     return TextFormField(
       controller: controller,
@@ -208,6 +241,7 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
       maxLength: maxLength,
       keyboardType: keyboardType,
       inputFormatters: inputFormatters,
+      onChanged: onChanged,
       validator:
           validator ??
           (value) {

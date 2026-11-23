@@ -17,7 +17,7 @@ class UpdatePostRequest extends FormRequest
         $postId = $this->input('id');
 
         return [
-            'id' => ['required', 'integer', 'exists:posts,id'],
+            'id' => ['required', 'integer'],
             'category_id' => ['sometimes', 'required', 'integer', 'exists:post_categories,id'],
             'slug' => [
                 'sometimes',

@@ -74,7 +74,40 @@ class _PostManageEditorDialogState extends State<PostManageEditorDialog> {
                 const SizedBox(height: 12),
                 _field(_content, 'Article content', maxLines: 8),
                 const SizedBox(height: 12),
-                _field(_image, 'Image path (optional)', required: false),
+                if (_image.text.trim().isNotEmpty) ...[
+                  Text(
+                    'Cover image preview',
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    height: 150,
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.outline,
+                      ),
+                    ),
+                    child: Image.asset(
+                      _image.text,
+                      fit: BoxFit.contain,
+                      semanticLabel: '${_title.text} cover image preview',
+                      errorBuilder: (_, __, ___) => const Center(
+                        child: Text('Asset preview unavailable'),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                ],
+                _field(
+                  _image,
+                  'Image path (optional)',
+                  required: false,
+                  onChanged: (_) => setState(() {}),
+                ),
                 const SizedBox(height: 8),
                 SwitchListTile.adaptive(
                   contentPadding: EdgeInsets.zero,
@@ -163,10 +196,12 @@ class _PostManageEditorDialogState extends State<PostManageEditorDialog> {
     String label, {
     int maxLines = 1,
     bool required = true,
+    ValueChanged<String>? onChanged,
   }) {
     return TextFormField(
       controller: controller,
       maxLines: maxLines,
+      onChanged: onChanged,
       validator: (value) {
         if (!required) return null;
         if (value == null || value.trim().isEmpty) {

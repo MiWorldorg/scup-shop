@@ -95,7 +95,7 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
                     Expanded(
                       child: _textField(
                         _price,
-                        'Price (Toman)',
+                        'Price (USD)',
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,

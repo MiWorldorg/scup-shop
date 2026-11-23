@@ -5,7 +5,7 @@ import 'package:sculpture_shop/features/admin_panel/users/data/entity/users_list
 import 'package:sculpture_shop/features/admin_panel/users/domain/repository/users_manage_repository.dart';
 
 class UsersManageController extends GetxController {
-  late UsersManageRepository repo;
+  final UsersManageRepository repo;
   UsersManageController({required this.repo});
 
   var users = <UsersListResponse>[].obs;

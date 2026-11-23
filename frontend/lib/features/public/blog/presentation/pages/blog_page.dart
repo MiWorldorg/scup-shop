@@ -5,7 +5,7 @@ import 'package:sculpture_shop/core/widgets/async_state_view.dart';
 import 'package:sculpture_shop/core/widgets/header.dart';
 import 'package:sculpture_shop/core/widgets/website_drawer_mobile.dart';
 import 'package:sculpture_shop/core/widgets/website_footer.dart';
-import 'package:sculpture_shop/features/public/blog/presentation/pages/blog-posts-tile.dart';
+import 'package:sculpture_shop/features/public/blog/presentation/pages/blog_post_tile.dart';
 import 'package:sculpture_shop/features/public/blog/presentation/widgets/post_card_widget.dart';
 
 import '../controllers/post_controller.dart';

@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Repository\api\Contract\PostRepositoryInterfaceApi;
+use App\Repository\api\Contract\ProductRepositoryInterfaceApi;
+use App\Repository\api\Contract\UserRepositoryInterfaceApi;
+use App\Repository\api\PostRepositoryApi;
+use App\Repository\api\ProductRepositoryApi;
+use App\Repository\api\UserRepositoryApi;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 
@@ -9,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        $this->app->bind(PostRepositoryInterfaceApi::class, PostRepositoryApi::class);
+        $this->app->bind(ProductRepositoryInterfaceApi::class, ProductRepositoryApi::class);
+        $this->app->bind(UserRepositoryInterfaceApi::class, UserRepositoryApi::class);
     }
 
     public function boot(): void

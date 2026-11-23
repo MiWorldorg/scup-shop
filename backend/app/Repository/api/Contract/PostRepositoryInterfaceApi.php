@@ -2,20 +2,11 @@
 
 namespace App\Repository\api\Contract;
 
-use App\Http\Requests\CreatePostRequest;
-use App\Http\Requests\UpdatePostRequest;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface PostRepositoryInterfaceApi
 {
-    public function selectPublished(): JsonResponse;
+    public function selectPublished(): LengthAwarePaginator;
 
-    public function selectAll(): JsonResponse;
-
-    public function insert(CreatePostRequest $request): JsonResponse;
-
-    public function destroy(Request $request): JsonResponse;
-
-    public function update(UpdatePostRequest $request): JsonResponse;
+    public function selectAll(): LengthAwarePaginator;
 }

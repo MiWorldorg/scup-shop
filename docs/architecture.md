@@ -136,7 +136,5 @@ flowchart TD
 
 ## Architecture follow-ups
 
-- Extract authentication registration/token issuance from the legacy auth repository into focused application actions.
-- Complete the naming/path normalization batch after a verified backup tag is available.
-- Decide which empty legacy landing data-layer files can be removed after reference and history checks.
+- Continue reviewing feature controllers and repositories as the public/admin UI is redesigned.
 - Add the real contact application service and mail-delivery boundary when implementing the contact feature.

@@ -33,12 +33,14 @@ class ProductRepositoryApi implements ProductRepositoryInterfaceApi
         $data = $request->validated();
         $product = DB::transaction(function () use ($data) {
             $inventoryId = $data['inventory_id'] ?? null;
-            $quantity = $data['quantity'] ?? 0;
+            $quantity = $data['quantity'] ?? null;
             unset($data['inventory_id'], $data['quantity']);
 
             if ($inventoryId === null) {
-                $inventoryId = ProductInventory::create(['quantity' => $quantity])->id;
-            } elseif ($quantity !== 0) {
+                $inventoryId = ProductInventory::create([
+                    'quantity' => $quantity ?? 0,
+                ])->id;
+            } elseif ($quantity !== null) {
                 ProductInventory::whereKey($inventoryId)->update(['quantity' => $quantity]);
             }
 

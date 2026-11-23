@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Repository\api\UserRepositoryApi;
+use App\Repository\api\Contract\UserRepositoryInterfaceApi;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +12,7 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    public function select(Request $request, UserRepositoryApi $userRepositoryApi): JsonResponse
+    public function select(Request $request, UserRepositoryInterfaceApi $userRepositoryApi): JsonResponse
     {
         return $userRepositoryApi->select($request);
     }

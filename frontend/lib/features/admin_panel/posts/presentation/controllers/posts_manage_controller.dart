@@ -8,19 +8,25 @@ class PostsManageController extends GetxController {
   final TextEditingController slug = TextEditingController();
   final TextEditingController title = TextEditingController();
   final TextEditingController content = TextEditingController();
-  late PostManageRepository repo;
+
+  final PostManageRepository repo;
   PostsManageController({required this.repo});
 
-  var posts = <PostManageResponse>[].obs;
-  var currentPage = 1.obs;
+  final posts = <PostManageResponse>[].obs;
+  final categories = <PostCategoryResponse>[].obs;
+  final currentPage = 1.obs;
+  final lastPage = 1.obs;
   final isLoading = true.obs;
+  final isLoadingCategories = true.obs;
   final errorMessage = RxnString();
+  final categoriesError = RxnString();
   int _fetchVersion = 0;
 
   @override
   void onInit() {
     super.onInit();
     fetchLatestPosts();
+    fetchCategories();
   }
 
   Future<void> fetchLatestPosts() async {
@@ -30,13 +36,63 @@ class PostsManageController extends GetxController {
     try {
       final result = await repo.getPosts(currentPage.value);
       if (isClosed || version != _fetchVersion) return;
-      posts.assignAll(result);
+      posts.assignAll(result.rows.map(PostManageResponse.fromJson));
+      currentPage.value = result.currentPage;
+      lastPage.value = result.lastPage;
     } catch (error) {
       if (isClosed || version != _fetchVersion) return;
       errorMessage.value = ApiResponse.userFacingError(error);
     } finally {
       if (!isClosed && version == _fetchVersion) isLoading.value = false;
     }
+  }
+
+  Future<void> fetchCategories() async {
+    isLoadingCategories.value = true;
+    categoriesError.value = null;
+    try {
+      final result = await repo.getCategories();
+      if (isClosed) return;
+      categories.assignAll(result);
+    } catch (error) {
+      if (isClosed) return;
+      categoriesError.value = ApiResponse.userFacingError(error);
+    } finally {
+      if (!isClosed) isLoadingCategories.value = false;
+    }
+  }
+
+  Future<void> goToPage(int page) async {
+    if (page < 1 || page > lastPage.value || isLoading.value) return;
+    currentPage.value = page;
+    await fetchLatestPosts();
+  }
+
+  Future<void> createPost(Map<String, dynamic> post) async {
+    await repo.createPost(post);
+    currentPage.value = 1;
+    await fetchLatestPosts();
+  }
+
+  Future<void> updatePost(Map<String, dynamic> post) async {
+    await repo.updatePost(post);
+    await fetchLatestPosts();
+  }
+
+  Future<void> setPublished(PostManageResponse post, bool published) async {
+    await repo.updatePost({
+      'id': post.id,
+      'published': published ? DateTime.now().toUtc().toIso8601String() : null,
+    });
+    await fetchLatestPosts();
+  }
+
+  Future<void> deletePost(int id) async {
+    await repo.deletePost(id);
+    if (posts.length == 1 && currentPage.value > 1) {
+      currentPage.value--;
+    }
+    await fetchLatestPosts();
   }
 
   @override

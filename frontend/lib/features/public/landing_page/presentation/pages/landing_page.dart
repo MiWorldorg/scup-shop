@@ -155,19 +155,19 @@ class LandingPage extends GetView<LandingController> {
                       itemBuilder: (context, index) => const [
                         FeaturesCartItem(
                           icon: Ionicons.time,
-                          title: 'Fast delivery',
+                          title: 'Curated sculpture pieces',
                         ),
                         FeaturesCartItem(
                           icon: Ionicons.help,
-                          title: '24-hour support',
+                          title: 'Material and craft',
                         ),
                         FeaturesCartItem(
                           icon: Ionicons.star,
-                          title: 'Quality guaranteed',
+                          title: 'Editorial journal',
                         ),
                         FeaturesCartItem(
                           icon: Ionicons.barcode,
-                          title: 'A wide selection',
+                          title: 'Direct studio contact',
                         ),
                       ][index],
                     ),

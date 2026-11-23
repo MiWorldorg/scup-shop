@@ -1,5 +1,5 @@
 import 'package:sculpture_shop/features/admin_panel/users/data/entity/users_list_response.dart';
-import 'package:sculpture_shop/features/admin_panel/users/data/service/service/users_manage_service.dart';
+import 'package:sculpture_shop/features/admin_panel/users/data/service/users_manage_service.dart';
 import 'package:sculpture_shop/features/admin_panel/users/domain/repository/users_manage_repository.dart';
 
 class UsersManageRepositoryImpl implements UsersManageRepository {

@@ -181,6 +181,7 @@ class _PostManageEditorDialogState extends State<PostManageEditorDialog> {
       _errorMessage = null;
     });
 
+    final previousPublishedAt = widget.post?.published;
     final payload = <String, dynamic>{
       'category_id': _categoryId,
       'title': _title.text.trim(),
@@ -188,9 +189,11 @@ class _PostManageEditorDialogState extends State<PostManageEditorDialog> {
       'summary': _summary.text.trim(),
       'content': _content.text.trim(),
       'post_picture': _image.text.trim().isEmpty ? null : _image.text.trim(),
-      'published': _isPublished
-          ? DateTime.now().toUtc().toIso8601String()
-          : null,
+      'published': !_isPublished
+          ? null
+          : (widget.post?.isPublished == true
+                ? previousPublishedAt
+                : DateTime.now().toUtc().toIso8601String()),
     };
 
     try {

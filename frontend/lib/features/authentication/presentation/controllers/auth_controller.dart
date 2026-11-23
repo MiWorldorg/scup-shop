@@ -27,8 +27,12 @@ class AuthController extends GetxController {
       final user = await service.currentUser();
       currentRole.value = user['role']?.toString() ?? '';
       currentUsername.value = user['username']?.toString() ?? '';
-    } catch (_) {
-      await ApiSession.clear();
+    } catch (error) {
+      // Only discard a token when the server confirms it is invalid/revoked.
+      if (error is ApiException &&
+          (error.statusCode == 401 || error.statusCode == 403)) {
+        await ApiSession.clear();
+      }
       currentRole.value = '';
       currentUsername.value = '';
     }

@@ -4,12 +4,13 @@ import 'package:sculpture_shop/features/admin_panel/products/domain/repository/p
 import '../../data/entity/products_list_response.dart';
 
 class ProductListController extends GetxController {
-  late ProductListRepository repo;
+  final ProductListRepository repo;
   ProductListController({required this.repo});
 
-  var products = <ProductListResponse>[].obs;
-  var categories = <ProductCategoryResponse>[].obs;
-  var currentPage = 1.obs;
+  final products = <ProductListResponse>[].obs;
+  final categories = <ProductCategoryResponse>[].obs;
+  final currentPage = 1.obs;
+  final lastPage = 1.obs;
   final isLoading = true.obs;
   final isLoadingCategories = true.obs;
   final categoriesError = RxnString();
@@ -30,13 +31,21 @@ class ProductListController extends GetxController {
     try {
       final result = await repo.getProductsList(currentPage.value);
       if (isClosed || version != _fetchVersion) return;
-      products.assignAll(result);
+      products.assignAll(result.rows.map(ProductListResponse.fromJson));
+      currentPage.value = result.currentPage;
+      lastPage.value = result.lastPage;
     } catch (error) {
       if (isClosed || version != _fetchVersion) return;
       errorMessage.value = ApiResponse.userFacingError(error);
     } finally {
       if (!isClosed && version == _fetchVersion) isLoading.value = false;
     }
+  }
+
+  Future<void> goToPage(int page) async {
+    if (page < 1 || page > lastPage.value || isLoading.value) return;
+    currentPage.value = page;
+    await fetchLatestProduct();
   }
 
   Future<void> fetchCategories() async {
@@ -56,6 +65,7 @@ class ProductListController extends GetxController {
 
   Future<void> createProduct(Map<String, dynamic> product) async {
     await repo.createProduct(product);
+    currentPage.value = 1;
     await fetchLatestProduct();
   }
 
@@ -66,6 +76,7 @@ class ProductListController extends GetxController {
 
   Future<void> deleteProduct(int id) async {
     await repo.deleteProduct(id);
+    if (products.length == 1 && currentPage.value > 1) currentPage.value--;
     await fetchLatestProduct();
   }
 }

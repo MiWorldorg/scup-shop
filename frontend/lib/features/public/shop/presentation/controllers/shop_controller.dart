@@ -35,11 +35,14 @@ class ShopController extends GetxController {
     categoriesError.value = null;
 
     try {
-      categories.assignAll(await repo.getCategories());
+      final result = await repo.getCategories();
+      if (isClosed) return;
+      categories.assignAll(result);
     } catch (error) {
+      if (isClosed) return;
       categoriesError.value = ApiResponse.userFacingError(error);
     } finally {
-      categoriesLoading.value = false;
+      if (!isClosed) categoriesLoading.value = false;
     }
   }
 

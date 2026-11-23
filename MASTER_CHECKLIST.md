@@ -471,3 +471,5 @@ These are observations from the current repository snapshot, not claims that tes
 - [ ] Execute the full final QA suite after all implementation phases, as requested by the owner.
 
 **Current phase status:** Architecture and naming cleanup implementation is present on the working branch. Phase 2 remains unaccepted until final QA and runtime acceptance are completed.
+
+- **Phase 2 review handoff:** draft PR #3, `work/phase-2-architecture-review`, stacked on the Phase 1 review branch. [Open PR #3](https://github.com/MiWorldorg/Scup-Shop/pull/3).

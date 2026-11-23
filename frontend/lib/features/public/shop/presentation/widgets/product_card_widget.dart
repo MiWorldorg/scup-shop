@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sculpture_shop/core/formatters/price_formatter.dart';
 import 'package:get/get.dart';
 import 'package:sculpture_shop/features/public/shop/data/entity/product_response.dart';
 
@@ -85,7 +86,7 @@ class ProductCart extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      '${productModel.price} Toman',
+                      '${PriceFormatter.amount(productModel.price)} Toman',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(

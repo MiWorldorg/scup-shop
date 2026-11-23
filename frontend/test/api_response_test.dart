@@ -31,6 +31,53 @@ void main() {
       expect(result.lastPage, 5);
       expect(result.total, 41);
     });
+
+    test('uses safe defaults when pagination metadata is absent', () {
+      final result = ApiResponse.paginated(
+        Response<dynamic>(
+          statusCode: 200,
+          body: {
+            'code': 1,
+            'data': [
+              {'id': 1},
+            ],
+          },
+        ),
+      );
+
+      expect(result.currentPage, 1);
+      expect(result.lastPage, 1);
+      expect(result.total, 1);
+    });
+
+    test('rejects malformed response envelopes', () {
+      expect(
+        () => ApiResponse.list(
+          Response<dynamic>(statusCode: 200, body: {'unexpected': true}),
+        ),
+        throwsA(isA<ApiException>()),
+      );
+    });
+
+    test('preserves server validation errors and status codes', () {
+      expect(
+        () => ApiResponse.ensureSuccess(
+          Response<dynamic>(
+            statusCode: 422,
+            body: {'message': 'The submitted data is invalid.'},
+          ),
+        ),
+        throwsA(
+          isA<ApiException>()
+              .having((error) => error.statusCode, 'statusCode', 422)
+              .having(
+                (error) => error.message,
+                'message',
+                'The submitted data is invalid.',
+              ),
+        ),
+      );
+    });
   });
 
   group('PostManageResponse', () {
@@ -50,6 +97,23 @@ void main() {
       expect(post.postPicture, isEmpty);
       expect(post.isPublished, isFalse);
       expect(post.toJson()['published'], isNull);
+    });
+
+    test('parses a published post and serializes its timestamp', () {
+      final post = PostManageResponse.fromJson({
+        'id': 5,
+        'author_id': 2,
+        'category_id': 3,
+        'slug': 'published-story',
+        'title': 'Published story',
+        'published': '2026-11-23T10:00:00Z',
+        'summary': 'A summary',
+        'content': 'Article content',
+        'post_picture': 'assets/images/posts/rostam-post.png',
+      });
+
+      expect(post.isPublished, isTrue);
+      expect(post.toJson()['published'], '2026-11-23T10:00:00Z');
     });
   });
 }

@@ -54,6 +54,20 @@ class CoreIntegrityTest extends TestCase
         $this->getJson('/api/v1/admin/product')->assertForbidden();
     }
 
+    public function test_current_session_endpoint_exposes_only_safe_user_fields(): void
+    {
+        $customer = User::factory()->create(['role' => 'user']);
+        Passport::actingAs($customer, [], 'api');
+
+        $this->getJson('/api/v1/me')
+            ->assertOk()
+            ->assertJsonPath('data.id', $customer->id)
+            ->assertJsonPath('data.role', 'user')
+            ->assertJsonMissingPath('data.password')
+            ->assertJsonMissingPath('data.phone')
+            ->assertJsonMissingPath('data.address');
+    }
+
     public function test_public_blog_excludes_drafts_and_admin_can_manage_them(): void
     {
         $admin = User::factory()->create(['role' => 'admin']);

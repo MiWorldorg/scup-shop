@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:get/get_connect/connect.dart';
+import 'package:sculpture_shop/core/api/api_session.dart';
 
 class ApiException implements Exception {
   final String message;
@@ -74,6 +77,10 @@ class ApiResponse {
       throw const ApiException(
         'Could not connect to the service. Check your connection and try again.',
       );
+    }
+
+    if (response.statusCode == 401 || response.statusCode == 403) {
+      unawaited(ApiSession.clear());
     }
 
     final body = response.body;

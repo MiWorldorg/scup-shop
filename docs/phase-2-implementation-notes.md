@@ -20,7 +20,7 @@
 ## Laravel changes
 
 - Cleaned repository contracts and removed unused imports and unrelated method declarations.
-- Bound authentication, post, product, and user repository contracts to their implementations in `AppServiceProvider`.
+- Bound post, product, and user repository contracts to their implementations in `AppServiceProvider`; authentication now uses dedicated application actions.
 - Changed API controllers to request repository contracts rather than concrete repository classes.
 - Added application actions:
   - `Actions/Auth/AuthenticateUser` and `Actions/Auth/RegisterUser`: credential verification, safe registration, and token issuance.
@@ -33,7 +33,7 @@
 - Updated the stale-admin test to exercise the extracted role-change action.
 - Documented the application-action boundary in ADR 0002.
 
-## Deferred cleanup
+## Safe cleanup completed
 
 - Created and verified a recovery branch, `backup/phase-2-pre-cleanup`, before the cleanup batch. (A formal backup tag is still not available through the current repository integration.)
 - Normalized non-snake-case Dart file names, corrected the About Us controller typo, flattened the nested user service directory, normalized Contact binding/controller directory names, and moved the post list card into its owning feature.

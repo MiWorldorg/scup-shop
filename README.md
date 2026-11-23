@@ -1,83 +1,153 @@
-# Sculpture Shop
+# Scup-Shop
 
-Sculpture Shop is a responsive storefront and admin dashboard built as a university web development project. The client is written in Flutter, and a Laravel REST API provides product, post, user, and authentication endpoints.
+> A portfolio-focused sculpture storefront and editorial platform with a responsive Flutter client and a Laravel API for catalog and content administration.
 
-The existing visual design, colors, spacing, and page structure are retained. The interface copy is in English, with a display serif for major headings and a sans serif for body text.
+**Role:** Solo developer · **Period:** Not specified · **Status:** In development
 
-## Features
+**Links:** [Private GitHub repository](https://github.com/MiWorldorg/Scup-Shop) · Live demo: not deployed · Screenshots: pending final runtime capture
 
-- Responsive home page, product catalog, blog, gallery, and contact page
-- Product, post, and user management screens
-- Laravel JSON API with Laravel Passport authentication
-- MySQL schema managed through Laravel migrations
+> This repository is private. No CI badge is shown because a CI workflow has not yet been added. The project is not licensed for redistribution; no LICENSE file is included by owner decision.
 
-## Repository layout
+---
 
-```text
-sculpture-shop/
-├── backend/             # Laravel API
-├── docs/                # Project and database notes
-└── frontend/            # Flutter application
-```
+## 1. Problem
 
-See [the architecture notes](docs/architecture.md) and [database guide](docs/database.md) for more detail.
+Independent sculpture and art collections need a clear way to present individual pieces and related editorial content, while keeping catalog and publishing tasks manageable. Scup-Shop explores that experience for visitors and a small administrator team without pretending to be a complete commerce platform.
 
-## Requirements
+## 2. Solution
 
-- PHP 8.3–8.5, Composer, and the PHP `sodium` and `pdo_mysql` extensions
-- MySQL 8 or MariaDB
-- Flutter 3.32 or later with Dart 3.8 or later
+Scup-Shop combines a public Flutter storefront with a Laravel 13 JSON API and an administrator area.
 
-## Run the API
+- Browse a sculpture catalog with search, category filters, stock information, and pagination.
+- Read published editorial posts.
+- Explore the brand, gallery, and contact information.
+- Sign in to the protected admin area to manage products, posts, and user roles.
+- Submit a contact message through the Flutter form to a rate-limited Laravel endpoint. The endpoint uses the configured Laravel mail transport; actual email delivery still requires deployment-specific SMTP settings and final verification.
 
-```bash
-cd backend
-cp .env.example .env
-composer install
-php artisan key:generate
-```
+**Explicit scope:** cart, checkout, order placement, and payment processing are not implemented. Legacy database tables for those concepts remain in the schema and are documented as unused by the current user-facing flows.
 
-Create a MySQL database named `sculpture_shop`, then update the `DB_*` values in `.env`. Run the migrations and prepare Passport:
+## 3. Screenshots / Demo
 
-```bash
-php artisan migrate --seed
-php artisan passport:install
-php artisan serve
-```
+No screenshots are published yet. Final captures will be added after the agreed Android, Web, Windows, and Linux visual review and runtime QA. A live demo is not currently deployed.
 
-The API is available at `http://127.0.0.1:8000/api/v1/`. To seed a local administrator account, set a private `DEMO_ADMIN_PASSWORD` value in `backend/.env` before running `php artisan migrate --seed`. The local admin email is `admin@example.test`; use it to open `/admin/login` in the Flutter app. The demo account is created only in the local environment.
+## 4. Architecture
 
-## Run the Flutter app
+    Visitor / Admin
+          |
+          v
+    Flutter client
+          | HTTPS JSON /api/v1
+          v
+    Laravel 13 API ---------> Configured mail transport
+          |
+          v
+        MySQL
+
+- **Frontend:** Flutter / Dart, GetX for navigation, state, and dependency composition.
+- **Backend:** Laravel 13 JSON API, Laravel Passport bearer-token authentication.
+- **Database:** MySQL, managed by Laravel migrations and seeders.
+- **Email:** Laravel Mail transport, configured through environment variables.
+- **Platforms targeted:** Android, Web, Windows, and Linux. Platform builds and runtime behavior remain subject to final QA.
+
+See [architecture](docs/architecture.md), [database](docs/database.md), and [API reference](docs/api.md).
+
+## 5. Key Decisions & Trade-offs
+
+- **One Flutter codebase:** shared screens and responsive layouts reduce duplicated UI work across the agreed targets; platform-specific plugins still require platform validation.
+- **GetX composition and state:** GetX provides routing, bindings, and feature controllers in one consistent approach; adding a second state framework would increase maintenance cost.
+- **Laravel actions for writes and repositories for reads:** multi-row write workflows and transaction boundaries stay out of HTTP controllers, while read queries remain reusable and paginated.
+- **Portfolio scope rather than checkout:** catalog, editorial, administration, and contact demonstrate the intended product surface without presenting incomplete order/payment tables as a working commerce flow.
+- **Whole-dollar USD demo prices:** sample product prices are explicit portfolio values, not converted legacy prices or market valuations.
+
+Decision records are in [docs/decisions](docs/decisions/).
+
+## 6. Challenges & How I Solved Them
+
+- **Mixed responsibility in API code:** separated validation, controllers, application actions, repository contracts, and API resources.
+- **Inconsistent client dependencies:** introduced a shared API client and an application composition root so feature services use one transport configuration.
+- **Responsive admin controls:** adapted navigation and list actions for narrow screens, and added bundled-asset selection with previews rather than implying arbitrary file upload support.
+- **Legacy schema beyond current scope:** kept unused order/cart tables documented instead of exposing non-working checkout features.
+
+## 7. What I'd Improve Next
+
+- Complete automated test coverage, static analysis, and clean platform builds for all agreed targets.
+- Configure a real mail provider and verify contact delivery end to end.
+- Capture final screenshots and deploy a reviewable demo after the runtime and security checks.
+- Consider a transactional commerce workflow only as a separately scoped future phase.
+
+## 8. Tech Stack
+
+Flutter · Dart · GetX · Laravel 13 · PHP · Laravel Passport · MySQL · REST API
+
+## 9. Getting Started
+
+### Requirements
+
+- PHP 8.3–8.5 with sodium, pdo_mysql, and pdo_sqlite for the backend test suite.
+- Composer.
+- MySQL 8 or a compatible MariaDB release.
+- Flutter 3.32+ and Dart 3.8+.
+- Android, Chrome/Web, Windows, or Linux tooling for the target you intend to run.
+
+### Configure and run the API
+
+1. Create a MySQL database named sculpture_shop.
+2. Configure the backend environment:
+
+    cd backend
+    cp .env.example .env
+    composer install
+    php artisan key:generate
+
+3. Set DB_* values in backend/.env. For local admin access, set a private DEMO_ADMIN_PASSWORD before seeding. The seeder only creates demo accounts in the local environment.
+4. Run migrations, seed the demo catalog, prepare Passport, and start Laravel:
+
+    php artisan migrate --seed
+    php artisan passport:install
+    php artisan serve
+
+The API base path is http://127.0.0.1:8000/api/v1/.
+
+### Configure and run Flutter
 
 In a second terminal:
 
-```bash
-cd frontend
-flutter pub get
-flutter run -d chrome
-```
+    cd frontend
+    flutter pub get
+    flutter run -d chrome
 
-The default API address is `http://127.0.0.1:8000/api/v1/`. To point the client at another API, pass its base URL at build or run time:
+The default API URL is configured in frontend/lib/core/api/url.dart. Override it when needed:
 
-```bash
-flutter run -d chrome --dart-define=API_BASE_URL=https://api.example.com/api/v1/
-```
+    flutter run -d chrome --dart-define=API_BASE_URL=https://api.example.com/api/v1/
 
-The base URL must end with `/`. Android emulators use `http://10.0.2.2:8000/api/v1/` by default. For a physical device, pass an API address reachable on its network.
+The URL must end with /. Android emulators generally need to reach the host through 10.0.2.2; physical devices need a host address reachable on their network. For Windows and Linux, use the API host reachable from that machine.
 
-## API routes
+### Contact email configuration
 
-Public catalog routes:
+To enable the contact mail workflow, configure CONTACT_TO_ADDRESS and valid MAIL_* values in backend/.env. The committed .env.example contains placeholders, not working credentials. The endpoint returns a service-unavailable response when the destination is missing or sending fails. SMTP delivery has not yet been verified.
 
-- `GET /api/v1/product`
-- `GET /api/v1/post`
+### Tests and quality checks
 
-Management routes are grouped under `/api/v1/admin/` for products, posts, and users; they require an administrator bearer token. The Flutter client provides an Admin sign in link in the storefront footer. For local development, sign in with the seeded demo administrator described above. In other environments, create an account through the registration API, then promote its `users.role` to `admin` using the setup instructions in [backend/README.md](backend/README.md). The Users & roles screen can assign or remove administrator access.
+Per the project owner's workflow, the complete test, formatter, analyzer, and build pass is deferred until implementation phases are complete. Do not interpret the absence of a failing result as a passing result. The final commands and coverage plan are tracked in the master checklist.
 
-## Typography
+## 10. Project Structure
 
-The Flutter theme uses Noto Serif Display for a cinematic feel in large headings and Roboto for body copy. The font's SIL Open Font License is included with the font in `frontend/assets/fonts/NotoSerifDisplay/`.
+    Scup-Shop/
+    ├── backend/                 # Laravel API, actions, requests, resources, migrations
+    ├── frontend/                # Flutter app, features, shared UI, assets
+    ├── docs/
+    │   ├── decisions/           # Architecture decision records
+    │   ├── images/              # Final portfolio screenshots (to be captured)
+    │   ├── api.md               # Endpoint reference
+    │   ├── architecture.md      # Runtime and dependency architecture
+    │   └── database.md          # Schema and ER diagram
+    ├── MASTER_CHECKLIST.md      # Phase plan and acceptance tracking
+    └── portfolio-project-standard.md
 
-## Project status
+## 11. What I Learned
 
-This repository contains the application source, migrations, demo product seed data, and setup notes. Local credentials, dependency caches, generated build output, and the old database export are excluded. The blog starts empty and can be populated through its database tables.
+The implementation provides practical work across Flutter responsive UI, dependency composition, API contract design, Laravel authorization and transaction boundaries, relational data integrity, and documenting the limits of a legacy schema. The final quality and platform claims remain open until the planned verification phase is complete.
+
+## License
+
+No license file is included. The repository remains private and reuse or redistribution is not granted. Licensing can be revisited after ownership and third-party asset/content rights are reviewed.

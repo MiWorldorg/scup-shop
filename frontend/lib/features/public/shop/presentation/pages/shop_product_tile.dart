@@ -169,7 +169,7 @@ class ShopProductsTile extends StatelessWidget {
         ),
         const SizedBox(height: 18),
         Text(
-          '${PriceFormatter.amount(product.price)} Toman',
+          '${PriceFormatter.amount(product.price)} USD',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: colors.primary,
             fontWeight: FontWeight.w700,

@@ -35,10 +35,12 @@
 
 ## Deferred cleanup
 
-- The legacy empty landing repository/service files and several non-standard file/folder names remain pending. They will not be deleted or renamed until a verified backup tag is available, as required by the repository safety checklist.
-- Authentication token issuance/registration remains in `AuthRepositoryApi`; extracting it into dedicated authentication actions is a follow-up.
-- Some feature screens/controllers may still need additional separation after the full codebase audit.
-- No mass folder rename or database table/column rename was performed.
+- Created and verified a recovery branch, `backup/phase-2-pre-cleanup`, before the cleanup batch. (A formal backup tag is still not available through the current repository integration.)
+- Normalized non-snake-case Dart file names, corrected the About Us controller typo, flattened the nested user service directory, normalized Contact binding/controller directory names, and moved the post list card into its owning feature.
+- Removed the unused duplicate user repository contract, duplicate user card, and empty landing data-layer scaffolding.
+- Extracted authentication registration/token issuance into `AuthenticateUser` and `RegisterUser`; active auth routes no longer use the legacy auth repository.
+- Kept the six feature `data/entity/` directories consistently as the current DTO/entity namespace rather than performing a broader rename with no functional benefit.
+- No database table/column rename was performed.
 
 ## Final QA gates (deferred)
 

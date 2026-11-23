@@ -297,6 +297,29 @@ class CoreIntegrityTest extends TestCase
         ]);
     }
 
+    public function test_stale_admin_actor_cannot_change_roles_after_demotion(): void
+    {
+        $actor = User::factory()->create(['role' => 'admin']);
+        $target = User::factory()->create(['role' => 'user']);
+
+        DB::table('users')->where('id', $actor->id)->update(['role' => 'user']);
+
+        $request = Request::create('/api/v1/admin/user/role', 'PUT', [
+            'id' => $target->id,
+            'role' => 'admin',
+        ]);
+        $request->setUserResolver(fn () => $actor);
+
+        $response = app(\App\Http\Controllers\Admin\UserController::class)
+            ->updateRole($request);
+
+        $this->assertSame(403, $response->getStatusCode());
+        $this->assertDatabaseHas('users', [
+            'id' => $target->id,
+            'role' => 'user',
+        ]);
+    }
+
     public function test_last_administrator_cannot_demote_themselves(): void
     {
         $admin = User::factory()->create(['role' => 'admin']);

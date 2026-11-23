@@ -43,6 +43,9 @@ class CoreIntegrityTest extends TestCase
     public function test_admin_api_rejects_missing_and_non_admin_tokens(): void
     {
         $this->getJson('/api/v1/admin/product')->assertUnauthorized();
+        $this->withHeader('Authorization', 'Bearer invalid-token')
+            ->getJson('/api/v1/admin/product')
+            ->assertUnauthorized();
 
         $customer = User::factory()->create(['role' => 'user']);
         Passport::actingAs($customer, [], 'api');
@@ -214,6 +217,50 @@ class CoreIntegrityTest extends TestCase
 
         $this->assertDatabaseHas('products', ['id' => $product->id]);
         $this->assertDatabaseHas('product_inventories', ['id' => $inventory->id]);
+    }
+
+    public function test_admin_can_change_another_users_role(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $customer = User::factory()->create(['role' => 'user']);
+        Passport::actingAs($admin, [], 'api');
+
+        $this->putJson('/api/v1/admin/user/role', [
+            'id' => $customer->id,
+            'role' => 'admin',
+        ])->assertOk()->assertJsonPath('data.role', 'admin');
+
+        $this->assertDatabaseHas('users', [
+            'id' => $customer->id,
+            'role' => 'admin',
+        ]);
+    }
+
+    public function test_product_creation_creates_a_dedicated_zero_stock_inventory(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $category = ProductCategory::create([
+            'name' => 'Collectibles',
+            'desc' => 'Small art objects.',
+        ]);
+        Passport::actingAs($admin, [], 'api');
+
+        $response = $this->postJson('/api/v1/admin/product/create', [
+            'name' => 'Zero stock item',
+            'desc' => 'A product with no available stock.',
+            'sku' => 'ZERO-STOCK-001',
+            'category_id' => $category->id,
+            'quantity' => 0,
+            'price' => 250,
+        ]);
+
+        $response->assertCreated();
+        $inventoryId = $response->json('data.inventory_id');
+        $this->assertNotNull($inventoryId);
+        $this->assertDatabaseHas('product_inventories', [
+            'id' => $inventoryId,
+            'quantity' => 0,
+        ]);
     }
 
     public function test_last_administrator_cannot_demote_themselves(): void

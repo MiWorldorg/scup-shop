@@ -7,7 +7,7 @@ import 'package:sculpture_shop/features/admin_panel/products/data/repository/pro
 import 'package:sculpture_shop/features/admin_panel/products/data/service/products_list_service.dart';
 import 'package:sculpture_shop/features/admin_panel/products/domain/repository/products_list_repository.dart';
 import 'package:sculpture_shop/features/admin_panel/users/data/repository/users_manage_repository_impl.dart';
-import 'package:sculpture_shop/features/admin_panel/users/data/service/service/users_manage_service.dart';
+import 'package:sculpture_shop/features/admin_panel/users/data/service/users_manage_service.dart';
 import 'package:sculpture_shop/features/admin_panel/users/domain/repository/users_manage_repository.dart';
 import 'package:sculpture_shop/features/authentication/data/repository/auth_repository_impl.dart';
 import 'package:sculpture_shop/features/authentication/data/service/auth_service.dart';

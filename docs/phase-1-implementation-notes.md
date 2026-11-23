@@ -44,7 +44,7 @@ The agreed product currency is USD, but the existing seed catalog stores values 
 
 ## 1.4 Cart, order, and payment schema
 
-The existing `cart_items`, `orders`, `order_items`, `shopping_sessions`, and `user_payments` tables are retained as legacy/incomplete schema. No complete cart, checkout, order, or payment API/UI flow was found in the reviewed implementation. They are not Phase 1 deliverables under the agreed portfolio scope. Do not describe purchase or payment as functional, and do not delete these tables until actual database contents and dependencies have been checked.
+The existing `cart_items`, `orders`, `order_items`, `shopping_sessions`, and `user_payments` tables are retained as legacy/incomplete schema. The current schema has no price snapshot in order items, stores `shopping_sessions.total` as text, stores `orders.total` as an integer without an explicit currency, and has no unique cart-item constraint for a product within a session. `user_payments` stores only `payment_type` and `provider`; it does not define a payment-provider transaction lifecycle. No complete cart, checkout, order, or payment API/UI flow was found in the reviewed implementation. They are not Phase 1 deliverables under the agreed portfolio scope. Product deletion now returns HTTP 409 rather than removing a product referenced by legacy cart/order rows. Do not describe purchase or payment as functional, and do not delete these tables until actual database contents and dependencies have been checked.
 
 ## Verification still required
 

@@ -9,6 +9,7 @@ use App\Models\ProductCategory;
 use App\Models\ProductInventory;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\Passport;

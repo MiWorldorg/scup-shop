@@ -21,7 +21,12 @@ class CreatePostRequest extends FormRequest
             'published' => ['nullable', 'date'],
             'summary' => ['required', 'string', 'max:1000'],
             'content' => ['required', 'string'],
-            'post_picture' => ['nullable', 'string', 'max:255'],
+            'post_picture' => [
+                'nullable',
+                'string',
+                'max:255',
+                'regex:/^assets\\/images\\/posts\\/[A-Za-z0-9 _.-]+\\.(png|jpe?g|webp)$/i',
+            ],
         ];
     }
 }

@@ -31,6 +31,15 @@ class AppBreakpoints {
   static const double contentMaxWidth = 1440;
 }
 
+class AppElevation {
+  AppElevation._();
+
+  static const double flat = 0;
+  static const double subtle = 1;
+  static const double raised = 3;
+  static const double overlay = 8;
+}
+
 class AppMotion {
   AppMotion._();
 

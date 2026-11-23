@@ -271,7 +271,7 @@ Implementation is available for review in [draft PR #4](https://github.com/MiWor
 
 - Added semantic design colors, expanded typography, shared layout/motion tokens, responsive gutters, and Material 3 component states.
 - Updated the public storefront, editorial pages, gallery motion preferences, brand story, footer, and mobile/desktop navigation.
-- Added public product search/category filtering and pagination; added public blog pagination.
+- Added public product search/category filtering, stock availability, grouped-digit price formatting, and pagination; added public blog pagination.
 - Added server-side search to admin product and post lists, responsive admin navigation/layouts, compact post actions, and asset previews.
 - Connected the contact form to a rate-limited Laravel endpoint and configurable mail transport.
 - Added implementation detail and runtime configuration notes in `docs/phase-3-implementation-notes.md`.

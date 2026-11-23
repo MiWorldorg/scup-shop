@@ -126,7 +126,9 @@ class ShopProductsTile extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          product.productId == 1 ? 'SCULPTURE' : 'COLLECTIBLE',
+          product.categoryName.isNotEmpty
+              ? product.categoryName.toUpperCase()
+              : 'ARTWORK',
           style: Theme.of(context).textTheme.labelSmall?.copyWith(
             color: colors.primary,
             letterSpacing: 1.4,

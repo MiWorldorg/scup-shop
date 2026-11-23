@@ -437,7 +437,7 @@ These are observations from the current repository snapshot, not claims that tes
 - [ ] Obtain approved USD product prices or a conversion policy before changing the currently Toman-denominated seed/catalog values.
 - [ ] Re-run all acceptance criteria and only then mark Phase 1 complete.
 
-**Current phase status:** Implementation work is present on the working branch; Phase 1 is not accepted as complete because runtime verification is unavailable in the current environment.
+**Current phase status:** Implementation work is present on the working branch; runtime test execution is intentionally deferred to final QA by owner instruction. Phase 1 remains unaccepted until then.
 
 - **Review handoff:** draft PR #2, `work/phase-1-core-integrity-review` (single squashed implementation commit). The earlier 101-commit draft was closed as superseded; the original work branch is retained for traceability.
 
@@ -462,10 +462,12 @@ These are observations from the current repository snapshot, not claims that tes
 
 ### Remaining before Phase 2 acceptance
 
-- [ ] Complete naming/path normalization after a verified backup tag is available.
-- [ ] Review and remove unused empty landing data-layer scaffolding after reference/history checks.
-- [ ] Extract authentication registration/token issuance from the remaining auth repository.
-- [ ] Audit remaining service/repository/controller construction patterns across every feature.
+- [x] Create and verify a recovery branch (`backup/phase-2-pre-cleanup`) before the naming/path cleanup batch. A formal Git tag remains unavailable through the current repository integration.
+- [x] Normalize Dart file names and feature directory names; move the post list card to its owning feature; flatten the user service directory; remove duplicate/empty legacy user and landing abstractions.
+- [x] Extract authentication login/registration/token issuance into focused application actions.
+- [x] Audit and remove direct page-level controller/repository construction in the main landing, shop/blog, admin product, admin post, and admin user flows; shared services use one API client.
+- [x] Extract product, post, and role-management write use cases into application actions; keep repository contracts focused on read queries.
+- [x] Standardize API validation/authentication/authorization/not-found error envelopes and explicit API Resources for product, post, and user list responses.
 - [ ] Execute the full final QA suite after all implementation phases, as requested by the owner.
 
-**Current phase status:** Main architecture boundaries and dependency composition are implemented on the working branch. Phase 2 remains unaccepted until the remaining cleanup and final QA gates are complete.
+**Current phase status:** Architecture and naming cleanup implementation is present on the working branch. Phase 2 remains unaccepted until final QA and runtime acceptance are completed.

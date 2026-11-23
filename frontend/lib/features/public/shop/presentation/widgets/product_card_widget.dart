@@ -86,7 +86,7 @@ class ProductCart extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      '\${PriceFormatter.amount(productModel.price)}',
+                      '\$${PriceFormatter.amount(productModel.price)}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(

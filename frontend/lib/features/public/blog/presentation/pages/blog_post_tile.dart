@@ -74,7 +74,7 @@ class BlogPostsTile extends StatelessWidget {
                           const SizedBox(height: 12),
                           Text(
                             post.title,
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context).textTheme.headlineMedium,
                           ),
                           const SizedBox(height: 12),
                           Text(

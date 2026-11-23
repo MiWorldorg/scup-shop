@@ -2,11 +2,11 @@
 
 namespace App\Repository\api\Contract;
 
-use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface PostRepositoryInterfaceApi
 {
-    public function selectPublished(): JsonResponse;
+    public function selectPublished(): LengthAwarePaginator;
 
-    public function selectAll(): JsonResponse;
+    public function selectAll(): LengthAwarePaginator;
 }

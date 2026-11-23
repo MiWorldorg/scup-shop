@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sculpture_shop/core/formatters/price_formatter.dart';
 import 'package:get/get.dart';
 import 'package:sculpture_shop/core/constants/routes.dart';
 import 'package:sculpture_shop/core/variable/page_padding_var.dart';
@@ -168,7 +169,7 @@ class ShopProductsTile extends StatelessWidget {
         ),
         const SizedBox(height: 18),
         Text(
-          '${product.price} Toman',
+          '${PriceFormatter.amount(product.price)} Toman',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: colors.primary,
             fontWeight: FontWeight.w700,

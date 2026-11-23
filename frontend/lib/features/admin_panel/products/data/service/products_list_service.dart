@@ -6,18 +6,12 @@ import 'package:sculpture_shop/core/api/url.dart';
 import 'package:sculpture_shop/features/admin_panel/products/data/entity/products_list_response.dart';
 
 class ProductListService extends GetConnect {
-  Future<List<ProductListResponse>> call(int page) async {
-    try {
-      final url = Uri.parse(
-        '${BaseUrl.apiUrlV1}${EndPoints.productsList}',
-      ).replace(queryParameters: {'page': page.toString()});
-      final response = await get(url.toString(), headers: ApiSession.headers);
-      return ApiResponse.list(
-        response,
-      ).map(ProductListResponse.fromJson).toList(growable: false);
-    } catch (error) {
-      rethrow;
-    }
+  Future<ApiPaginatedResult> call(int page) async {
+    final url = Uri.parse(
+      '${BaseUrl.apiUrlV1}${EndPoints.productsList}',
+    ).replace(queryParameters: {'page': page.toString()});
+    final response = await get(url.toString(), headers: ApiSession.headers);
+    return ApiResponse.paginated(response);
   }
 
   Future<List<ProductCategoryResponse>> getCategories() async {

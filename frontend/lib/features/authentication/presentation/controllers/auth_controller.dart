@@ -57,7 +57,7 @@ class AuthController extends GetxController {
 
       if (role != 'admin') {
         try {
-          await repository.logout();
+          await repository.logout(token: token);
         } catch (_) {
           // Keep the administrator sign-in error clear if revocation fails.
         }

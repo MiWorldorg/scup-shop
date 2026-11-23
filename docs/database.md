@@ -4,19 +4,23 @@ Laravel migrations in backend/database/migrations/ are the source of truth for t
 
 ## Entity relationship diagram
 
-    users 1 ----- * user_addresses
-      |  \
-      |   \----- * user_payments 1 ----- * orders 1 ----- * order_items * ----- 1 products
-      |                                  ^
-      |                                  |
-      |                             shopping_sessions 1 ----- * cart_items * ----- 1 products
-      |
-      \----- * posts * ----- 1 post_categories
+\`\`\`mermaid
+erDiagram
+    USERS ||--o{ USER_ADDRESSES : has
+    USERS ||--o{ USER_PAYMENTS : has
+    USERS ||--o{ POSTS : authors
+    USERS ||--o{ SHOPPING_SESSIONS : owns
+    POST_CATEGORIES ||--o{ POSTS : categorizes
+    PRODUCT_CATEGORIES ||--o{ PRODUCTS : categorizes
+    PRODUCT_INVENTORIES ||--|| PRODUCTS : stocks
+    USER_PAYMENTS ||--o{ ORDERS : pays_for
+    SHOPPING_SESSIONS ||--o{ CART_ITEMS : contains
+    PRODUCTS ||--o{ CART_ITEMS : referenced_by
+    ORDERS ||--o{ ORDER_ITEMS : contains
+    PRODUCTS ||--o{ ORDER_ITEMS : referenced_by
+\`\`\`
 
-    product_categories 1 ----- * products * ----- 1 product_inventories
-    (one-to-one inventory ownership is enforced by a unique constraint)
-
-The diagram shows the legacy order/cart schema relationships as well as active catalog and editorial relationships. It does not imply that cart, checkout, orders, or payment workflows are implemented.
+The diagram shows both active catalog/editorial relationships and legacy order/cart relationships. It does not imply that cart, checkout, orders, or payment workflows are implemented. The legacy admins table is not the active post-author identity table after migration 2026_11_23_000001.
 
 ## Application tables
 

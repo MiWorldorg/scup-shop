@@ -79,6 +79,9 @@ class PostsManageController extends GetxController {
       'id': post.id,
       'published': published ? DateTime.now().toUtc().toIso8601String() : null,
     });
+    if (!published && posts.length == 1 && currentPage.value > 1) {
+      currentPage.value--;
+    }
     await fetchLatestPosts();
   }
 

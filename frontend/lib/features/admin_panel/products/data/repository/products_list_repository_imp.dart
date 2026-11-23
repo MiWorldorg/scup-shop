@@ -8,7 +8,8 @@ class ProductListRepositoryImpl implements ProductListRepository {
   ProductListRepositoryImpl({required this.service});
 
   @override
-  Future<ApiPaginatedResult> getProductsList(int page) => service.call(page);
+  Future<ApiPaginatedResult> getProductsList(int page, {String? search}) =>
+      service.call(page, search: search);
 
   @override
   Future<List<ProductCategoryResponse>> getCategories() => service.getCategories();

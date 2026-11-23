@@ -27,7 +27,7 @@ class ProductSeeder extends Seeder
                     'sku' => 'SC-THINK-001',
                     'image' => 'assets/images/products/marble-think.png',
                     'category_id' => $sculptures->id,
-                    'price' => 24500000,
+                    'price' => 1250,
                     'quantity' => 8,
                 ],
                 [
@@ -36,7 +36,7 @@ class ProductSeeder extends Seeder
                     'sku' => 'SC-SEAT-002',
                     'image' => 'assets/images/products/marble-sit.png',
                     'category_id' => $sculptures->id,
-                    'price' => 18900000,
+                    'price' => 890,
                     'quantity' => 5,
                 ],
                 [
@@ -45,7 +45,7 @@ class ProductSeeder extends Seeder
                     'sku' => 'SC-GREEK-003',
                     'image' => 'assets/images/products/ancient-greek -statues.png',
                     'category_id' => $sculptures->id,
-                    'price' => 32000000,
+                    'price' => 1650,
                     'quantity' => 3,
                 ],
                 [
@@ -54,7 +54,7 @@ class ProductSeeder extends Seeder
                     'sku' => 'CO-BUTTERFLY-004',
                     'image' => 'assets/images/products/butterfly-object.png',
                     'category_id' => $collectibles->id,
-                    'price' => 6800000,
+                    'price' => 185,
                     'quantity' => 14,
                 ],
                 [
@@ -63,7 +63,7 @@ class ProductSeeder extends Seeder
                     'sku' => 'CO-INFINITY-005',
                     'image' => 'assets/images/products/infinity-stone.png',
                     'category_id' => $collectibles->id,
-                    'price' => 9250000,
+                    'price' => 240,
                     'quantity' => 10,
                 ],
             ];

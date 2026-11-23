@@ -23,7 +23,11 @@ class HeaderNavbarDeskTop extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       child: Row(
         children: [
-          Image.asset('assets/images/SpcLogo.png', height: 62),
+          Image.asset(
+            'assets/images/SpcLogo.png',
+            height: 62,
+            semanticLabel: 'Scup-Shop',
+          ),
           const SizedBox(width: 20),
           Expanded(
             child: SingleChildScrollView(
@@ -39,11 +43,11 @@ class HeaderNavbarDeskTop extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Tooltip(
-            message: 'Open dashboard',
+            message: 'Open admin sign in',
             child: OutlinedButton.icon(
-              onPressed: () => Get.toNamed(AppRoutes.dashboard),
+              onPressed: () => Get.toNamed(AppRoutes.adminLogin),
               icon: const Icon(Ionicons.person_outline, size: 18),
-              label: const Text('Dashboard'),
+              label: const Text('Admin sign in'),
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,

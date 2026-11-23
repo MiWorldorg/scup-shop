@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,9 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 Route::prefix('v1')->group(function () {
+    Route::post('/contact', [ContactController::class, 'store'])
+        ->middleware('throttle:5,1');
+
     Route::get('/me', function (Request $request) {
         return response()->json([
             'code' => 1,
@@ -61,6 +65,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::get('/post', [PostController::class, 'selectPublic']);
+    Route::get('/product/categories', [ProductController::class, 'categories']);
     Route::get('/product', [ProductController::class, 'select']);
 });
 

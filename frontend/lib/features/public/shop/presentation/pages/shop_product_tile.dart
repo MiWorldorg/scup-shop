@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sculpture_shop/core/formatters/price_formatter.dart';
 import 'package:get/get.dart';
 import 'package:sculpture_shop/core/constants/routes.dart';
 import 'package:sculpture_shop/core/variable/page_padding_var.dart';
@@ -110,6 +111,7 @@ class ShopProductsTile extends StatelessWidget {
       child: Image.asset(
         product.image,
         fit: BoxFit.contain,
+        semanticLabel: product.name,
         errorBuilder: (_, __, ___) => Icon(
           Icons.image_not_supported_outlined,
           size: 56,
@@ -125,7 +127,9 @@ class ShopProductsTile extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          product.productId == 1 ? 'SCULPTURE' : 'COLLECTIBLE',
+          product.categoryName.isNotEmpty
+              ? product.categoryName.toUpperCase()
+              : 'ARTWORK',
           style: Theme.of(context).textTheme.labelSmall?.copyWith(
             color: colors.primary,
             letterSpacing: 1.4,
@@ -133,7 +137,7 @@ class ShopProductsTile extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        Text(product.name, style: Theme.of(context).textTheme.bodyLarge),
+        Text(product.name, style: Theme.of(context).textTheme.headlineMedium),
         const SizedBox(height: 18),
         Text(
           'SKU  ${product.sku}',
@@ -141,9 +145,31 @@ class ShopProductsTile extends StatelessWidget {
             color: colors.onBackground.withOpacity(0.62),
           ),
         ),
-        const SizedBox(height: 22),
+        const SizedBox(height: 14),
+        Row(
+          children: [
+            Icon(
+              product.quantity > 0
+                  ? Icons.check_circle_outline_rounded
+                  : Icons.remove_circle_outline_rounded,
+              size: 18,
+              color: product.quantity > 0 ? colors.tertiary : colors.error,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              product.quantity > 0
+                  ? 'In stock · ${product.quantity} available'
+                  : 'Currently unavailable',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: product.quantity > 0 ? colors.tertiary : colors.error,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 18),
         Text(
-          '${product.price} Toman',
+          '\$${PriceFormatter.amount(product.price)}',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: colors.primary,
             fontWeight: FontWeight.w700,

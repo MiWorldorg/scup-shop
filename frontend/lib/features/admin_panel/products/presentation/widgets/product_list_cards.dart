@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sculpture_shop/core/formatters/price_formatter.dart';
 import 'package:sculpture_shop/features/admin_panel/products/data/entity/products_list_response.dart';
 
 class ProductListCard extends StatelessWidget {
@@ -36,6 +37,7 @@ class ProductListCard extends StatelessWidget {
                   : Image.asset(
                       product.image,
                       fit: BoxFit.contain,
+                      semanticLabel: product.name,
                       errorBuilder: (_, __, ___) => Icon(
                         Icons.inventory_2_outlined,
                         color: colors.primary,
@@ -64,7 +66,7 @@ class ProductListCard extends StatelessWidget {
                             if (product.categoryName.isNotEmpty)
                               product.categoryName,
                             'Stock ${product.quantity}',
-                            '${product.price} Toman',
+                            '\$${PriceFormatter.amount(product.price)}',
                           ]
                           .map(
                             (label) => Text(

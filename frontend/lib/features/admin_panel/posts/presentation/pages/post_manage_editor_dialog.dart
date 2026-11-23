@@ -14,6 +14,12 @@ class PostManageEditorDialog extends StatefulWidget {
 }
 
 class _PostManageEditorDialogState extends State<PostManageEditorDialog> {
+  static const _bundledCoverImages = [
+    'assets/images/posts/ferdosi-post.jpg',
+    'assets/images/posts/harrah-post.jpg',
+    'assets/images/posts/rostam-post.png',
+    'assets/images/posts/zahak-post.jpg',
+  ];
   final _formKey = GlobalKey<FormState>();
   final _controller = Get.find<PostsManageController>();
   late final TextEditingController _title;
@@ -54,7 +60,9 @@ class _PostManageEditorDialogState extends State<PostManageEditorDialog> {
     return AlertDialog(
       title: Text(widget.post == null ? 'Create post' : 'Edit post'),
       content: SizedBox(
-        width: 520,
+        width: MediaQuery.sizeOf(context).width < 560
+            ? MediaQuery.sizeOf(context).width - 48
+            : 520,
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -72,7 +80,64 @@ class _PostManageEditorDialogState extends State<PostManageEditorDialog> {
                 const SizedBox(height: 12),
                 _field(_content, 'Article content', maxLines: 8),
                 const SizedBox(height: 12),
-                _field(_image, 'Image path (optional)', required: false),
+                DropdownButtonFormField<String>(
+                  value: _bundledCoverImages.contains(_image.text)
+                      ? _image.text
+                      : null,
+                  decoration: const InputDecoration(
+                    labelText: 'Choose a bundled cover image',
+                  ),
+                  items: _bundledCoverImages
+                      .map(
+                        (path) => DropdownMenuItem<String>(
+                          value: path,
+                          child: Text(
+                            path.split('/').last,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      )
+                      .toList(growable: false),
+                  onChanged: (value) {
+                    if (value != null) setState(() => _image.text = value);
+                  },
+                ),
+                const SizedBox(height: 14),
+                if (_image.text.trim().isNotEmpty) ...[
+                  Text(
+                    'Cover image preview',
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    height: 150,
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.outline,
+                      ),
+                    ),
+                    child: Image.asset(
+                      _image.text,
+                      fit: BoxFit.contain,
+                      semanticLabel: '${_title.text} cover image preview',
+                      errorBuilder: (_, __, ___) => const Center(
+                        child: Text('Asset preview unavailable'),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                ],
+                _field(
+                  _image,
+                  'Image path (optional)',
+                  required: false,
+                  onChanged: (_) => setState(() {}),
+                ),
                 const SizedBox(height: 8),
                 SwitchListTile.adaptive(
                   contentPadding: EdgeInsets.zero,
@@ -95,6 +160,8 @@ class _PostManageEditorDialogState extends State<PostManageEditorDialog> {
           ),
         ),
       ),
+      actionsOverflowDirection: VerticalDirection.up,
+      actionsOverflowButtonSpacing: 8,
       actions: [
         TextButton(
           onPressed: _isSaving ? null : () => Navigator.of(context).pop(false),
@@ -159,10 +226,12 @@ class _PostManageEditorDialogState extends State<PostManageEditorDialog> {
     String label, {
     int maxLines = 1,
     bool required = true,
+    ValueChanged<String>? onChanged,
   }) {
     return TextFormField(
       controller: controller,
       maxLines: maxLines,
+      onChanged: onChanged,
       validator: (value) {
         if (!required) return null;
         if (value == null || value.trim().isEmpty) {

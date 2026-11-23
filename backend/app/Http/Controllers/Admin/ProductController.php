@@ -11,12 +11,19 @@ use App\Http\Resources\ProductResource;
 use App\Models\ProductCategory;
 use App\Repository\api\Contract\ProductRepositoryInterfaceApi;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function select(ProductRepositoryInterfaceApi $products): JsonResponse
-    {
-        $data = ProductResource::collection($products->select())
+    public function select(
+        Request $request,
+        ProductRepositoryInterfaceApi $products
+    ): JsonResponse {
+        $categoryId = $request->integer('category_id') ?: null;
+        $search = trim($request->string('search')->toString());
+        $data = ProductResource::collection(
+            $products->select($categoryId, $search !== '' ? $search : null)
+        )
             ->response()
             ->getData(true);
 

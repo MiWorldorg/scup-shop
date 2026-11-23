@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sculpture_shop/core/api/api_response.dart';
 import 'package:sculpture_shop/features/admin_panel/products/domain/repository/products_list_repository.dart';
@@ -9,6 +10,8 @@ class ProductListController extends GetxController {
 
   final products = <ProductListResponse>[].obs;
   final categories = <ProductCategoryResponse>[].obs;
+  final searchController = TextEditingController();
+  final searchQuery = ''.obs;
   final currentPage = 1.obs;
   final lastPage = 1.obs;
   final isLoading = true.obs;
@@ -29,7 +32,12 @@ class ProductListController extends GetxController {
     isLoading.value = true;
     errorMessage.value = null;
     try {
-      final result = await repo.getProductsList(currentPage.value);
+      final result = await repo.getProductsList(
+        currentPage.value,
+        search: searchQuery.value.trim().isEmpty
+            ? null
+            : searchQuery.value.trim(),
+      );
       if (isClosed || version != _fetchVersion) return;
       products.assignAll(result.rows.map(ProductListResponse.fromJson));
       currentPage.value = result.currentPage;
@@ -40,6 +48,19 @@ class ProductListController extends GetxController {
     } finally {
       if (!isClosed && version == _fetchVersion) isLoading.value = false;
     }
+  }
+
+  Future<void> search(String value) async {
+    searchQuery.value = value.trim();
+    currentPage.value = 1;
+    await fetchLatestProduct();
+  }
+
+  Future<void> clearSearch() async {
+    searchController.clear();
+    searchQuery.value = '';
+    currentPage.value = 1;
+    await fetchLatestProduct();
   }
 
   Future<void> goToPage(int page) async {
@@ -61,6 +82,12 @@ class ProductListController extends GetxController {
     } finally {
       if (!isClosed) isLoadingCategories.value = false;
     }
+  }
+
+  @override
+  void onClose() {
+    searchController.dispose();
+    super.onClose();
   }
 
   Future<void> createProduct(Map<String, dynamic> product) async {

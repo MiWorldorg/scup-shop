@@ -6,5 +6,8 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface ProductRepositoryInterfaceApi
 {
-    public function select(): LengthAwarePaginator;
+    public function select(
+        ?int $categoryId = null,
+        ?string $search = null
+    ): LengthAwarePaginator;
 }

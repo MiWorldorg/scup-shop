@@ -46,6 +46,7 @@ class BlogPostsTile extends StatelessWidget {
                           child: Image.asset(
                             post.postPicture,
                             fit: BoxFit.cover,
+                            semanticLabel: post.title,
                             errorBuilder: (_, __, ___) => Container(
                               color: colors.background.withOpacity(0.5),
                               child: Icon(
@@ -73,7 +74,7 @@ class BlogPostsTile extends StatelessWidget {
                           const SizedBox(height: 12),
                           Text(
                             post.title,
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context).textTheme.headlineMedium,
                           ),
                           const SizedBox(height: 12),
                           Text(

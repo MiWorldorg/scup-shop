@@ -30,11 +30,11 @@ class DashboardWidget extends GetView<DashboardController> {
     ];
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(28),
+      padding: EdgeInsets.all(MediaQuery.sizeOf(context).width < 600 ? 16 : 28),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Dashboard', style: Theme.of(context).textTheme.bodyLarge),
+          Text('Dashboard', style: Theme.of(context).textTheme.headlineSmall),
           const SizedBox(height: 6),
           Text(
             'Manage your storefront from one place.',

@@ -1,17 +1,28 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
+/// Semantic colors for the Scup-Shop dark editorial design system.
 class AppColors {
-  // Light Theme Constants Colors
-  static const Color primary = Color(0xffFFE092);
-  static const Color whiteH =  Color(0xff282E34);
-  static const Color white = Color.fromARGB(255, 255, 255, 255);
-  static const Color secondary = Color(0xff078F8F);
-  static const Color surface = Color(0xffD2F6E1);
-  static const Color background = Color(0xff191D21);
-  static const Color error = Color.fromARGB(255, 186, 78, 78);
-  static const Color onPrimary = Color.fromARGB(255, 255, 255, 255);
-  static const Color onSecondary = Color.fromARGB(255, 255, 255, 255);
-  static const Color onSurface = Color.fromARGB(255, 255, 255, 255);
-  static const Color onBackground = Color.fromARGB(255, 255, 255, 255);
-  static const Color onError = Color.fromARGB(255, 255, 255, 255);
+  AppColors._();
+
+  static const Color primary = Color(0xFFE7BD68);
+  static const Color onPrimary = Color(0xFF171B1D);
+
+  static const Color secondary = Color(0xFF65BDB3);
+  static const Color onSecondary = Color(0xFF102322);
+
+  static const Color background = Color(0xFF111719);
+  static const Color surface = Color(0xFF20292D);
+  static const Color surfaceRaised = Color(0xFF293438);
+  static const Color whiteH = surface;
+  static const Color white = Color(0xFFF4F1E9);
+
+  static const Color textMuted = Color(0xFFB8C1BF);
+  static const Color border = Color(0xFF3A484B);
+  static const Color error = Color(0xFFE07878);
+  static const Color success = Color(0xFF83C99D);
+  static const Color warning = Color(0xFFE7BD68);
+
+  static const Color onSurface = white;
+  static const Color onBackground = white;
+  static const Color onError = Color(0xFF241313);
 }

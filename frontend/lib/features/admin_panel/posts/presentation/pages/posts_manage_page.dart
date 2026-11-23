@@ -15,32 +15,38 @@ class PostManagePage extends GetView<PostsManageController> {
     final colors = Theme.of(context).colorScheme;
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(28),
+        padding: EdgeInsets.all(MediaQuery.sizeOf(context).width < 600 ? 16 : 28),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
+            Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              runSpacing: 12,
               children: [
-                Expanded(
-                  child: Text(
-                    'Posts',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
+                Text(
+                  'Posts',
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
-                Obx(
-                  () => IconButton.filledTonal(
-                    tooltip: 'Refresh posts',
-                    onPressed: controller.isLoading.value
-                        ? null
-                        : controller.fetchLatestPosts,
-                    icon: const Icon(Icons.refresh_rounded),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                FilledButton.icon(
-                  onPressed: () => _showEditor(context),
-                  icon: const Icon(Icons.add_rounded),
-                  label: const Text('New post'),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Obx(
+                      () => IconButton.filledTonal(
+                        tooltip: 'Refresh posts',
+                        onPressed: controller.isLoading.value
+                            ? null
+                            : controller.fetchLatestPosts,
+                        icon: const Icon(Icons.refresh_rounded),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    FilledButton.icon(
+                      onPressed: () => _showEditor(context),
+                      icon: const Icon(Icons.add_rounded),
+                      label: const Text('New post'),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -52,6 +58,21 @@ class PostManagePage extends GetView<PostsManageController> {
               ),
             ),
             const SizedBox(height: 18),
+            TextField(
+              controller: controller.searchController,
+              textInputAction: TextInputAction.search,
+              onSubmitted: controller.search,
+              decoration: InputDecoration(
+                hintText: 'Search posts by title, slug, or summary',
+                prefixIcon: const Icon(Icons.search_rounded),
+                suffixIcon: IconButton(
+                  tooltip: 'Clear search',
+                  onPressed: controller.clearSearch,
+                  icon: const Icon(Icons.close_rounded),
+                ),
+              ),
+            ),
+            const SizedBox(height: 14),
             Obx(
               () => AsyncStateView(
                 isLoading: controller.isLoading.value,

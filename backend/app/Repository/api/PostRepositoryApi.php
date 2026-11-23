@@ -16,9 +16,17 @@ class PostRepositoryApi implements PostRepositoryInterfaceApi
             ->paginate(20);
     }
 
-    public function selectAll(): LengthAwarePaginator
+    public function selectAll(?string $search = null): LengthAwarePaginator
     {
         return Post::query()
+            ->when($search !== null && $search !== '', function ($query) use ($search) {
+                $query->where(function ($matches) use ($search) {
+                    $matches
+                        ->where('title', 'like', '%'.$search.'%')
+                        ->orWhere('slug', 'like', '%'.$search.'%')
+                        ->orWhere('summary', 'like', '%'.$search.'%');
+                });
+            })
             ->orderByDesc('created_at')
             ->paginate(20);
     }

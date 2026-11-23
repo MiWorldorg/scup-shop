@@ -176,6 +176,46 @@ class CoreIntegrityTest extends TestCase
         $this->assertDatabaseMissing('product_inventories', ['id' => $inventory->id]);
     }
 
+    public function test_product_with_legacy_cart_references_cannot_be_deleted(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $category = ProductCategory::create([
+            'name' => 'Sculptures',
+            'desc' => 'Sculpture products.',
+        ]);
+        $inventory = ProductInventory::create(['quantity' => 2]);
+        $product = Product::create([
+            'name' => 'Referenced sculpture',
+            'desc' => 'A retained cart item.',
+            'sku' => 'TEST-REFERENCED-001',
+            'image' => '',
+            'category_id' => $category->id,
+            'inventory_id' => $inventory->id,
+            'price' => 100,
+        ]);
+        $sessionId = DB::table('shopping_sessions')->insertGetId([
+            'user_id' => $admin->id,
+            'total' => '100',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        DB::table('cart_items')->insert([
+            'session_id' => $sessionId,
+            'product_id' => $product->id,
+            'quantity' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        Passport::actingAs($admin, [], 'api');
+
+        $this->deleteJson('/api/v1/admin/product/delete?id='.$product->id)
+            ->assertStatus(409);
+
+        $this->assertDatabaseHas('products', ['id' => $product->id]);
+        $this->assertDatabaseHas('product_inventories', ['id' => $inventory->id]);
+    }
+
     public function test_last_administrator_cannot_demote_themselves(): void
     {
         $admin = User::factory()->create(['role' => 'admin']);

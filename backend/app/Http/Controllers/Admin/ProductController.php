@@ -2,25 +2,28 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Admin\ManageProducts;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DeleteProductRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\ProductCategory;
 use App\Repository\api\Contract\ProductRepositoryInterfaceApi;
+use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
-    public function select(ProductRepositoryInterfaceApi $productRepositoryApi)
+    public function select(ProductRepositoryInterfaceApi $products): JsonResponse
     {
-        return $productRepositoryApi->select();
+        return $products->select();
     }
 
-    public function categories()
+    public function categories(): JsonResponse
     {
         return response()->json([
             'code' => 1,
-            'message' => 'Product categories',
+            'message' => 'Product categories.',
             'data' => ProductCategory::query()
                 ->select('id', 'name')
                 ->orderBy('name')
@@ -28,18 +31,51 @@ class ProductController extends Controller
         ]);
     }
 
-    public function insert(ProductRepositoryApi $productRepositoryApi, StoreProductRequest $request)
-    {
-        return $productRepositoryApi->insert($request);
+    public function insert(
+        StoreProductRequest $request,
+        ManageProducts $manageProducts
+    ): JsonResponse {
+        $product = $manageProducts->create($request->validated());
+
+        return response()->json([
+            'code' => 1,
+            'message' => 'Product created successfully.',
+            'data' => new ProductResource($product),
+        ], 201);
     }
 
-    public function destroy(ProductRepositoryApi $productRepositoryApi, Request $request)
-    {
-        return $productRepositoryApi->destroy($request);
+    public function destroy(
+        DeleteProductRequest $request,
+        ManageProducts $manageProducts
+    ): JsonResponse {
+        $deleted = $manageProducts->delete((int) $request->validated('id'));
+
+        if (!$deleted) {
+            return response()->json([
+                'code' => 2,
+                'message' => 'This product is referenced by legacy cart or order records and cannot be deleted.',
+                'data' => null,
+            ], 409);
+        }
+
+        return response()->json([
+            'code' => 1,
+            'message' => 'Product deleted successfully.',
+            'data' => true,
+        ]);
     }
 
-    public function update(ProductRepositoryApi $productRepositoryApi, UpdateProductRequest $request)
-    {
-        return $productRepositoryApi->update($request);
+    public function update(
+        UpdateProductRequest $request,
+        ManageProducts $manageProducts
+    ): JsonResponse {
+        $validated = $request->validated();
+        $product = $manageProducts->update((int) $validated['id'], $validated);
+
+        return response()->json([
+            'code' => 1,
+            'message' => 'Product updated successfully.',
+            'data' => new ProductResource($product),
+        ]);
     }
 }

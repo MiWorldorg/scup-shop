@@ -106,6 +106,39 @@ class ShopPage extends GetView<ShopController> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 16),
+                Obx(
+                  () => Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        tooltip: 'Previous page',
+                        onPressed: controller.currentPage.value <= 1 ||
+                                controller.isLoading.value
+                            ? null
+                            : () => controller.goToPage(
+                                controller.currentPage.value - 1,
+                              ),
+                        icon: const Icon(Icons.chevron_left_rounded),
+                      ),
+                      Text(
+                        'Page ${controller.currentPage.value} of ${controller.lastPage.value}',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      IconButton(
+                        tooltip: 'Next page',
+                        onPressed: controller.currentPage.value >=
+                                    controller.lastPage.value ||
+                                controller.isLoading.value
+                            ? null
+                            : () => controller.goToPage(
+                                controller.currentPage.value + 1,
+                              ),
+                        icon: const Icon(Icons.chevron_right_rounded),
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 36),
                 const Footer(),
               ],

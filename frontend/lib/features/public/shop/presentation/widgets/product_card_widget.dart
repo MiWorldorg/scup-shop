@@ -15,6 +15,10 @@ class ProductCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final categoryLabel = productModel.categoryName.trim().isNotEmpty
+        ? productModel.categoryName.toUpperCase()
+        : 'UNCATEGORIZED';
+
     return Material(
       color: Theme.of(context).cardColor,
       borderRadius: BorderRadius.circular(20),
@@ -60,11 +64,7 @@ class ProductCart extends StatelessWidget {
                   borderRadius: BorderRadius.circular(99),
                 ),
                 child: Text(
-                  productModel.categoryName.isNotEmpty
-                      ? productModel.categoryName.toUpperCase()
-                      : (productModel.productId == 1
-                            ? 'SCULPTURE'
-                            : 'COLLECTIBLE'),
+                  categoryLabel,
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     color: colors.primary,
                     letterSpacing: 0.8,

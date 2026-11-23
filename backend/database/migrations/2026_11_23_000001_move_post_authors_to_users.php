@@ -9,7 +9,6 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // Keep the existing admin records as the source for migrating post authors.
         $authorMap = [];
         foreach (DB::table('admins')->orderBy('id')->get() as $admin) {
             $user = DB::table('users')->where('email', $admin->email)->first();
@@ -107,6 +106,7 @@ return new class extends Migration
         }
 
         DB::table('posts')->whereNull('published')->update(['published' => now()]);
+        DB::table('posts')->whereNull('post_picture')->update(['post_picture' => '']);
 
         Schema::table('posts', function (Blueprint $table) {
             $table->foreign('author_id')->references('id')->on('admins');
@@ -114,4 +114,4 @@ return new class extends Migration
             $table->string('post_picture')->nullable(false)->change();
         });
     }
-};
+}

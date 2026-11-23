@@ -26,7 +26,13 @@ class AsyncStateView extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 64),
         child: Center(
-          child: CircularProgressIndicator(color: theme.colorScheme.primary),
+          child: Semantics(
+            label: 'Loading content',
+            liveRegion: true,
+            child: CircularProgressIndicator(
+              color: theme.colorScheme.primary,
+            ),
+          ),
         ),
       );
     }
@@ -58,7 +64,11 @@ class AsyncStateView extends StatelessWidget {
         if (isLoading)
           const Padding(
             padding: EdgeInsets.only(bottom: 12),
-            child: LinearProgressIndicator(minHeight: 2),
+            child: Semantics(
+              label: 'Refreshing content',
+              liveRegion: true,
+              child: LinearProgressIndicator(minHeight: 2),
+            ),
           ),
         if (errorMessage != null)
           Padding(
@@ -91,11 +101,14 @@ class _InlineError extends StatelessWidget {
           Icon(Icons.info_outline_rounded, color: colors.error, size: 18),
           const SizedBox(width: 8),
           Expanded(
-            child: Text(
-              message,
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: colors.error),
+            child: Semantics(
+              liveRegion: true,
+              child: Text(
+                message,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: colors.error),
+              ),
             ),
           ),
           TextButton.icon(
@@ -140,11 +153,14 @@ class _MessagePanel extends StatelessWidget {
           const SizedBox(height: 12),
           Text(title, style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 6),
-          Text(
-            message,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: colors.onBackground.withOpacity(0.7),
+          Semantics(
+            liveRegion: true,
+            child: Text(
+              message,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: colors.onBackground.withOpacity(0.7),
+              ),
             ),
           ),
           if (action != null) ...[const SizedBox(height: 18), action!],

@@ -55,13 +55,30 @@ class AuthSecurityTest extends TestCase
         $this->getJson('/api/v1/post')->assertStatus(426);
     }
 
-    public function test_production_api_accepts_https_requests(): void
+    public function test_production_api_accepts_https_requests_and_sets_hsts(): void
     {
         $this->app['env'] = 'production';
 
         $this->withServerVariables(['HTTPS' => 'on'])
             ->getJson('/api/v1/post')
-            ->assertOk();
+            ->assertOk()
+            ->assertHeader(
+                'Strict-Transport-Security',
+                'max-age=31536000',
+            );
+    }
+
+    public function test_api_responses_include_baseline_security_headers(): void
+    {
+        $this->getJson('/api/v1/post')
+            ->assertOk()
+            ->assertHeader('X-Content-Type-Options', 'nosniff')
+            ->assertHeader('X-Frame-Options', 'DENY')
+            ->assertHeader('Referrer-Policy', 'no-referrer')
+            ->assertHeader(
+                'Permissions-Policy',
+                'camera=(), microphone=(), geolocation=()',
+            );
     }
 
     public function test_registration_rejects_weak_passwords(): void

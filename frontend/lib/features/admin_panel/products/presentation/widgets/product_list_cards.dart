@@ -36,6 +36,7 @@ class ProductListCard extends StatelessWidget {
                   : Image.asset(
                       product.image,
                       fit: BoxFit.contain,
+                      semanticLabel: product.name,
                       errorBuilder: (_, __, ___) => Icon(
                         Icons.inventory_2_outlined,
                         color: colors.primary,

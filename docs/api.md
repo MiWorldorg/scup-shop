@@ -67,6 +67,16 @@ Required JSON fields:
 - message: 10–5,000 characters
 - website: optional honeypot field; must be empty when supplied
 
+Example request:
+
+    {
+      "first_name": "Alex",
+      "last_name": "Morgan",
+      "email": "alex@example.test",
+      "message": "I would like to learn more about the Marble Thinker.",
+      "website": ""
+    }
+
 When CONTACT_TO_ADDRESS is missing/invalid or mail sending fails, the API returns HTTP 503. On successful mail transport submission, it returns HTTP 202. A 202 means the configured transport accepted the message; it is not independent proof that the recipient inbox received it. Messages are not persisted.
 
 ## Administrator endpoints
@@ -77,13 +87,25 @@ All routes below require a bearer token and the admin role.
 
 | Method | Path | Purpose |
 | --- | --- | --- |
-| GET | /admin/product | Paginated products; supports page and search |
+| GET | /admin/product | Paginated products; supports page, category_id, and search |
 | GET | /admin/product/categories | Product categories |
 | POST | /admin/product/create | Create product and inventory |
 | PUT | /admin/product/update | Update product and optional inventory quantity |
 | DELETE | /admin/product/delete | Delete product by id when no legacy cart/order references exist |
 
 Create fields: name, desc, sku, category_id, price, optional quantity, optional image. price is a non-negative whole-dollar USD integer. image must be a bundled product asset path under assets/images/products/ with png, jpg, jpeg, or webp extension.
+
+Example request:
+
+    {
+      "name": "Marble Thinker",
+      "desc": "A contemplative figure carved in a warm marble finish.",
+      "sku": "SC-THINK-001",
+      "category_id": 1,
+      "price": 1250,
+      "quantity": 8,
+      "image": "assets/images/products/marble-think.png"
+    }
 
 Update requires id and accepts the corresponding fields as partial updates. Inventory quantity is a non-negative integer. Delete request requires id. A product referenced by legacy cart/order rows cannot be deleted and returns 409.
 

@@ -2,8 +2,9 @@ import 'package:get/get_connect/connect.dart';
 
 class ApiException implements Exception {
   final String message;
+  final int? statusCode;
 
-  const ApiException(this.message);
+  const ApiException(this.message, {this.statusCode});
 
   @override
   String toString() => message;
@@ -79,7 +80,7 @@ class ApiResponse {
     final message = body is Map && body['message'] is String
         ? body['message'] as String
         : 'The request could not be completed. Please try again.';
-    throw ApiException(message);
+    throw ApiException(message, statusCode: response.statusCode);
   }
 
   static dynamic _payload(dynamic body) {

@@ -60,7 +60,7 @@ class ProductRepositoryApi implements ProductRepositoryInterfaceApi
     public function destroy(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'id' => ['required', 'integer', 'exists:products,id'],
+            'id' => ['required', 'integer'],
         ]);
 
         DB::transaction(function () use ($validated) {

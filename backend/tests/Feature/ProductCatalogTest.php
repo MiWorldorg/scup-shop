@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 
 use App\Models\Post;
-use App\Models\PostCategory;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductInventory;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
@@ -156,7 +156,7 @@ class ProductCatalogTest extends TestCase
             'desc' => $description,
             'sku' => $sku,
             'image' => 'assets/images/products/marble-think.png',
-            'category_id' => $categoryId,
+            'category_id' => $category->id,
             'inventory_id' => $inventory->id,
             'price' => $price,
         ]);

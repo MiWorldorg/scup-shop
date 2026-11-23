@@ -48,6 +48,22 @@ class AuthSecurityTest extends TestCase
         ])->assertTooManyRequests();
     }
 
+    public function test_production_api_rejects_plain_http_requests(): void
+    {
+        $this->app['env'] = 'production';
+
+        $this->getJson('/api/v1/post')->assertStatus(426);
+    }
+
+    public function test_production_api_accepts_https_requests(): void
+    {
+        $this->app['env'] = 'production';
+
+        $this->withServerVariables(['HTTPS' => 'on'])
+            ->getJson('/api/v1/post')
+            ->assertOk();
+    }
+
     public function test_registration_rejects_weak_passwords(): void
     {
         $this->postJson('/api/v1/register', [

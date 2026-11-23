@@ -1,22 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 
+/// Shared responsive page gutters for public and admin screens.
 EdgeInsets getResponsivePadding(BuildContext context, double screenWidth) {
-  if (ResponsiveBreakpoints.of(context).smallerOrEqualTo(TABLET)) {
-    return const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0);
-  } else if (ResponsiveBreakpoints.of(context).smallerOrEqualTo(DESKTOP)) {
-    return EdgeInsets.fromLTRB(
-      screenWidth * 0.058,
-      24.0,
-      screenWidth * 0.058,
-      0,
-    );
-  } else {
-    return EdgeInsets.fromLTRB(
-      screenWidth * 0.1,
-      24.0,
-      screenWidth * 0.1,
-      0,
-    );
-  }
+  final horizontal = switch (screenWidth) {
+    < 600 => 16.0,
+    < 900 => 24.0,
+    < 1280 => 36.0,
+    _ => ((screenWidth - 1280) / 2).clamp(48.0, 160.0),
+  };
+
+  return EdgeInsets.fromLTRB(horizontal, screenWidth < 600 ? 12 : 24, horizontal, 0);
 }

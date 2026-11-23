@@ -3,17 +3,11 @@ import 'package:get/get.dart';
 import 'package:sculpture_shop/core/api/api_response.dart';
 import 'package:sculpture_shop/core/widgets/async_state_view.dart';
 import 'package:sculpture_shop/features/admin_panel/products/data/entity/products_list_response.dart';
-import 'package:sculpture_shop/features/admin_panel/products/data/repository/products_list_repository_imp.dart';
 import 'package:sculpture_shop/features/admin_panel/products/presentation/controllers/products_list_controller.dart';
 import 'package:sculpture_shop/features/admin_panel/products/presentation/pages/product_form_dialog.dart';
 import 'package:sculpture_shop/features/admin_panel/products/presentation/widgets/product_list_cards.dart';
 
 class ProductListWidget extends GetView<ProductListController> {
-  @override
-  final ProductListController controller = Get.put(
-    ProductListController(repo: ProductListRepositoryImpl()),
-  );
-
   ProductListWidget({super.key});
 
   @override

@@ -143,6 +143,7 @@ See the [testing plan](docs/testing.md), [release checklist](docs/release-checkl
 - [Decision records](docs/decisions/)
 - [Changelog](CHANGELOG.md)
 - [Release checklist](docs/release-checklist.md)
+- [GitHub presentation guide](docs/github-presentation.md)
 
 ## Roadmap
 

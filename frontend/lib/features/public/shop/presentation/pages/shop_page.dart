@@ -76,7 +76,48 @@ class ShopPage extends GetView<ShopController> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 24),
+                TextField(
+                  controller: controller.searchController,
+                  textInputAction: TextInputAction.search,
+                  onSubmitted: controller.search,
+                  decoration: InputDecoration(
+                    hintText: 'Search by name, description, or SKU',
+                    prefixIcon: const Icon(Icons.search_rounded),
+                    suffixIcon: IconButton(
+                      tooltip: 'Clear search and filters',
+                      onPressed: controller.clearFilters,
+                      icon: const Icon(Icons.close_rounded),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Obx(() {
+                  if (controller.categories.isEmpty) {
+                    return const SizedBox.shrink();
+                  }
+                  return Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      ChoiceChip(
+                        label: const Text('All pieces'),
+                        selected: controller.selectedCategoryId.value == null,
+                        onSelected: (_) => controller.selectCategory(null),
+                      ),
+                      ...controller.categories.map(
+                        (category) => ChoiceChip(
+                          label: Text(category.name),
+                          selected: controller.selectedCategoryId.value ==
+                              category.id,
+                          onSelected: (_) =>
+                              controller.selectCategory(category.id),
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+                const SizedBox(height: 24),
                 const SectionsHeader(title: 'Shop the collection'),
                 Obx(
                   () => AsyncStateView(

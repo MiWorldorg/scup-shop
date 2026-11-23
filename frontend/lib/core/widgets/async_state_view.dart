@@ -64,7 +64,11 @@ class AsyncStateView extends StatelessWidget {
         if (isLoading)
           const Padding(
             padding: EdgeInsets.only(bottom: 12),
-            child: LinearProgressIndicator(minHeight: 2),
+            child: Semantics(
+              label: 'Refreshing content',
+              liveRegion: true,
+              child: LinearProgressIndicator(minHeight: 2),
+            ),
           ),
         if (errorMessage != null)
           Padding(
@@ -149,11 +153,14 @@ class _MessagePanel extends StatelessWidget {
           const SizedBox(height: 12),
           Text(title, style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 6),
-          Text(
-            message,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: colors.onBackground.withOpacity(0.7),
+          Semantics(
+            liveRegion: true,
+            child: Text(
+              message,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: colors.onBackground.withOpacity(0.7),
+              ),
             ),
           ),
           if (action != null) ...[const SizedBox(height: 18), action!],

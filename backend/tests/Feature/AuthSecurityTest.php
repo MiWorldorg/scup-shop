@@ -64,7 +64,7 @@ class AuthSecurityTest extends TestCase
             ->assertOk()
             ->assertHeader(
                 'Strict-Transport-Security',
-                'max-age=31536000; includeSubDomains',
+                'max-age=31536000',
             );
     }
 

@@ -5,11 +5,10 @@ namespace App\Repository\api;
 use App\Models\User;
 use App\Repository\api\Contract\UserRepositoryInterfaceApi;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Http\Request;
 
 class UserRepositoryApi implements UserRepositoryInterfaceApi
 {
-    public function select(Request $request): LengthAwarePaginator
+    public function select(?string $search, ?string $role): LengthAwarePaginator
     {
         $query = User::query()->select(
             'id',
@@ -23,11 +22,11 @@ class UserRepositoryApi implements UserRepositoryInterfaceApi
             'email_verified_at',
         );
 
-        if (in_array($request->query('role'), ['user', 'admin'], true)) {
-            $query->where('role', $request->query('role'));
+        if (in_array($role, ['user', 'admin'], true)) {
+            $query->where('role', $role);
         }
 
-        $search = trim((string) $request->query('search', ''));
+        $search = trim((string) $search);
         if ($search !== '') {
             $query->where(function ($users) use ($search) {
                 $users->where('username', 'like', "%{$search}%")
@@ -37,6 +36,9 @@ class UserRepositoryApi implements UserRepositoryInterfaceApi
             });
         }
 
-        return $query->orderBy('id')->paginate(20)->appends($request->query());
+        return $query->orderBy('id')->paginate(20)->appends(array_filter([
+            'search' => $search,
+            'role' => $role,
+        ], fn ($value) => $value !== null && $value !== ''));
     }
 }

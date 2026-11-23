@@ -8,7 +8,7 @@ EdgeInsets getResponsivePadding(BuildContext context, double screenWidth) {
     < AppBreakpoints.tablet => 24.0,
     < AppBreakpoints.desktop => 36.0,
     _ => ((screenWidth - AppBreakpoints.contentMaxWidth) / 2)
-        .clamp(48.0, 160.0)
+        .clamp(48.0, double.infinity)
         .toDouble(),
   };
 

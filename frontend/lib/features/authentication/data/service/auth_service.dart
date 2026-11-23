@@ -19,8 +19,7 @@ class AuthService {
     return ApiResponse.object(response);
   }
 
-  Future<void> logout(String token) async {
-    // Use the current session header after ApiSession has been set.
+  Future<void> logout() async {
     final response = await client.postJson(
       EndPoints.logout,
       const {},

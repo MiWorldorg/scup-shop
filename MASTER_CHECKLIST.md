@@ -264,6 +264,20 @@ Scup-Shop/
 
 **Acceptance:** Approved screen designs exist before implementation; all core flows work at agreed breakpoints; no major overflow/accessibility regression remains; screenshots document the final design.
 
+
+### Phase 3 implementation log — 2026-11-23
+
+Implementation is available for review in [draft PR #4](https://github.com/MiWorldorg/Scup-Shop/pull/4), stacked on `work/phase-2-architecture-review`.
+
+- Added semantic design colors, expanded typography, shared layout/motion tokens, responsive gutters, and Material 3 component states.
+- Updated the public storefront, editorial pages, gallery motion preferences, brand story, footer, and mobile/desktop navigation.
+- Added public product search/category filtering and pagination; added public blog pagination.
+- Added server-side search to admin product and post lists, responsive admin navigation/layouts, compact post actions, and asset previews.
+- Connected the contact form to a rate-limited Laravel endpoint and configurable mail transport.
+- Added implementation detail and runtime configuration notes in `docs/phase-3-implementation-notes.md`.
+
+**Still pending before Phase 3 acceptance:** visual review at all agreed viewport sizes; Flutter/Laravel formatting, analysis, tests, and builds; accessibility checks; real SMTP configuration and delivery verification; and an approved USD conversion basis for the existing Toman-denominated product prices. Per owner instruction, the full verification suite is deferred until all implementation phases are complete. No Phase 3 acceptance checkboxes are marked complete yet.
+
 ---
 
 # Phase 4 — Documentation and open-source presentation

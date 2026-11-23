@@ -407,3 +407,34 @@ These are observations from the current repository snapshot, not claims that tes
 | 2026-11-23 | Confirmed private repository with no open-source license for now; solo developer; project remains in development; exact dates unknown. | Project owner | Recorded; do not invent dates or publish unsupported portfolio claims |
 | 2026-11-23 | Confirmed release targets: Android, Web, Windows, Linux; iOS/macOS excluded from current target set. | Project owner | Recorded; platform build/runtime verification pending |
 
+
+
+---
+
+## Phase 1 implementation log — 2026-11-23 (acceptance pending)
+
+**Working branch:** `work/phase-1-core-integrity`  
+**Implementation notes:** `docs/phase-1-implementation-notes.md`  
+**Rule:** The task checkboxes above remain unchecked until automated tests and runtime acceptance criteria have actually passed.
+
+### Implemented on the working branch (not yet accepted)
+
+- Authentication: strict registration/login validation, validated-only registration payload, generic login errors, rate limits, Passport token lifetimes, a minimal authenticated-session endpoint, secure Flutter token persistence, and startup session verification.
+- Identity integrity: a data migration consolidates legacy administrator identities into `users` and remaps post authors while retaining the old `admins` table.
+- Editorial workflow: nullable publication timestamps, public published-only listing, admin listing including drafts, validated CRUD, category lookup/seeding, and Flutter create/edit/publish/unpublish/delete/pagination.
+- Product integrity: one-to-one inventory migration, inventory ownership validation and cleanup, zero-stock update handling, API resources, and storefront/admin pagination.
+- Added backend feature tests and Flutter tests for selected security, editorial, inventory, and pagination behavior.
+- Documented the intentionally unused cart/order/payment schema and the unresolved Toman-to-USD source-data mismatch.
+
+### Verification gates still open
+
+- [ ] Run backend migrations and feature tests against the configured test database; run Pint.
+- [ ] Test the legacy admin-to-user author migration against a disposable copy containing representative existing rows; verify rollback.
+- [ ] Run `flutter pub get`, commit the generated `pubspec.lock` update, then run Dart format, analyzer, and Flutter tests.
+- [ ] Verify Passport keys/client setup, token revocation/expiry, and protected-route behavior in a running environment.
+- [ ] Verify secure storage on Android, Web (HTTPS), Windows, and Linux (Secret Service/libsecret).
+- [ ] Review production CORS/HTTPS configuration and image upload/path contract.
+- [ ] Obtain approved USD product prices or a conversion policy before changing the currently Toman-denominated seed/catalog values.
+- [ ] Re-run all acceptance criteria and only then mark Phase 1 complete.
+
+**Current phase status:** Implementation work is present on the working branch; Phase 1 is not accepted as complete because runtime verification is unavailable in the current environment.

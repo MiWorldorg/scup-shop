@@ -421,6 +421,19 @@ Implementation is available for review in the stacked draft PR for Phase 6.
 
 **Definition of done:** The project builds from a clean clone, core flows are tested, CI is green, docs match implementation, the UI is coherent and responsive, no known critical security/data-integrity issue remains, and portfolio claims are evidence-based.
 
+
+### Phase 7 implementation log — 2026-11-23
+
+Release-preparation artifacts are available in the stacked draft PR for Phase 7.
+
+- Added CHANGELOG.md with an Unreleased summary and explicit limitations.
+- Added docs/release-checklist.md covering source review, automated quality, migrations, security, email integration, accessibility, screenshots, demo deployment, and stable tagging.
+- Added docs/portfolio-summary.md with verified stack, scope, role, target platforms, and limitations.
+- Linked release artifacts from the root README.
+- No version, release date, stable tag, demo URL, screenshots, or successful CI status was invented.
+
+**Release gate remains open:** the full QA workflow, clean-clone setup, migration verification, SMTP inbox delivery, accessibility review, backup/restore rehearsal, and genuine screenshots are still pending. Do not tag or describe this project as released until the P1 checks pass.
+
 ---
 
 # Current code-review notes (baseline findings)

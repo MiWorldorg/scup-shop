@@ -16,12 +16,28 @@ class PostController extends Controller
 {
     public function selectPublic(PostRepositoryInterfaceApi $posts): JsonResponse
     {
-        return $posts->selectPublished();
+        $data = PostResource::collection($posts->selectPublished())
+            ->response()
+            ->getData(true);
+
+        return response()->json([
+            'code' => 1,
+            'message' => 'Published posts.',
+            'data' => $data,
+        ]);
     }
 
     public function selectAdmin(PostRepositoryInterfaceApi $posts): JsonResponse
     {
-        return $posts->selectAll();
+        $data = PostResource::collection($posts->selectAll())
+            ->response()
+            ->getData(true);
+
+        return response()->json([
+            'code' => 1,
+            'message' => 'Posts.',
+            'data' => $data,
+        ]);
     }
 
     public function categories(): JsonResponse

@@ -9,7 +9,6 @@ use App\Models\ProductCategory;
 use App\Models\ProductInventory;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\Passport;
@@ -319,16 +318,19 @@ class CoreIntegrityTest extends TestCase
 
         DB::table('users')->where('id', $actor->id)->update(['role' => 'user']);
 
-        $request = Request::create('/api/v1/admin/user/role', 'PUT', [
-            'id' => $target->id,
-            'role' => 'admin',
-        ]);
-        $request->setUserResolver(fn () => $actor);
-
-        $response = app(\App\Http\Controllers\Admin\UserController::class)
-            ->updateRole($request);
-
-        $this->assertSame(403, $response->getStatusCode());
+        try {
+            app(\App\Actions\Admin\ChangeUserRole::class)->execute(
+                $actor->id,
+                $target->id,
+                'admin',
+            );
+            $this->fail('A demoted administrator must not change account roles.');
+        } catch (\Illuminate\Auth\Access\AuthorizationException) {
+            $this->assertDatabaseHas('users', [
+                'id' => $target->id,
+                'role' => 'user',
+            ]);
+        }
         $this->assertDatabaseHas('users', [
             'id' => $target->id,
             'role' => 'user',

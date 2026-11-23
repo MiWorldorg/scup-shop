@@ -135,6 +135,7 @@ Per the project owner's workflow, the complete test, formatter, analyzer, and bu
     Scup-Shop/
     ├── backend/                 # Laravel API, actions, requests, resources, migrations
     ├── frontend/                # Flutter app, features, shared UI, assets
+    ├── .github/workflows/ci.yml  # Manual final verification workflow
     ├── docs/
     │   ├── decisions/           # Architecture decision records
     │   ├── images/              # Final portfolio screenshots (to be captured)

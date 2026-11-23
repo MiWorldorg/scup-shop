@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sculpture_shop/features/public/about_us/presentation/bindings/about_us_binding.dart';
 
 import 'package:sculpture_shop/features/public/about_us/presentation/pages/about_us_page.dart';
 import 'package:sculpture_shop/features/admin_panel/dashboard/presentation/bindings/dashboard_bindings.dart';
@@ -77,7 +76,6 @@ class AppRoutes {
     GetPage(
       name: AppRoutes.aboutUs,
       page: () => AboutUsPage(),
-      binding: AboutUsBinding(),
     ),
     GetPage(
       name: AppRoutes.gallery,

@@ -7,9 +7,6 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         $customerPassword = config('app.demo_customer_password');
@@ -51,6 +48,9 @@ class DatabaseSeeder extends Seeder
             $admin->forceFill(['role' => 'admin'])->save();
         }
 
-        $this->call(ProductSeeder::class);
+        $this->call([
+            PostCategorySeeder::class,
+            ProductSeeder::class,
+        ]);
     }
 }

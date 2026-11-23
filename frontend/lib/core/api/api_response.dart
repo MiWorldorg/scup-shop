@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:get/get_connect/connect.dart';
+import 'package:sculpture_shop/core/api/api_session.dart';
 
 class ApiException implements Exception {
   final String message;
+  final int? statusCode;
 
-  const ApiException(this.message);
+  const ApiException(this.message, {this.statusCode});
 
   @override
   String toString() => message;
@@ -46,11 +50,14 @@ class ApiResponse {
       );
     }
 
+    final metadata = payload['meta'] is Map
+        ? payload['meta'] as Map
+        : payload;
     return ApiPaginatedResult(
       rows: rows,
-      currentPage: _integer(payload['current_page'], 1),
-      lastPage: _integer(payload['last_page'], 1),
-      total: _integer(payload['total'], rows.length),
+      currentPage: _integer(metadata['current_page'], 1),
+      lastPage: _integer(metadata['last_page'], 1),
+      total: _integer(metadata['total'], rows.length),
     );
   }
 
@@ -72,11 +79,15 @@ class ApiResponse {
       );
     }
 
+    if (response.statusCode == 401 || response.statusCode == 403) {
+      unawaited(ApiSession.clear());
+    }
+
     final body = response.body;
     final message = body is Map && body['message'] is String
         ? body['message'] as String
         : 'The request could not be completed. Please try again.';
-    throw ApiException(message);
+    throw ApiException(message, statusCode: response.statusCode);
   }
 
   static dynamic _payload(dynamic body) {

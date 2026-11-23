@@ -4,6 +4,7 @@ namespace App\Repository\api;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\ProductInventory;
 use App\Repository\api\Contract\ProductRepositoryInterfaceApi;
@@ -22,8 +23,8 @@ class ProductRepositoryApi implements ProductRepositoryInterfaceApi
 
         return response()->json([
             'code' => 1,
-            'message' => 'Products',
-            'data' => $products,
+            'message' => 'Products.',
+            'data' => ProductResource::collection($products)->response()->getData(true),
         ]);
     }
 
@@ -32,33 +33,67 @@ class ProductRepositoryApi implements ProductRepositoryInterfaceApi
         $data = $request->validated();
         $product = DB::transaction(function () use ($data) {
             $inventoryId = $data['inventory_id'] ?? null;
-            $quantity = $data['quantity'] ?? 0;
+            $quantity = $data['quantity'] ?? null;
             unset($data['inventory_id'], $data['quantity']);
 
             if ($inventoryId === null) {
-                $inventoryId = ProductInventory::create(['quantity' => $quantity])->id;
+                $inventoryId = ProductInventory::create([
+                    'quantity' => $quantity ?? 0,
+                ])->id;
+            } elseif ($quantity !== null) {
+                ProductInventory::whereKey($inventoryId)->update(['quantity' => $quantity]);
             }
 
             $data['inventory_id'] = $inventoryId;
             $data['image'] = $data['image'] ?? 'assets/images/products/marble-think.png';
 
-            return Product::create($data);
+            return Product::create($data)->load(['category:id,name', 'inventory:id,quantity']);
         });
 
         return response()->json([
             'code' => 1,
             'message' => 'Product created successfully.',
-            'data' => $product->load(['category:id,name', 'inventory:id,quantity']),
+            'data' => new ProductResource($product),
         ], 201);
     }
 
     public function destroy(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'id' => ['required', 'integer', 'exists:products,id'],
+            'id' => ['required', 'integer'],
         ]);
 
-        Product::findOrFail($validated['id'])->delete();
+        $deleted = DB::transaction(function () use ($validated) {
+            $product = Product::lockForUpdate()->findOrFail($validated['id']);
+
+            $hasLegacyReferences = DB::table('cart_items')
+                ->where('product_id', $product->id)
+                ->exists()
+                || DB::table('order_items')
+                    ->where('product_id', $product->id)
+                    ->exists();
+
+            if ($hasLegacyReferences) {
+                return false;
+            }
+
+            $inventoryId = $product->inventory_id;
+            $product->delete();
+
+            if ($inventoryId !== null) {
+                ProductInventory::whereKey($inventoryId)->delete();
+            }
+
+            return true;
+        });
+
+        if (!$deleted) {
+            return response()->json([
+                'code' => 2,
+                'message' => 'This product is referenced by legacy cart or order records and cannot be deleted.',
+                'data' => null,
+            ], 409);
+        }
 
         return response()->json([
             'code' => 1,
@@ -74,9 +109,10 @@ class ProductRepositoryApi implements ProductRepositoryInterfaceApi
         unset($data['id']);
 
         $product = DB::transaction(function () use ($id, $data) {
-            $product = Product::findOrFail($id);
+            $product = Product::lockForUpdate()->findOrFail($id);
+            $previousInventoryId = $product->inventory_id;
             $quantity = $data['quantity'] ?? null;
-            $inventoryId = $data['inventory_id'] ?? $product->inventory_id;
+            $inventoryId = $data['inventory_id'] ?? $previousInventoryId;
             unset($data['quantity']);
 
             $product->update($data);
@@ -85,13 +121,17 @@ class ProductRepositoryApi implements ProductRepositoryInterfaceApi
                 ProductInventory::whereKey($inventoryId)->update(['quantity' => $quantity]);
             }
 
-            return $product->load(['category:id,name', 'inventory:id,quantity']);
+            if ($inventoryId !== $previousInventoryId) {
+                ProductInventory::whereKey($previousInventoryId)->delete();
+            }
+
+            return $product->refresh()->load(['category:id,name', 'inventory:id,quantity']);
         });
 
         return response()->json([
             'code' => 1,
             'message' => 'Product updated successfully.',
-            'data' => $product,
+            'data' => new ProductResource($product),
         ]);
     }
 }

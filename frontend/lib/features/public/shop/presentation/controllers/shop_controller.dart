@@ -4,10 +4,12 @@ import 'package:sculpture_shop/features/public/shop/data/entity/product_response
 import 'package:sculpture_shop/features/public/shop/domain/repository/shop_repository.dart';
 
 class ShopController extends GetxController {
-  late ShopRepository repo;
+  final ShopRepository repo;
   ShopController({required this.repo});
-  var products = <ProductResponse>[].obs;
-  var currentPage = 1.obs;
+
+  final products = <ProductResponse>[].obs;
+  final currentPage = 1.obs;
+  final lastPage = 1.obs;
   final isLoading = true.obs;
   final errorMessage = RxnString();
   int _fetchVersion = 0;
@@ -25,12 +27,20 @@ class ShopController extends GetxController {
     try {
       final result = await repo.getProducts(currentPage.value);
       if (isClosed || version != _fetchVersion) return;
-      products.assignAll(result);
+      products.assignAll(result.rows.map(ProductResponse.fromJson));
+      currentPage.value = result.currentPage;
+      lastPage.value = result.lastPage;
     } catch (error) {
       if (isClosed || version != _fetchVersion) return;
       errorMessage.value = ApiResponse.userFacingError(error);
     } finally {
       if (!isClosed && version == _fetchVersion) isLoading.value = false;
     }
+  }
+
+  Future<void> goToPage(int page) async {
+    if (page < 1 || page > lastPage.value || isLoading.value) return;
+    currentPage.value = page;
+    await fetchLatestProduct();
   }
 }

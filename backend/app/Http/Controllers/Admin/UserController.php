@@ -25,9 +25,17 @@ class UserController extends Controller
         ]);
 
         $target = User::findOrFail($validated['id']);
-        $actor = $request->user();
+        $actorId = $request->user()?->getKey();
 
-        if ($actor?->is($target) && $validated['role'] !== 'admin') {
+        if ($actorId === null) {
+            return response()->json([
+                'code' => 2,
+                'message' => 'Unauthenticated.',
+                'data' => null,
+            ], 401);
+        }
+
+        if ($actorId === $target->getKey() && $validated['role'] !== 'admin') {
             return response()->json([
                 'code' => 2,
                 'message' => 'You cannot remove your own administrator access.',
@@ -35,27 +43,53 @@ class UserController extends Controller
             ], 422);
         }
 
-        $updated = DB::transaction(function () use ($target, $validated) {
-            $admins = User::where('role', 'admin')->lockForUpdate()->get();
-            $lockedTarget = User::whereKey($target->getKey())->lockForUpdate()->firstOrFail();
+        $result = DB::transaction(function () use ($actorId, $target, $validated) {
+            // Lock administrators in a stable order so concurrent role changes serialize.
+            $admins = User::where('role', 'admin')
+                ->orderBy('id')
+                ->lockForUpdate()
+                ->get();
 
-            if ($lockedTarget->role === 'admin'
+            // Re-check the actor inside the transaction; middleware authorization may be stale.
+            $lockedActor = User::whereKey($actorId)->lockForUpdate()->first();
+            if (!$lockedActor || $lockedActor->role !== 'admin') {
+                return ['status' => 'forbidden'];
+            }
+
+            $lockedTarget = User::whereKey($target->getKey())
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if (
+                $lockedTarget->role === 'admin'
                 && $validated['role'] === 'user'
-                && $admins->count() <= 1) {
-                return false;
+                && $admins->count() <= 1
+            ) {
+                return ['status' => 'last_admin'];
             }
 
             $lockedTarget->forceFill(['role' => $validated['role']])->save();
-            return $lockedTarget;
+
+            return ['status' => 'updated', 'user' => $lockedTarget];
         });
 
-        if ($updated === false) {
+        if ($result['status'] === 'forbidden') {
+            return response()->json([
+                'code' => 2,
+                'message' => 'Administrator access is required.',
+                'data' => null,
+            ], 403);
+        }
+
+        if ($result['status'] === 'last_admin') {
             return response()->json([
                 'code' => 2,
                 'message' => 'At least one administrator account must remain.',
                 'data' => null,
             ], 422);
         }
+
+        $updated = $result['user'];
 
         return response()->json([
             'code' => 1,

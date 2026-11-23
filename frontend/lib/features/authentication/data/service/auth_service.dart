@@ -1,5 +1,6 @@
 import 'package:get/get_connect/connect.dart';
 import 'package:sculpture_shop/core/api/api_response.dart';
+import 'package:sculpture_shop/core/api/api_session.dart';
 import 'package:sculpture_shop/core/api/endpoints.dart';
 import 'package:sculpture_shop/core/api/url.dart';
 
@@ -9,6 +10,14 @@ class AuthService extends GetConnect {
       '${BaseUrl.apiUrlV1}${EndPoints.login}',
       {'email': email, 'password': password},
       headers: const {'Accept': 'application/json'},
+    );
+    return ApiResponse.object(response);
+  }
+
+  Future<Map<String, dynamic>> currentUser() async {
+    final response = await get(
+      '${BaseUrl.apiUrlV1}${EndPoints.me}',
+      headers: ApiSession.headers,
     );
     return ApiResponse.object(response);
   }

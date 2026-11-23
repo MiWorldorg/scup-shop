@@ -8,7 +8,7 @@ class PostResponse {
   final String summary;
   final String content;
 
-  PostResponse({
+  const PostResponse({
     required this.postPicture,
     required this.authorId,
     required this.categoryId,
@@ -21,14 +21,17 @@ class PostResponse {
 
   factory PostResponse.fromJson(Map<String, dynamic> json) {
     return PostResponse(
-      postPicture: json['post_picture'],
-      authorId: json['author_id'],
-      categoryId: json['category_id'],
-      slug: json['slug'],
-      title: json['title'],
-      published: json['published'],
-      summary: json['summary'],
-      content: json['content'],
+      postPicture: json['post_picture']?.toString() ?? '',
+      authorId: _integer(json['author_id']),
+      categoryId: _integer(json['category_id']),
+      slug: json['slug']?.toString() ?? '',
+      title: json['title']?.toString() ?? '',
+      published: json['published']?.toString() ?? '',
+      summary: json['summary']?.toString() ?? '',
+      content: json['content']?.toString() ?? '',
     );
   }
 }
+
+int _integer(dynamic value) =>
+    value is num ? value.toInt() : int.tryParse(value?.toString() ?? '') ?? 0;

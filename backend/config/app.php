@@ -84,6 +84,8 @@ return [
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
+    'trusted_proxies' => array_values(array_filter(array_map('trim', explode(',', env('TRUSTED_PROXIES', ''))))),
+
     'demo_admin_password' => env('DEMO_ADMIN_PASSWORD'),
 
     'demo_customer_password' => env('DEMO_CUSTOMER_PASSWORD'),

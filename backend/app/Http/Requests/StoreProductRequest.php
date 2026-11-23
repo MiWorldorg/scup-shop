@@ -2,34 +2,35 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class StoreProductRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
             'name' => ['required', 'string', 'max:255'],
             'desc' => ['required', 'string', 'max:255'],
             'sku' => ['required', 'string', 'max:255', Rule::unique('products', 'sku')],
-            'image' => ['nullable', 'string', 'max:255'],
+            'image' => [
+                'nullable',
+                'string',
+                'max:255',
+                'regex:/^assets\\/images\\/products\\/[A-Za-z0-9 _.-]+\\.(png|jpe?g|webp)$/i',
+            ],
             'category_id' => ['required', 'integer', 'exists:product_categories,id'],
-            'inventory_id' => ['nullable', 'integer', 'exists:product_inventories,id'],
+            'inventory_id' => [
+                'nullable',
+                'integer',
+                'exists:product_inventories,id',
+                Rule::unique('products', 'inventory_id'),
+            ],
             'quantity' => ['nullable', 'integer', 'min:0'],
             'price' => ['required', 'integer', 'min:0'],
         ];

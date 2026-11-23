@@ -1,6 +1,7 @@
 class EndPoints {
   static const String login = 'login';
   static const String logout = 'logout';
+  static const String me = 'me';
 
   // AdminPanel
   static const String productsList = 'admin/product';
@@ -22,6 +23,7 @@ class EndPoints {
   static const String apPostCreate = 'admin/post/create';
   static const String apPostDelete = 'admin/post/delete';
   static const String apPostUpdate = 'admin/post/update';
+  static const String apPostCategories = 'admin/post/categories';
 
   // Main
   static const String products = 'product';

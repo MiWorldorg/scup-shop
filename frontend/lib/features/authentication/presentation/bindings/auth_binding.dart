@@ -4,6 +4,8 @@ import 'package:sculpture_shop/features/authentication/presentation/controllers/
 class AuthBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(AuthController(), permanent: true);
+    if (!Get.isRegistered<AuthController>()) {
+      Get.put(AuthController(), permanent: true);
+    }
   }
 }

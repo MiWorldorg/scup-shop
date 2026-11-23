@@ -11,7 +11,7 @@ import 'package:sculpture_shop/features/admin_panel/users/presentation/pages/use
 import 'package:sculpture_shop/features/admin_panel/users/presentation/bindings/users_manage_binding.dart';
 import 'package:sculpture_shop/features/public/blog/presentation/bindings/post_binding.dart';
 import 'package:sculpture_shop/features/public/blog/presentation/pages/blog_page.dart';
-import 'package:sculpture_shop/features/public/contact/presentation/binding/contact_us_binding.dart';
+import 'package:sculpture_shop/features/public/contact/presentation/bindings/contact_us_binding.dart';
 import 'package:sculpture_shop/features/public/contact/presentation/pages/contact_us_page.dart';
 import 'package:sculpture_shop/features/public/gallery/presentation/bindings/gallery_binding.dart';
 import 'package:sculpture_shop/features/public/gallery/presentation/pages/gallery_page.dart';

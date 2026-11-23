@@ -28,4 +28,5 @@ class EndPoints {
   // Main
   static const String products = 'product';
   static const String posts = 'post';
+  static const String contact = 'contact';
 }

@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreatePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\PostCategory;
-use App\Repository\api\PostRepositoryApi;
+use App\Repository\api\Contract\PostRepositoryInterfaceApi;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function selectPublic(PostRepositoryApi $repository): JsonResponse
+    public function selectPublic(PostRepositoryInterfaceApi $repository): JsonResponse
     {
         return $repository->selectPublished();
     }

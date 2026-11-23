@@ -118,7 +118,7 @@ class ContactUsPage extends GetView<ContactUsController> {
                             ),
                             const SizedBox(height: 20),
                             Obx(() {
-                              if (controller.successMessage.isNotEmpty) {
+                              if (controller.successMessage.value.isNotEmpty) {
                                 return _statusMessage(
                                   context,
                                   controller.successMessage.value,
@@ -126,7 +126,7 @@ class ContactUsPage extends GetView<ContactUsController> {
                                   Icons.check_circle_outline_rounded,
                                 );
                               }
-                              if (controller.errorMessage.isNotEmpty) {
+                              if (controller.errorMessage.value.isNotEmpty) {
                                 return _statusMessage(
                                   context,
                                   controller.errorMessage.value,

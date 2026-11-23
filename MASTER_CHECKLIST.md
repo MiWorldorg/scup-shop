@@ -438,3 +438,5 @@ These are observations from the current repository snapshot, not claims that tes
 - [ ] Re-run all acceptance criteria and only then mark Phase 1 complete.
 
 **Current phase status:** Implementation work is present on the working branch; Phase 1 is not accepted as complete because runtime verification is unavailable in the current environment.
+
+- **Review handoff:** draft PR #2, `work/phase-1-core-integrity-review` (single squashed implementation commit). The earlier 101-commit draft was closed as superseded; the original work branch is retained for traceability.

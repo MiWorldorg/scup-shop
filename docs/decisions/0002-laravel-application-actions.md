@@ -18,4 +18,4 @@ The extracted actions are `AuthenticateUser`, `RegisterUser`, `ManageProducts`, 
 - Product inventory consistency and legacy-reference checks live in one application action.
 - Post lifecycle writes have a clear use-case boundary.
 - Administrator-role invariants are checked inside the transaction.
-- Authentication registration/token issuance remains in the existing auth repository and is tracked as a follow-up extraction.
+- Authentication credential verification, account creation, and token issuance now live in dedicated application actions; the legacy auth repository has been removed.

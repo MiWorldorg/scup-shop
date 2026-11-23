@@ -19,10 +19,11 @@ class AuthService {
     return ApiResponse.object(response);
   }
 
-  Future<void> logout(String token) async {
+  Future<void> logout({String? token}) async {
     final response = await client.postJson(
       EndPoints.logout,
       const {},
+      authenticated: token == null,
       bearerToken: token,
     );
     ApiResponse.ensureSuccess(response);

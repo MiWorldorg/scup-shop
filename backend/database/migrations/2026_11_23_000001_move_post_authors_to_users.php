@@ -105,13 +105,20 @@ return new class extends Migration
             }
         }
 
-        DB::table('posts')->whereNull('published')->update(['published' => now()]);
-        DB::table('posts')->whereNull('post_picture')->update(['post_picture' => '']);
-
         Schema::table('posts', function (Blueprint $table) {
             $table->foreign('author_id')->references('id')->on('admins');
-            $table->timestamp('published')->nullable(false)->change();
-            $table->string('post_picture')->nullable(false)->change();
         });
+
+        if (!DB::table('posts')->whereNull('published')->exists()) {
+            Schema::table('posts', function (Blueprint $table) {
+                $table->timestamp('published')->nullable(false)->change();
+            });
+        }
+
+        if (!DB::table('posts')->whereNull('post_picture')->exists()) {
+            Schema::table('posts', function (Blueprint $table) {
+                $table->string('post_picture')->nullable(false)->change();
+            });
+        }
     }
-}
+};

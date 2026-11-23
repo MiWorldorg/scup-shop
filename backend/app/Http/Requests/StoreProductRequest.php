@@ -18,7 +18,12 @@ class StoreProductRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'desc' => ['required', 'string', 'max:255'],
             'sku' => ['required', 'string', 'max:255', Rule::unique('products', 'sku')],
-            'image' => ['nullable', 'string', 'max:255'],
+            'image' => [
+                'nullable',
+                'string',
+                'max:255',
+                'regex:/^assets\\/images\\/products\\/[A-Za-z0-9 _.-]+\\.(png|jpe?g|webp)$/i',
+            ],
             'category_id' => ['required', 'integer', 'exists:product_categories,id'],
             'inventory_id' => [
                 'nullable',

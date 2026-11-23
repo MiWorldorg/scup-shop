@@ -2,6 +2,7 @@
 
 namespace App\Repository\api;
 
+use App\Http\Requests\DeleteProductRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
@@ -9,7 +10,6 @@ use App\Models\Product;
 use App\Models\ProductInventory;
 use App\Repository\api\Contract\ProductRepositoryInterfaceApi;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProductRepositoryApi implements ProductRepositoryInterfaceApi
@@ -57,7 +57,7 @@ class ProductRepositoryApi implements ProductRepositoryInterfaceApi
         ], 201);
     }
 
-    public function destroy(Request $request): JsonResponse
+    public function destroy(DeleteProductRequest $request): JsonResponse
     {
         $validated = $request->validate([
             'id' => ['required', 'integer'],

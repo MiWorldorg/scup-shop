@@ -11,14 +11,14 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function login(AuthRepositoryInterfaceApi $authRepository, LoginRequest $request)
+    public function login(AuthRepositoryInterfaceApi $authRepository, LoginRequest $request): JsonResponse
     {
         return $authRepository->login($request);
     }
 
-    public function register(AuthRepositoryApi $authRepositoryApi, RegisterRequest $request)
+    public function register(AuthRepositoryInterfaceApi $authRepository, RegisterRequest $request): JsonResponse
     {
-        return $authRepositoryApi->register($request);
+        return $authRepository->register($request);
     }
 
     public function logout(Request $request): JsonResponse

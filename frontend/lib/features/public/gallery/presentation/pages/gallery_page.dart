@@ -27,6 +27,7 @@ class GalleryPage extends GetView<GalleryController> {
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
     final compact = width < 600;
+    final reduceMotion = MediaQuery.disableAnimationsOf(context);
     final colors = Theme.of(context).colorScheme;
     return Scaffold(
       drawer: MobileDrawer(),
@@ -76,7 +77,7 @@ class GalleryPage extends GetView<GalleryController> {
                           height: compact ? 250 : 420,
                           viewportFraction: compact ? 0.88 : 0.72,
                           enlargeCenterPage: true,
-                          autoPlay: true,
+                          autoPlay: !reduceMotion,
                           autoPlayInterval: const Duration(seconds: 5),
                           pauseAutoPlayOnTouch: true,
                         ),
@@ -146,7 +147,11 @@ class GalleryPage extends GetView<GalleryController> {
                 InteractiveViewer(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(18),
-                    child: Image.asset(path, fit: BoxFit.contain),
+                    child: Image.asset(
+                      path,
+                      fit: BoxFit.contain,
+                      semanticLabel: 'Sculpture gallery image ${index + 1}',
+                    ),
                   ),
                 ),
                 IconButton.filledTonal(

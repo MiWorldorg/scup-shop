@@ -93,6 +93,17 @@ class ShopPage extends GetView<ShopController> {
                 ),
                 const SizedBox(height: 12),
                 Obx(() {
+                  if (controller.categoriesLoading.value) {
+                    return const LinearProgressIndicator();
+                  }
+                  if (controller.categoriesError.value != null) {
+                    return Text(
+                      'Category filters are temporarily unavailable.',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    );
+                  }
                   if (controller.categories.isEmpty) {
                     return const SizedBox.shrink();
                   }

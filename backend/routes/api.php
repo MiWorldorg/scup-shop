@@ -65,6 +65,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::get('/post', [PostController::class, 'selectPublic']);
+    Route::get('/product/categories', [ProductController::class, 'categories']);
     Route::get('/product', [ProductController::class, 'select']);
 });
 

@@ -63,15 +63,37 @@ class ProductRepositoryApi implements ProductRepositoryInterfaceApi
             'id' => ['required', 'integer'],
         ]);
 
-        DB::transaction(function () use ($validated) {
+        $deleted = DB::transaction(function () use ($validated) {
             $product = Product::lockForUpdate()->findOrFail($validated['id']);
+
+            $hasLegacyReferences = DB::table('cart_items')
+                ->where('product_id', $product->id)
+                ->exists()
+                || DB::table('order_items')
+                    ->where('product_id', $product->id)
+                    ->exists();
+
+            if ($hasLegacyReferences) {
+                return false;
+            }
+
             $inventoryId = $product->inventory_id;
             $product->delete();
 
             if ($inventoryId !== null) {
                 ProductInventory::whereKey($inventoryId)->delete();
             }
+
+            return true;
         });
+
+        if (!$deleted) {
+            return response()->json([
+                'code' => 2,
+                'message' => 'This product is referenced by legacy cart or order records and cannot be deleted.',
+                'data' => null,
+            ], 409);
+        }
 
         return response()->json([
             'code' => 1,

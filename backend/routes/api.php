@@ -11,9 +11,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 Route::prefix('v1')->group(function () {
-    // admin page api
     Route::prefix('admin')->middleware(['auth:api', 'admin'])->group(function () {
-        // products
         Route::prefix('product')->group(function () {
             Route::get('/', [ProductController::class, 'select']);
             Route::get('/categories', [ProductController::class, 'categories']);
@@ -22,28 +20,22 @@ Route::prefix('v1')->group(function () {
             Route::delete('/delete', [ProductController::class, 'destroy']);
         });
 
-        // posts
         Route::prefix('post')->group(function () {
-            Route::get('/', [PostController::class, 'select']);
+            Route::get('/', [PostController::class, 'selectAdmin']);
+            Route::get('/categories', [PostController::class, 'categories']);
             Route::post('/create', [PostController::class, 'insert']);
             Route::put('/update', [PostController::class, 'update']);
             Route::delete('/delete', [PostController::class, 'destroy']);
         });
 
-        // users
         Route::prefix('user')->group(function () {
             Route::get('/', [UserController::class, 'select']);
             Route::put('/role', [UserController::class, 'updateRole']);
         });
     });
 
-    Route::prefix('post')->group(function () {
-        Route::get('/', [PostController::class, 'select']);
-    });
-
-    Route::prefix('product')->group(function () {
-        Route::get('/', [ProductController::class, 'select']);
-    });
+    Route::get('/post', [PostController::class, 'selectPublic']);
+    Route::get('/product', [ProductController::class, 'select']);
 });
 
 require __DIR__.'/auth.php';

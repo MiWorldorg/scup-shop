@@ -99,15 +99,17 @@ class ProductCatalogTest extends TestCase
     public function test_admin_post_search_matches_title_slug_and_summary(): void
     {
         $admin = User::factory()->create(['role' => 'admin']);
-        $category = PostCategory::create([
+        $categoryId = DB::table('post_categories')->insertGetId([
             'title' => 'Sculpture & Art',
             'image' => '',
             'desc' => 'Editorial category.',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         Post::create([
             'author_id' => $admin->id,
-            'category_id' => $category->id,
+            'category_id' => $categoryId,
             'slug' => 'stone-and-form',
             'title' => 'Stone and Form',
             'published' => now(),
@@ -117,7 +119,7 @@ class ProductCatalogTest extends TestCase
         ]);
         Post::create([
             'author_id' => $admin->id,
-            'category_id' => $category->id,
+            'category_id' => $categoryId,
             'slug' => 'studio-journal',
             'title' => 'Studio Journal',
             'published' => null,
@@ -154,7 +156,7 @@ class ProductCatalogTest extends TestCase
             'desc' => $description,
             'sku' => $sku,
             'image' => 'assets/images/products/marble-think.png',
-            'category_id' => $category->id,
+            'category_id' => $categoryId,
             'inventory_id' => $inventory->id,
             'price' => $price,
         ]);

@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: GetMaterialApp(
+        initialBinding: AppBindings(),
         builder: (context, child) => ResponsiveBreakpoints.builder(
           child: child!,
           breakpoints: [

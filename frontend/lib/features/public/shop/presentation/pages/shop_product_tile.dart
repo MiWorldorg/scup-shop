@@ -144,7 +144,29 @@ class ShopProductsTile extends StatelessWidget {
             color: colors.onBackground.withOpacity(0.62),
           ),
         ),
-        const SizedBox(height: 22),
+        const SizedBox(height: 14),
+        Row(
+          children: [
+            Icon(
+              product.quantity > 0
+                  ? Icons.check_circle_outline_rounded
+                  : Icons.remove_circle_outline_rounded,
+              size: 18,
+              color: product.quantity > 0 ? colors.tertiary : colors.error,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              product.quantity > 0
+                  ? 'In stock · ${product.quantity} available'
+                  : 'Currently unavailable',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: product.quantity > 0 ? colors.tertiary : colors.error,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 18),
         Text(
           '${product.price} Toman',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(

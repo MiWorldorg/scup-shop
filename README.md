@@ -49,7 +49,7 @@ No screenshots are published yet. Final captures will be added after the agreed 
 - **Email:** Laravel Mail transport, configured through environment variables.
 - **Platforms targeted:** Android, Web, Windows, and Linux. Platform builds and runtime behavior remain subject to final QA.
 
-See [architecture](docs/architecture.md), [database](docs/database.md), and [API reference](docs/api.md).
+See [architecture](docs/architecture.md), [database](docs/database.md), [API reference](docs/api.md), [product scope](docs/product-scope.md), and the [testing plan](docs/testing.md).
 
 ## 5. Key Decisions & Trade-offs
 

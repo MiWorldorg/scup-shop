@@ -111,6 +111,22 @@ class CoreIntegrityTest extends TestCase
             'id' => $draft->id + 999,
             'title' => 'Missing post',
         ])->assertNotFound();
+
+        $this->putJson('/api/v1/admin/post/update', [
+            'id' => $draft->id,
+            'title' => 'Now published',
+            'published' => now()->toISOString(),
+        ])->assertOk();
+
+        $this->assertDatabaseHas('posts', [
+            'id' => $draft->id,
+            'title' => 'Now published',
+        ]);
+
+        $this->deleteJson('/api/v1/admin/post/delete?id='.$draft->id)
+            ->assertOk();
+
+        $this->assertDatabaseMissing('posts', ['id' => $draft->id]);
     }
 
     public function test_product_inventory_is_owned_and_zero_stock_is_preserved(): void
@@ -132,6 +148,16 @@ class CoreIntegrityTest extends TestCase
         ]);
 
         Passport::actingAs($admin, [], 'api');
+
+        $this->postJson('/api/v1/admin/product/create', [
+            'name' => 'Second sculpture',
+            'desc' => 'Another test item.',
+            'sku' => 'TEST-SCULPTURE-002',
+            'category_id' => $category->id,
+            'inventory_id' => $inventory->id,
+            'quantity' => 4,
+            'price' => 150,
+        ])->assertUnprocessable();
 
         $this->putJson('/api/v1/admin/product/update', [
             'id' => $product->id,

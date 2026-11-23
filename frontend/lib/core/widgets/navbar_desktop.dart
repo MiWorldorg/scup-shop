@@ -43,7 +43,7 @@ class HeaderNavbarDeskTop extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Tooltip(
-            message: 'Open dashboard',
+            message: 'Open admin sign in',
             child: OutlinedButton.icon(
               onPressed: () => Get.toNamed(AppRoutes.adminLogin),
               icon: const Icon(Ionicons.person_outline, size: 18),

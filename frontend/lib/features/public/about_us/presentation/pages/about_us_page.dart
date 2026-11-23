@@ -4,15 +4,15 @@ import 'package:sculpture_shop/core/variable/page_padding_var.dart';
 import 'package:sculpture_shop/core/widgets/header.dart';
 import 'package:sculpture_shop/core/widgets/website_drawer_mobile.dart';
 import 'package:sculpture_shop/core/widgets/website_footer.dart';
-import 'package:sculpture_shop/features/public/about_us/presentation/controllers/about_us_controller.dart';
 
-class AboutUsPage extends GetView<AboutUsController> {
+class AboutUsPage extends StatelessWidget {
   AboutUsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
     final colors = Theme.of(context).colorScheme;
+
     return Scaffold(
       drawer: MobileDrawer(),
       body: SingleChildScrollView(
@@ -29,53 +29,62 @@ class AboutUsPage extends GetView<AboutUsController> {
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
                     borderRadius: BorderRadius.circular(24),
-                    border: Border.all(
-                      color: colors.onBackground.withOpacity(0.07),
-                    ),
+                    border: Border.all(color: colors.outline),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'OUR STORY',
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: colors.primary,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        'A space for sculpture and craft',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'This website was designed and developed by Mahdi Izadi and Amin Mashhadi Farahani as the final project for a web design course. It presents a sculpture storefront with a distinctive visual style.',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: colors.onBackground.withOpacity(0.76),
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-                      Wrap(
-                        alignment: WrapAlignment.center,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        spacing: 34,
-                        runSpacing: 24,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final isWide = constraints.maxWidth >= 760;
+                      final story = Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image.asset(
-                            'assets/images/Shamsipour-fa-logo.svg.png',
-                            height: width < 500 ? 100 : 150,
-                            fit: BoxFit.contain,
+                          Text(
+                            'OUR STORY',
+                            style: Theme.of(context).textTheme.labelLarge
+                                ?.copyWith(
+                                  color: colors.primary,
+                                  letterSpacing: 2,
+                                ),
                           ),
-                          Image.asset(
-                            'assets/images/TVU_logo.png',
-                            height: width < 500 ? 100 : 150,
-                            fit: BoxFit.contain,
+                          const SizedBox(height: 12),
+                          Text(
+                            'A space for sculpture and craft',
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Scup-Shop is a digital showcase for sculpture and decorative art. Explore forms, materials, and ideas through the collection and its journal, then get in touch to ask about a piece.',
+                            style: Theme.of(context).textTheme.bodyLarge
+                                ?.copyWith(color: colors.onSurfaceVariant),
                           ),
                         ],
-                      ),
-                    ],
+                      );
+                      final artwork = Image.asset(
+                        'assets/images/sculpture-object.png',
+                        height: isWide ? 360 : 260,
+                        fit: BoxFit.contain,
+                        semanticLabel: 'Sculpture artwork from the Scup-Shop collection',
+                      );
+
+                      if (!isWide) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            story,
+                            const SizedBox(height: 24),
+                            artwork,
+                          ],
+                        );
+                      }
+
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(child: story),
+                          const SizedBox(width: 28),
+                          Expanded(child: artwork),
+                        ],
+                      );
+                    },
                   ),
                 ),
                 const Footer(),

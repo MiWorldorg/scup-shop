@@ -1,154 +1,167 @@
 # Scup-Shop
 
-> A portfolio-focused sculpture storefront and editorial platform with a responsive Flutter client and a Laravel API for catalog and content administration.
+<p align="center">
+  <img src="frontend/assets/images/sculpture-banner-1.png" alt="Classical sculpture artwork from the Scup-Shop collection" width="100%" />
+</p>
 
-**Role:** Solo developer · **Period:** Not specified · **Status:** In development
+<h1 align="center">SCUP-SHOP</h1>
+<p align="center"><strong>A considered digital space for sculpture, art, and editorial storytelling.</strong></p>
+<p align="center">
+  <a href="#overview">Overview</a> · <a href="#experience">Experience</a> · <a href="#architecture">Architecture</a> · <a href="#getting-started">Getting started</a>
+</p>
 
-**Links:** [Private GitHub repository](https://github.com/MiWorldorg/Scup-Shop) · Live demo: not deployed · Screenshots: pending final runtime capture
-
-> This repository is private. A manual-only CI workflow is present for the final verification pass; it has not yet been run, so no passing badge is shown. The project is not licensed for redistribution; no LICENSE file is included by owner decision.
+<p align="center">
+  <img alt="Flutter" src="https://img.shields.io/badge/Flutter-3.32%2B-7B9BA6?style=flat-square&logo=flutter&logoColor=white">
+  <img alt="Dart" src="https://img.shields.io/badge/Dart-3.8%2B-7B9BA6?style=flat-square&logo=dart&logoColor=white">
+  <img alt="Laravel" src="https://img.shields.io/badge/Laravel-13-C49A6C?style=flat-square&logo=laravel&logoColor=white">
+  <img alt="PHP" src="https://img.shields.io/badge/PHP-8.3--8.5-777BB4?style=flat-square&logo=php&logoColor=white">
+  <img alt="Database" src="https://img.shields.io/badge/MySQL-compatible-8A8178?style=flat-square&logo=mysql&logoColor=white">
+  <img alt="Status" src="https://img.shields.io/badge/Status-In%20development-B18A62?style=flat-square">
+</p>
 
 ---
 
-## 1. Problem
+## Overview
 
-Independent sculpture and art collections need a clear way to present individual pieces and related editorial content, while keeping catalog and publishing tasks manageable. Scup-Shop explores that experience for visitors and a small administrator team without pretending to be a complete commerce platform.
+**Scup-Shop** is a portfolio-focused sculpture storefront and editorial platform. It pairs a responsive Flutter application with a Laravel 13 JSON API to present a curated sculpture catalog, publish editorial content, and provide focused administration tools.
 
-## 2. Solution
+The visual direction takes cues from premium art galleries: restrained typography, warm stone and bronze tones, generous negative space, and artwork-led presentation.
 
-Scup-Shop combines a public Flutter storefront with a Laravel 13 JSON API and an administrator area.
+> **Project status:** In development. This repository is private. A live demo has not been deployed, and final cross-platform screenshots and the complete automated quality pass are still pending.
 
-- Browse a sculpture catalog with search, category filters, stock information, and pagination.
-- Read published editorial posts.
-- Explore the brand, gallery, and contact information.
-- Sign in to the protected admin area to manage products, posts, and user roles.
-- Submit a contact message through the Flutter form to a rate-limited Laravel endpoint. The endpoint uses the configured Laravel mail transport; actual email delivery still requires deployment-specific SMTP settings and final verification.
+## Experience
 
-**Explicit scope:** cart, checkout, order placement, and payment processing are not implemented. Legacy database tables for those concepts remain in the schema and are documented as unused by the current user-facing flows.
+- **Discover:** browse sculptures with search, category filtering, stock information, and pagination.
+- **Read:** explore published editorial posts.
+- **Connect:** view brand and gallery information and submit a contact message.
+- **Administer:** manage products, posts, and user roles through a protected admin area.
+- **Adapt:** share a responsive Flutter codebase across Android, Web, Windows, and Linux targets.
 
-## 3. Screenshots / Demo
+### Scope, by design
 
-No screenshots are published yet. Final captures will be added after the agreed Android, Web, Windows, and Linux visual review and runtime QA. A live demo is not currently deployed.
+This is an art and catalog presentation project, **not a completed commerce system**. Cart, checkout, order placement, and payment processing are not implemented. Legacy schema tables for those concepts are documented as unused by current user-facing flows.
 
-## 4. Architecture
+## Architecture
 
-    Visitor / Admin
-          |
-          v
-    Flutter client
-          | HTTPS JSON /api/v1
-          v
-    Laravel 13 API ---------> Configured mail transport
-          |
-          v
-        MySQL
+```text
+                 ┌─────────────────────────┐
+                 │       Visitor/Admin     │
+                 └────────────┬────────────┘
+                              │
+                 ┌────────────▼────────────┐
+                 │     Flutter / Dart      │
+                 │       GetX UI           │
+                 └────────────┬────────────┘
+                              │ HTTPS · JSON
+                 ┌────────────▼────────────┐
+                 │      Laravel 13 API     │
+                 │ Passport · Actions      │
+                 │ Requests · Resources    │
+                 └───────┬─────────┬───────┘
+                         │         │
+                  ┌──────▼────┐ ┌──▼────────────┐
+                  │   MySQL   │ │ Laravel Mail  │
+                  └───────────┘ └───────────────┘
+```
 
-- **Frontend:** Flutter / Dart, GetX for navigation, state, and dependency composition.
-- **Backend:** Laravel 13 JSON API, Laravel Passport bearer-token authentication.
-- **Database:** MySQL, managed by Laravel migrations and seeders.
-- **Email:** Laravel Mail transport, configured through environment variables.
-- **Platforms targeted:** Android, Web, Windows, and Linux. Platform builds and runtime behavior remain subject to final QA.
+| Layer | Technology | Responsibility |
+|---|---|---|
+| Client | Flutter, Dart, GetX | Responsive multi-platform interface |
+| API | Laravel 13, PHP | Versioned JSON endpoints and application workflows |
+| Authentication | Laravel Passport | Bearer-token authentication and protected admin access |
+| Persistence | MySQL / compatible MariaDB | Relational data, migrations, and seeders |
+| Contact | Laravel Mail | Configurable contact-message delivery |
 
-See [architecture](docs/architecture.md), [database](docs/database.md), [API reference](docs/api.md), [product scope](docs/product-scope.md), [operations](docs/operations.md), [accessibility](docs/accessibility.md), [testing plan](docs/testing.md), [changelog](CHANGELOG.md), and the [release checklist](docs/release-checklist.md).
+Architecture notes and decision records are available in [docs](docs/architecture.md) and [docs/decisions](docs/decisions/).
 
-## 5. Key Decisions & Trade-offs
+## Getting started
 
-- **One Flutter codebase:** shared screens and responsive layouts reduce duplicated UI work across the agreed targets; platform-specific plugins still require platform validation.
-- **GetX composition and state:** GetX provides routing, bindings, and feature controllers in one consistent approach; adding a second state framework would increase maintenance cost.
-- **Laravel actions for writes and repositories for reads:** multi-row write workflows and transaction boundaries stay out of HTTP controllers, while read queries remain reusable and paginated.
-- **Portfolio scope rather than checkout:** catalog, editorial, administration, and contact demonstrate the intended product surface without presenting incomplete order/payment tables as a working commerce flow.
-- **Whole-dollar USD demo prices:** sample product prices are explicit portfolio values, not converted legacy prices or market valuations.
+### Prerequisites
 
-Decision records are in [docs/decisions](docs/decisions/).
+- PHP 8.3–8.5 with `sodium`, `pdo_mysql`, and `pdo_sqlite`
+- Composer
+- MySQL 8 or a compatible MariaDB release
+- Flutter 3.32+ and Dart 3.8+
+- Tooling for the target platform: Android, Chrome/Web, Windows, or Linux
 
-## 6. Challenges & How I Solved Them
+### 1. Start the API
 
-- **Mixed responsibility in API code:** separated validation, controllers, application actions, repository contracts, and API resources.
-- **Inconsistent client dependencies:** introduced a shared API client and an application composition root so feature services use one transport configuration.
-- **Responsive admin controls:** adapted navigation and list actions for narrow screens, and added bundled-asset selection with previews rather than implying arbitrary file upload support.
-- **Legacy schema beyond current scope:** kept unused order/cart tables documented instead of exposing non-working checkout features.
+```bash
+cd backend
+cp .env.example .env
+composer install
+php artisan key:generate
+```
 
-## 7. What I'd Improve Next
+Create a database and configure the `DB_*` values in `backend/.env`. Set a private `DEMO_ADMIN_PASSWORD` before seeding if you need the local demo admin account.
 
-- Complete automated test coverage, static analysis, and clean platform builds for all agreed targets.
-- Configure a real mail provider and verify contact delivery end to end.
-- Capture final screenshots and deploy a reviewable demo after the runtime and security checks.
-- Consider a transactional commerce workflow only as a separately scoped future phase.
+```bash
+php artisan migrate --seed
+php artisan passport:install
+php artisan serve
+```
 
-## 8. Tech Stack
+The API base path is `http://127.0.0.1:8000/api/v1/`.
 
-Flutter · Dart · GetX · Laravel 13 · PHP · Laravel Passport · MySQL · REST API
-
-## 9. Getting Started
-
-### Requirements
-
-- PHP 8.3–8.5 with sodium, pdo_mysql, and pdo_sqlite for the backend test suite.
-- Composer.
-- MySQL 8 or a compatible MariaDB release.
-- Flutter 3.32+ and Dart 3.8+.
-- Android, Chrome/Web, Windows, or Linux tooling for the target you intend to run.
-
-### Configure and run the API
-
-1. Create a MySQL database named sculpture_shop.
-2. Configure the backend environment:
-
-    cd backend
-    cp .env.example .env
-    composer install
-    php artisan key:generate
-
-3. Set DB_* values in backend/.env. For local admin access, set a private DEMO_ADMIN_PASSWORD before seeding. The seeder only creates demo accounts in the local environment.
-4. Run migrations, seed the demo catalog, prepare Passport, and start Laravel:
-
-    php artisan migrate --seed
-    php artisan passport:install
-    php artisan serve
-
-The API base path is http://127.0.0.1:8000/api/v1/.
-
-### Configure and run Flutter
+### 2. Start the Flutter client
 
 In a second terminal:
 
-    cd frontend
-    flutter pub get
-    flutter run -d chrome
+```bash
+cd frontend
+flutter pub get
+flutter run -d chrome
+```
 
-The default API URL is configured in frontend/lib/core/api/url.dart. Override it when needed:
+The default API URL lives in `frontend/lib/core/api/url.dart`. Override it when needed:
 
-    flutter run -d chrome --dart-define=API_BASE_URL=https://api.example.com/api/v1/
+```bash
+flutter run -d chrome --dart-define=API_BASE_URL=https://api.example.com/api/v1/
+```
 
-The URL must end with /. Android emulators generally need to reach the host through 10.0.2.2; physical devices need a host address reachable on their network. For Windows and Linux, use the API host reachable from that machine.
+The URL must end with `/`. Android emulators generally use `10.0.2.2` to reach the host machine; physical devices need a reachable host address.
 
-### Contact email configuration
+### Contact email
 
-To enable the contact mail workflow, configure CONTACT_TO_ADDRESS and valid MAIL_* values in backend/.env. The committed .env.example contains placeholders, not working credentials. The endpoint returns a service-unavailable response when the destination is missing or sending fails. SMTP delivery has not yet been verified.
+Configure `CONTACT_TO_ADDRESS` and valid `MAIL_*` values in `backend/.env`. The committed `.env.example` contains placeholders. SMTP delivery has not yet been verified.
 
-### Tests and quality checks
+## Quality and verification
 
-Per the project owner's workflow, the complete test, formatter, analyzer, and build pass is deferred until implementation phases are complete. Do not interpret the absence of a failing result as a passing result. The final commands and coverage plan are tracked in the master checklist.
+The project includes backend and frontend tests plus a manual final-verification workflow. Per the project's agreed workflow, the complete test, formatter, analyzer, and platform-build pass is deferred until implementation is complete. **No passing CI or final QA result is claimed here.**
 
-## 10. Project Structure
+See the [testing plan](docs/testing.md), [release checklist](docs/release-checklist.md), and [master checklist](MASTER_CHECKLIST.md).
 
-    Scup-Shop/
-    ├── backend/                 # Laravel API, actions, requests, resources, migrations
-    ├── frontend/                # Flutter app, features, shared UI, assets
-    ├── .github/workflows/ci.yml  # Manual final verification workflow
-    ├── docs/
-    │   ├── decisions/           # Architecture decision records
-    │   ├── images/              # Final portfolio screenshots (to be captured)
-    │   ├── api.md               # Endpoint reference
-    │   ├── architecture.md      # Runtime and dependency architecture
-    │   └── database.md          # Schema and ER diagram
-    ├── MASTER_CHECKLIST.md      # Phase plan and acceptance tracking
-    └── portfolio-project-standard.md
+## Project documentation
 
-## 11. What I Learned
+- [Architecture](docs/architecture.md)
+- [API reference](docs/api.md)
+- [Database](docs/database.md)
+- [Product scope](docs/product-scope.md)
+- [Operations](docs/operations.md)
+- [Accessibility](docs/accessibility.md)
+- [Testing plan](docs/testing.md)
+- [Decision records](docs/decisions/)
+- [Changelog](CHANGELOG.md)
+- [Release checklist](docs/release-checklist.md)
+- [GitHub presentation guide](docs/github-presentation.md)
+- [GitHub presentation guide](docs/github-presentation.md)
 
-The implementation provides practical work across Flutter responsive UI, dependency composition, API contract design, Laravel authorization and transaction boundaries, relational data integrity, and documenting the limits of a legacy schema. A fact-checked [portfolio summary](docs/portfolio-summary.md) is available; the final quality and platform claims remain open until the planned verification phase is complete.
+## Roadmap
 
-## License
+- [ ] Complete automated tests, static analysis, and clean builds for all agreed targets.
+- [ ] Verify contact email delivery with a real mail provider.
+- [ ] Capture final Android, Web, Windows, and Linux screenshots.
+- [ ] Publish a reviewable demo after runtime and security checks.
+- [ ] Revisit licensing after ownership and third-party asset rights are reviewed.
 
-No license file is included. The repository remains private and reuse or redistribution is not granted. Licensing can be revisited after ownership and third-party asset/content rights are reviewed.
+## Project details
+
+**Role:** Solo developer  
+**Status:** In development  
+**Repository visibility:** Private  
+**Live demo:** Not deployed  
+**License:** No license file is included; reuse and redistribution are not granted.
+
+---
+
+<p align="center"><strong>SCUP-SHOP</strong><br><sub>Art, presented with intention.</sub></p>

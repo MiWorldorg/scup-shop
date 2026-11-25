@@ -24,7 +24,11 @@ class MobileDrawer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset('assets/images/SpcLogo.png', height: 86),
+                  Image.asset(
+                    'assets/images/SpcLogo.png',
+                    height: 86,
+                    semanticLabel: 'Scup-Shop',
+                  ),
                   const SizedBox(height: 18),
                   Text(
                     'SCULPTURE SHOP',
@@ -87,10 +91,10 @@ class MobileDrawer extends StatelessWidget {
               child: OutlinedButton.icon(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  Get.toNamed(AppRoutes.dashboard);
+                  Get.toNamed(AppRoutes.adminLogin);
                 },
-                icon: const Icon(Icons.dashboard_outlined),
-                label: const Text('Open dashboard'),
+                icon: const Icon(Icons.admin_panel_settings_outlined),
+                label: const Text('Admin sign in'),
               ),
             ),
           ],

@@ -8,5 +8,5 @@ interface PostRepositoryInterfaceApi
 {
     public function selectPublished(): LengthAwarePaginator;
 
-    public function selectAll(): LengthAwarePaginator;
+    public function selectAll(?string $search = null): LengthAwarePaginator;
 }

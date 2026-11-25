@@ -11,6 +11,7 @@ use App\Http\Resources\PostResource;
 use App\Models\PostCategory;
 use App\Repository\api\Contract\PostRepositoryInterfaceApi;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -27,9 +28,14 @@ class PostController extends Controller
         ]);
     }
 
-    public function selectAdmin(PostRepositoryInterfaceApi $posts): JsonResponse
-    {
-        $data = PostResource::collection($posts->selectAll())
+    public function selectAdmin(
+        Request $request,
+        PostRepositoryInterfaceApi $posts
+    ): JsonResponse {
+        $search = trim($request->string('search')->toString());
+        $data = PostResource::collection(
+            $posts->selectAll($search !== '' ? $search : null)
+        )
             ->response()
             ->getData(true);
 

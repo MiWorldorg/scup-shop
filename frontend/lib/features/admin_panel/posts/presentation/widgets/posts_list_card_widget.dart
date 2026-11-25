@@ -77,25 +77,49 @@ class PostsListCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          IconButton(
-            tooltip: 'Edit post',
-            onPressed: onEdit,
-            icon: const Icon(Icons.edit_outlined),
-          ),
-          IconButton(
-            tooltip: post.isPublished ? 'Unpublish post' : 'Publish post',
-            onPressed: onTogglePublished,
-            icon: Icon(
-              post.isPublished
-                  ? Icons.visibility_off_outlined
-                  : Icons.visibility_outlined,
-            ),
-          ),
-          IconButton(
-            tooltip: 'Delete post',
-            onPressed: onDelete,
-            color: colors.error,
-            icon: const Icon(Icons.delete_outline_rounded),
+          PopupMenuButton<String>(
+            tooltip: 'Post actions',
+            onSelected: (action) {
+              if (action == 'edit') onEdit();
+              if (action == 'visibility') onTogglePublished();
+              if (action == 'delete') onDelete();
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: 'edit',
+                child: Row(
+                  children: [
+                    Icon(Icons.edit_outlined),
+                    SizedBox(width: 12),
+                    Text('Edit'),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: 'visibility',
+                child: Row(
+                  children: [
+                    Icon(
+                      post.isPublished
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                    ),
+                    const SizedBox(width: 12),
+                    Text(post.isPublished ? 'Unpublish' : 'Publish'),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: 'delete',
+                child: Row(
+                  children: [
+                    Icon(Icons.delete_outline_rounded, color: colors.error),
+                    const SizedBox(width: 12),
+                    Text('Delete', style: TextStyle(color: colors.error)),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),

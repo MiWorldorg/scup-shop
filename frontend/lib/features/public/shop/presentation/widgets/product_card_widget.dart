@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sculpture_shop/core/formatters/price_formatter.dart';
 import 'package:get/get.dart';
 import 'package:sculpture_shop/features/public/shop/data/entity/product_response.dart';
 
@@ -45,6 +46,7 @@ class ProductCart extends StatelessWidget {
                   child: Image.asset(
                     productModel.image,
                     fit: BoxFit.contain,
+                    semanticLabel: productModel.name,
                     errorBuilder: (_, __, ___) => Icon(
                       Icons.image_not_supported_outlined,
                       size: 44,
@@ -84,7 +86,7 @@ class ProductCart extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      '${productModel.price} Toman',
+                      '\$${PriceFormatter.amount(productModel.price)}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(

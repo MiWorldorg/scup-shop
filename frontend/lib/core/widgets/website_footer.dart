@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:sculpture_shop/core/constants/routes.dart';
 
 class Footer extends StatelessWidget {
@@ -9,46 +8,46 @@ class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+
     return Padding(
-      padding: const EdgeInsets.only(bottom: 24, top: 34),
+      padding: const EdgeInsets.only(top: 36, bottom: 24),
       child: Column(
         children: [
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(24),
               color: Theme.of(context).cardColor,
-              border: Border.all(color: colors.onBackground.withOpacity(0.07)),
+              border: Border.all(color: colors.outline),
             ),
             child: Column(
               children: [
-                Image.asset('assets/images/SpcLogo.png', height: 112),
-                const SizedBox(height: 10),
+                Image.asset(
+                  'assets/images/SpcLogo.png',
+                  height: 92,
+                  semanticLabel: 'Scup-Shop',
+                ),
+                const SizedBox(height: 12),
                 Text(
-                  'Sculpture store',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  'Art in form',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: colors.primary,
-                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 22),
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 28,
-                  runSpacing: 14,
-                  children: [
-                    _contactItem(
-                      context,
-                      Ionicons.location_outline,
-                      'Gheitariyeh, Tehran',
-                    ),
-                    _contactItem(
-                      context,
-                      Ionicons.call_outline,
-                      '021 - 88123456',
-                    ),
-                  ],
+                const SizedBox(height: 8),
+                Text(
+                  'Explore the collection and the stories behind each piece.',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: colors.onSurfaceVariant,
+                  ),
+                ),
+                const SizedBox(height: 18),
+                FilledButton.icon(
+                  onPressed: () => Get.toNamed(AppRoutes.contactUs),
+                  icon: const Icon(Icons.mail_outline_rounded),
+                  label: const Text('Contact the studio'),
                 ),
               ],
             ),
@@ -57,7 +56,7 @@ class Footer extends StatelessWidget {
           Text(
             'All rights reserved.',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: colors.onBackground.withOpacity(0.55),
+              color: colors.onSurfaceVariant,
             ),
           ),
           TextButton(
@@ -66,17 +65,6 @@ class Footer extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _contactItem(BuildContext context, IconData icon, String label) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, size: 18, color: Theme.of(context).colorScheme.primary),
-        const SizedBox(width: 8),
-        Text(label, style: Theme.of(context).textTheme.bodySmall),
-      ],
     );
   }
 }

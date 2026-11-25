@@ -7,10 +7,12 @@ class PostManageService {
   final ApiClient client;
   PostManageService({required this.client});
 
-  Future<ApiPaginatedResult> call(int page) async {
+  Future<ApiPaginatedResult> call(int page, {String? search}) async {
+    final query = <String, String>{'page': page.toString()};
+    if (search != null && search.trim().isNotEmpty) query['search'] = search.trim();
     final response = await client.getJson(
       EndPoints.apPost,
-      query: {'page': page.toString()},
+      query: query,
       authenticated: true,
     );
     return ApiResponse.paginated(response);

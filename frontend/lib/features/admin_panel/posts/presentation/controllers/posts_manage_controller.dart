@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sculpture_shop/core/api/api_response.dart';
 import 'package:sculpture_shop/features/admin_panel/posts/data/entity/post_response.dart';
@@ -9,6 +10,8 @@ class PostsManageController extends GetxController {
 
   final posts = <PostManageResponse>[].obs;
   final categories = <PostCategoryResponse>[].obs;
+  final searchController = TextEditingController();
+  final searchQuery = ''.obs;
   final currentPage = 1.obs;
   final lastPage = 1.obs;
   final isLoading = true.obs;
@@ -29,7 +32,12 @@ class PostsManageController extends GetxController {
     isLoading.value = true;
     errorMessage.value = null;
     try {
-      final result = await repo.getPosts(currentPage.value);
+      final result = await repo.getPosts(
+        currentPage.value,
+        search: searchQuery.value.trim().isEmpty
+            ? null
+            : searchQuery.value.trim(),
+      );
       if (isClosed || version != _fetchVersion) return;
       posts.assignAll(result.rows.map(PostManageResponse.fromJson));
       currentPage.value = result.currentPage;
@@ -55,6 +63,25 @@ class PostsManageController extends GetxController {
     } finally {
       if (!isClosed) isLoadingCategories.value = false;
     }
+  }
+
+  Future<void> search(String value) async {
+    searchQuery.value = value.trim();
+    currentPage.value = 1;
+    await fetchLatestPosts();
+  }
+
+  Future<void> clearSearch() async {
+    searchController.clear();
+    searchQuery.value = '';
+    currentPage.value = 1;
+    await fetchLatestPosts();
+  }
+
+  @override
+  void onClose() {
+    searchController.dispose();
+    super.onClose();
   }
 
   Future<void> goToPage(int page) async {

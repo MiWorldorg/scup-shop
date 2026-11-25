@@ -34,6 +34,7 @@ class PostCard extends StatelessWidget {
                   child: Image.asset(
                     post.postPicture,
                     fit: BoxFit.cover,
+                    semanticLabel: post.title,
                     errorBuilder: (_, __, ___) => Container(
                       color: colors.background.withOpacity(0.5),
                       child: Icon(

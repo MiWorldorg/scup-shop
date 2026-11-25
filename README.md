@@ -12,7 +12,7 @@
 
 ## 1. Problem
 
-Independent sculpture and art collections need a clear way to present individual pieces and related editorial content, while keeping catalog and publishing tasks manageable. Scup-Shop explores that experience for visitors and a small administrator team without pretending to be a complete commerce platform.
+Independent sculpture and art collections now need a clear way to present individual pieces and related editorial content, while keeping catalog and publishing tasks manageable. Scup-Shop explores that experience for visitors and a small administrator team without pretending to be a complete commerce platform.
 
 ## 2. Solution
 

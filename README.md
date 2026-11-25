@@ -49,7 +49,7 @@ No screenshots are published yet. Final captures will be added after the agreed 
 - **Email:** Laravel Mail transport, configured through environment variables.
 - **Platforms targeted:** Android, Web, Windows, and Linux. Platform builds and runtime behavior remain subject to final QA.
 
-See [architecture](docs/architecture.md), [database](docs/database.md), [API reference](docs/api.md), [product scope](docs/product-scope.md), [operations](docs/operations.md), [accessibility](docs/accessibility.md), and the [testing plan](docs/testing.md).
+See [architecture](docs/architecture.md), [database](docs/database.md), [API reference](docs/api.md), [product scope](docs/product-scope.md), [operations](docs/operations.md), [accessibility](docs/accessibility.md), [testing plan](docs/testing.md), [changelog](CHANGELOG.md), and the [release checklist](docs/release-checklist.md).
 
 ## 5. Key Decisions & Trade-offs
 
@@ -147,7 +147,7 @@ Per the project owner's workflow, the complete test, formatter, analyzer, and bu
 
 ## 11. What I Learned
 
-The implementation provides practical work across Flutter responsive UI, dependency composition, API contract design, Laravel authorization and transaction boundaries, relational data integrity, and documenting the limits of a legacy schema. The final quality and platform claims remain open until the planned verification phase is complete.
+The implementation provides practical work across Flutter responsive UI, dependency composition, API contract design, Laravel authorization and transaction boundaries, relational data integrity, and documenting the limits of a legacy schema. A fact-checked [portfolio summary](docs/portfolio-summary.md) is available; the final quality and platform claims remain open until the planned verification phase is complete.
 
 ## License
 

@@ -12,7 +12,13 @@ Scup-Shop's backend is a Laravel 13 JSON API. It provides public catalog/editori
 
 ## Local setup
 
-1. Create a database named sculpture_shop.
+1. Create a database and a dedicated local database user. Example SQL (choose your own local password):
+
+    CREATE DATABASE sculpture_shop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    CREATE USER 'scup_user'@'127.0.0.1' IDENTIFIED BY 'replace-with-a-local-password';
+    GRANT ALL PRIVILEGES ON sculpture_shop.* TO 'scup_user'@'127.0.0.1';
+    FLUSH PRIVILEGES;
+
 2. Copy the example environment file and install dependencies:
 
     cp .env.example .env

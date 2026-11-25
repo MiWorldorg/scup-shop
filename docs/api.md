@@ -151,4 +151,5 @@ The API protects against self-demotion and removing the final administrator. Rol
 
 - The API does not expose a working cart, checkout, order placement, or payment endpoint.
 - Admin asset fields accept paths to bundled assets; arbitrary binary file upload is not implemented.
+- API responses include baseline content-type, frame, referrer, and permissions policy headers. HSTS is added only for secure production requests.
 - API behavior and examples are documented from source inspection. They remain subject to the final automated and runtime QA phase.

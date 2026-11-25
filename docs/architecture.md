@@ -145,6 +145,7 @@ AppServiceProvider binds repository contracts to their Eloquent-backed implement
 
 - Flutter stores Passport access tokens using flutter_secure_storage and sends them as bearer tokens for protected requests.
 - Production API traffic must use HTTPS; the API middleware rejects plain HTTP in production.
+- API responses include X-Content-Type-Options, X-Frame-Options, Referrer-Policy, and Permissions-Policy headers. HSTS is emitted only for secure production requests.
 - Set CORS_ALLOWED_ORIGINS to the exact deployed Flutter Web origins.
 - Set TRUSTED_PROXIES only to actual reverse-proxy addresses/CIDRs.
 - Configure CONTACT_TO_ADDRESS and a real MAIL_* transport for contact email. The example values are placeholders.

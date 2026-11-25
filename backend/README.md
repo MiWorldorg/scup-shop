@@ -72,6 +72,7 @@ The Flutter admin sign-in screen is available at /admin/login. Protected managem
 - Endpoint methods, authentication, payloads, response envelopes, and status codes: [docs/api.md](../docs/api.md).
 - Tables, relationships, legacy schema, and seed/migration behavior: [docs/database.md](../docs/database.md).
 - Runtime and layer responsibilities: [docs/architecture.md](../docs/architecture.md).
+- Deployment, backup, restore, and migration operations: [docs/operations.md](../docs/operations.md).
 
 ## Tests and quality checks
 

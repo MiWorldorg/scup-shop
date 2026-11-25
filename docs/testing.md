@@ -13,6 +13,7 @@ The workflow at .github/workflows/ci.yml is intentionally triggered only through
 | Area | Current test coverage |
 | --- | --- |
 | API response parsing | Pagination metadata, default pagination, malformed envelopes, validation error mapping |
+| Accessibility states | Async loading, empty, and error messages are exposed through semantic live regions; theme contrast thresholds have an automated test |
 | Product DTO | Product/category/inventory parsing, missing and malformed values |
 | Post management DTO | Draft/published state and nullable image handling |
 | Price formatter | Grouping, zero/small values, negative values |

@@ -13,7 +13,7 @@ void main() {
       expect(PriceFormatter.amount(185), '185');
     });
 
-    test('preserves a negative sign', () {
+    test('handles values at grouping boundaries', () {\n      expect(PriceFormatter.amount(999), '999');\n      expect(PriceFormatter.amount(1000), '1,000');\n      expect(PriceFormatter.amount(100000), '100,000');\n    });\n\n    test('preserves a negative sign', () {\n      expect(PriceFormatter.amount(-1), '-1');
       expect(PriceFormatter.amount(-1250), '-1,250');
     });
   });

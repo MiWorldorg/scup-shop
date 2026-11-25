@@ -4,33 +4,29 @@ namespace App\Repository\api;
 
 use App\Models\User;
 use App\Repository\api\Contract\UserRepositoryInterfaceApi;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class UserRepositoryApi implements UserRepositoryInterfaceApi
 {
-
-    //select users and pagination in address domain/v1/api/admin/user
-    public function select(Request $request): JsonResponse
+    public function select(?string $search, ?string $role): LengthAwarePaginator
     {
-        $query = User::select(
-            "id",
-            "role",
-            "username",
-            "first_name",
-            "last_name",
-            "phone",
-            "address",
-            "email",
-            "email_verified_at"
+        $query = User::query()->select(
+            'id',
+            'role',
+            'username',
+            'first_name',
+            'last_name',
+            'phone',
+            'address',
+            'email',
+            'email_verified_at',
         );
 
-        if (in_array($request->query('role'), ['user', 'admin'], true)) {
-            $query->where('role', $request->query('role'));
+        if (in_array($role, ['user', 'admin'], true)) {
+            $query->where('role', $role);
         }
 
-        $search = trim((string) $request->query('search', ''));
+        $search = trim((string) $search);
         if ($search !== '') {
             $query->where(function ($users) use ($search) {
                 $users->where('username', 'like', "%{$search}%")
@@ -40,12 +36,9 @@ class UserRepositoryApi implements UserRepositoryInterfaceApi
             });
         }
 
-        $users = $query->paginate(20)->appends($request->query());
-
-        return response()->json([
-            'code' => 1,
-            'message' => 'Users',
-            'data' => $users,
-        ], 200);
+        return $query->orderBy('id')->paginate(20)->appends(array_filter([
+            'search' => $search,
+            'role' => $role,
+        ], fn ($value) => $value !== null && $value !== ''));
     }
 }

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:sculpture_shop/features/public/about_us/presentation/controllers/about_us_controlelr.dart';
+import 'package:sculpture_shop/features/public/about_us/presentation/controllers/about_us_controller.dart';
 
 class AboutUsBinding extends Bindings {
   @override

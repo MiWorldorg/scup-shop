@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sculpture_shop/core/api/api_response.dart';
 import 'package:sculpture_shop/core/api/api_session.dart';
-import 'package:sculpture_shop/features/authentication/data/service/auth_service.dart';
+import 'package:sculpture_shop/features/authentication/domain/repository/auth_repository.dart';
 
 class AuthController extends GetxController {
-  final AuthService service;
-  AuthController({AuthService? service}) : service = service ?? AuthService();
+  final AuthRepository repository;
+  AuthController({required this.repository});
 
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
@@ -24,7 +24,7 @@ class AuthController extends GetxController {
     if (!ApiSession.isAuthenticated) return;
 
     try {
-      final user = await service.currentUser();
+      final user = await repository.currentUser();
       currentRole.value = user['role']?.toString() ?? '';
       currentUsername.value = user['username']?.toString() ?? '';
     } catch (error) {
@@ -44,7 +44,7 @@ class AuthController extends GetxController {
     errorMessage.value = null;
 
     try {
-      final response = await service.login(
+      final response = await repository.login(
         emailController.text.trim(),
         passwordController.text,
       );
@@ -57,7 +57,7 @@ class AuthController extends GetxController {
 
       if (role != 'admin') {
         try {
-          await service.logout(token);
+          await repository.logout(token: token);
         } catch (_) {
           // Keep the administrator sign-in error clear if revocation fails.
         }
@@ -81,7 +81,7 @@ class AuthController extends GetxController {
   Future<void> logout() async {
     final token = ApiSession.accessToken;
     try {
-      if (token != null) await service.logout(token);
+      if (token != null) await repository.logout();
     } catch (_) {
       // Local access still ends even if the network is unavailable.
     } finally {

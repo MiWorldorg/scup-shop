@@ -3,17 +3,11 @@ import 'package:get/get.dart';
 import 'package:sculpture_shop/core/api/api_response.dart';
 import 'package:sculpture_shop/core/widgets/async_state_view.dart';
 import 'package:sculpture_shop/features/admin_panel/posts/data/entity/post_response.dart';
-import 'package:sculpture_shop/features/admin_panel/posts/data/repository/post_repository_imp.dart';
 import 'package:sculpture_shop/features/admin_panel/posts/presentation/controllers/posts_manage_controller.dart';
 import 'package:sculpture_shop/features/admin_panel/posts/presentation/pages/post_manage_editor_dialog.dart';
-import 'package:sculpture_shop/features/admin_panel/products/posts_list_card_widget.dart';
+import 'package:sculpture_shop/features/admin_panel/posts/presentation/widgets/posts_list_card_widget.dart';
 
 class PostManagePage extends GetView<PostsManageController> {
-  @override
-  final PostsManageController controller = Get.put(
-    PostsManageController(repo: PostManageRepositoryImpl()),
-  );
-
   PostManagePage({super.key});
 
   @override

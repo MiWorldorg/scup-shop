@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sculpture_shop/core/widgets/async_state_view.dart';
-import 'package:sculpture_shop/features/admin_panel/users/data/repository/users_manage_repository_impl.dart';
 import 'package:sculpture_shop/features/admin_panel/users/data/entity/users_list_response.dart';
 import 'package:sculpture_shop/features/admin_panel/users/presentation/controllers/users_manage_controller.dart';
 import 'package:sculpture_shop/features/admin_panel/users/presentation/widgets/users_list_card_widget.dart';
 
 class UsersWidget extends GetView<UsersManageController> {
-  @override
-  final UsersManageController controller = Get.put(
-    UsersManageController(repo: UsersManageRepositoryImpl()),
-  );
-
   UsersWidget({super.key});
 
   @override

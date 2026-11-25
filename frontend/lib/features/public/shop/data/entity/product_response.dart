@@ -21,6 +21,7 @@ class ProductResponse {
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) {
     final category = json['category'];
+    final inventory = json['inventory'];
     return ProductResponse(
       image: json['image']?.toString() ?? '',
       name: json['name']?.toString() ?? '',

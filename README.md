@@ -6,7 +6,7 @@
 
 **Links:** [Private GitHub repository](https://github.com/MiWorldorg/Scup-Shop) · Live demo: not deployed · Screenshots: pending final runtime capture
 
-> This repository is private. No CI badge is shown because a CI workflow has not yet been added. The project is not licensed for redistribution; no LICENSE file is included by owner decision.
+> This repository is private. A manual-only CI workflow is present for the final verification pass; it has not yet been run, so no passing badge is shown. The project is not licensed for redistribution; no LICENSE file is included by owner decision.
 
 ---
 
@@ -49,7 +49,7 @@ No screenshots are published yet. Final captures will be added after the agreed 
 - **Email:** Laravel Mail transport, configured through environment variables.
 - **Platforms targeted:** Android, Web, Windows, and Linux. Platform builds and runtime behavior remain subject to final QA.
 
-See [architecture](docs/architecture.md), [database](docs/database.md), and [API reference](docs/api.md).
+See [architecture](docs/architecture.md), [database](docs/database.md), [API reference](docs/api.md), [product scope](docs/product-scope.md), and the [testing plan](docs/testing.md).
 
 ## 5. Key Decisions & Trade-offs
 
@@ -135,6 +135,7 @@ Per the project owner's workflow, the complete test, formatter, analyzer, and bu
     Scup-Shop/
     ├── backend/                 # Laravel API, actions, requests, resources, migrations
     ├── frontend/                # Flutter app, features, shared UI, assets
+    ├── .github/workflows/ci.yml  # Manual final verification workflow
     ├── docs/
     │   ├── decisions/           # Architecture decision records
     │   ├── images/              # Final portfolio screenshots (to be captured)

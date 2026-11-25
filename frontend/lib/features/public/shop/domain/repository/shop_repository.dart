@@ -1,5 +1,5 @@
-import 'package:sculpture_shop/features/public/shop/data/entity/product_response.dart';
+import 'package:sculpture_shop/core/api/api_response.dart';
 
 abstract class ShopRepository {
-  Future<List<ProductResponse>> getProducts(int page);
+  Future<ApiPaginatedResult> getProducts(int page);
 }

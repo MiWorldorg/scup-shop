@@ -3,14 +3,23 @@ import 'package:sculpture_shop/features/admin_panel/posts/data/entity/post_respo
 
 class PostsListCard extends StatelessWidget {
   final PostManageResponse post;
+  final VoidCallback onEdit;
+  final VoidCallback onTogglePublished;
+  final VoidCallback onDelete;
 
-  const PostsListCard({super.key, required this.post});
+  const PostsListCard({
+    super.key,
+    required this.post,
+    required this.onEdit,
+    required this.onTogglePublished,
+    required this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: colors.onSurface.withOpacity(0.08)),
@@ -50,9 +59,10 @@ class PostsListCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      post.published,
+                      post.isPublished ? 'Published' : 'Draft',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: colors.onSurface.withOpacity(0.6),
+                        color: post.isPublished ? colors.primary : colors.error,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     Text(
@@ -65,6 +75,27 @@ class PostsListCard extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+          const SizedBox(width: 8),
+          IconButton(
+            tooltip: 'Edit post',
+            onPressed: onEdit,
+            icon: const Icon(Icons.edit_outlined),
+          ),
+          IconButton(
+            tooltip: post.isPublished ? 'Unpublish post' : 'Publish post',
+            onPressed: onTogglePublished,
+            icon: Icon(
+              post.isPublished
+                  ? Icons.visibility_off_outlined
+                  : Icons.visibility_outlined,
+            ),
+          ),
+          IconButton(
+            tooltip: 'Delete post',
+            onPressed: onDelete,
+            color: colors.error,
+            icon: const Icon(Icons.delete_outline_rounded),
           ),
         ],
       ),

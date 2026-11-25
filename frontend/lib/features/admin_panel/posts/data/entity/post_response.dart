@@ -9,7 +9,7 @@ class PostManageResponse {
   final String summary;
   final String content;
 
-  PostManageResponse({
+  const PostManageResponse({
     required this.authorId,
     required this.postPicture,
     required this.id,
@@ -21,28 +21,46 @@ class PostManageResponse {
     required this.content,
   });
 
+  bool get isPublished => published.isNotEmpty;
+
   factory PostManageResponse.fromJson(Map<String, dynamic> json) {
     return PostManageResponse(
-      postPicture: json['post_picture'],
-      id: json['id'],
-      authorId: json['author_id'],
-      categoryId: json['category_id'],
-      slug: json['slug'],
-      title: json['title'],
-      published: json['published'],
-      summary: json['summary'],
-      content: json['content'],
+      postPicture: json['post_picture']?.toString() ?? '',
+      id: _integer(json['id']),
+      authorId: _integer(json['author_id']),
+      categoryId: _integer(json['category_id']),
+      slug: json['slug']?.toString() ?? '',
+      title: json['title']?.toString() ?? '',
+      published: json['published']?.toString() ?? '',
+      summary: json['summary']?.toString() ?? '',
+      content: json['content']?.toString() ?? '',
     );
   }
-  Map<String, dynamic> toJson() {
-    return {
-      'author_id': authorId,
-      'category_id': categoryId,
-      'slug': slug,
-      'title': title,
-      'published': published,
-      'summary': summary,
-      'content': content,
-    };
-  }
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'category_id': categoryId,
+    'slug': slug,
+    'title': title,
+    'published': isPublished ? published : null,
+    'summary': summary,
+    'content': content,
+    'post_picture': postPicture,
+  };
 }
+
+class PostCategoryResponse {
+  final int id;
+  final String title;
+
+  const PostCategoryResponse({required this.id, required this.title});
+
+  factory PostCategoryResponse.fromJson(Map<String, dynamic> json) =>
+      PostCategoryResponse(
+        id: _integer(json['id']),
+        title: json['title']?.toString() ?? '',
+      );
+}
+
+int _integer(dynamic value) =>
+    value is num ? value.toInt() : int.tryParse(value?.toString() ?? '') ?? 0;

@@ -2,136 +2,87 @@
 
 namespace App\Repository\api;
 
-
 use App\Http\Requests\CreatePostRequest;
-use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdatePostRequest;
-use App\Http\Requests\UpdateProductRequest;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
-use App\Models\product;
 use App\Repository\api\Contract\PostRepositoryInterfaceApi;
-use App\Repository\api\Contract\ProductRepositoryInterfaceApi;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-
-
+use Illuminate\Http\Request;
 
 class PostRepositoryApi implements PostRepositoryInterfaceApi
 {
-
-    //select posts and pagination in address  domain/v1/api/posts
-    public function select(): JsonResponse
+    public function selectPublished(): JsonResponse
     {
-        $posts = Post::select(
-            "id",
-            "post_picture",
-            "author_id",
-            "category_id",
-            "slug",
-            "title",
-            "published",
-            "summary",
-            "content"
-        )
+        $posts = Post::query()
+            ->whereNotNull('published')
+            ->orderByDesc('published')
             ->paginate(20);
 
         return response()->json([
             'code' => 1,
-            'message' => 'Posts',
-            'data' => $posts,
-        ], 200);
+            'message' => 'Published posts.',
+            'data' => PostResource::collection($posts)->response()->getData(true),
+        ]);
     }
 
-    //insert post and pagination in address  domain/v1/api/admin/post/create
+    public function selectAll(): JsonResponse
+    {
+        $posts = Post::query()
+            ->orderByDesc('created_at')
+            ->paginate(20);
+
+        return response()->json([
+            'code' => 1,
+            'message' => 'Posts.',
+            'data' => PostResource::collection($posts)->response()->getData(true),
+        ]);
+    }
+
     public function insert(CreatePostRequest $request): JsonResponse
     {
-
-        $data = $request->all();
-        if (!$data) {
-            return response()->json([
-                'code' => 2,
-                'message' => 'The submitted information is invalid.',
-                'data' => null,
-            ], 400);
-        }
+        $data = $request->validated();
+        $data['author_id'] = $request->user()->getKey();
 
         $post = Post::create($data);
 
-        if ($post) {
-            return response()->json([
-                'code' => 1,
-                'message' => 'Post created successfully.',
-                'data' => $post,
-            ], 200);
-        }
-
         return response()->json([
-            'code' => 2,
-            'message' => 'The submitted information is invalid.',
-            'data' => null,
-        ], 400);
+            'code' => 1,
+            'message' => 'Post created successfully.',
+            'data' => new PostResource($post),
+        ], 201);
     }
 
-    //delete post and pagination in address  domain/v1/api/admin/post/delete
     public function destroy(Request $request): JsonResponse
     {
-        $id = $request->id;
+        $validated = $request->validate([
+            'id' => ['required', 'integer'],
+        ]);
 
-        if (!$id) {
-            return response()->json([
-                'code' => 2,
-                'message' => 'ID not found.',
-                'data' => null,
-            ], 400);
-        }
-
-        $post = Post::find($id);
-
-        if (!$post) {
-            return response()->json([
-                'code' => 2,
-                'message' => 'ID not found.',
-                'data' => null,
-            ], 400);
-        }
+        $post = Post::findOrFail($validated['id']);
         $post->delete();
+
         return response()->json([
             'code' => 1,
             'message' => 'Post deleted successfully.',
             'data' => true,
-        ], 200);
+        ]);
     }
 
-
-    //update post in address domain/v1/api/admin/post/update
     public function update(UpdatePostRequest $request): JsonResponse
     {
-        $data = $request->all();
+        $data = $request->validated();
+        $id = $data['id'];
+        unset($data['id']);
 
-        $id = $request->id;
-
-
-
-        if (!$id) {
-            return response()->json([
-                'code' => 2,
-                'message' => 'Invalid post ID.',
-                'data' => null,
-            ], 400);
-        }
-
-        $post = Post::find($id);
-
-
-
+        $post = Post::findOrFail($id);
         $post->update($data);
+        $post->refresh();
 
         return response()->json([
             'code' => 1,
-            'message' => 'Operation completed successfully.',
-            'data' => $post,
-        ], 400);
+            'message' => 'Post updated successfully.',
+            'data' => new PostResource($post),
+        ]);
     }
 }

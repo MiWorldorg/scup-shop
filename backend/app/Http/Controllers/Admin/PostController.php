@@ -5,32 +5,47 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreatePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Models\PostCategory;
 use App\Repository\api\PostRepositoryApi;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function __construct(PostRepositoryApi $postRepositoryApi)
+    public function selectPublic(PostRepositoryApi $repository): JsonResponse
     {
-        $this->postRepositoryApi = $postRepositoryApi;
+        return $repository->selectPublished();
     }
 
-
-    public function select(PostRepositoryApi $postRepositoryApi)
+    public function selectAdmin(PostRepositoryApi $repository): JsonResponse
     {
-        return $postRepositoryApi->select();
+        return $repository->selectAll();
     }
 
-    public function insert(PostRepositoryApi $postRepositoryApi,CreatePostRequest $request)
+    public function categories(): JsonResponse
     {
-        return $postRepositoryApi->insert($request);
+        return response()->json([
+            'code' => 1,
+            'message' => 'Post categories.',
+            'data' => PostCategory::query()
+                ->select('id', 'title')
+                ->orderBy('title')
+                ->get(),
+        ]);
     }
-    public function destroy(PostRepositoryApi $postRepositoryApi,Request $request)
+
+    public function insert(PostRepositoryApi $repository, CreatePostRequest $request): JsonResponse
     {
-        return $postRepositoryApi->destroy($request);
+        return $repository->insert($request);
     }
-    public function update(PostRepositoryApi $postRepositoryApi,UpdatePostRequest $request)
+
+    public function destroy(PostRepositoryApi $repository, Request $request): JsonResponse
     {
-        return $postRepositoryApi->update($request);
+        return $repository->destroy($request);
+    }
+
+    public function update(PostRepositoryApi $repository, UpdatePostRequest $request): JsonResponse
+    {
+        return $repository->update($request);
     }
 }

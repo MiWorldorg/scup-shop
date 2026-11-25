@@ -19,6 +19,25 @@ class AuthController extends GetxController {
   bool get isAdmin =>
       ApiSession.isAuthenticated && currentRole.value == 'admin';
 
+  Future<void> restoreSession() async {
+    await ApiSession.initialize();
+    if (!ApiSession.isAuthenticated) return;
+
+    try {
+      final user = await service.currentUser();
+      currentRole.value = user['role']?.toString() ?? '';
+      currentUsername.value = user['username']?.toString() ?? '';
+    } catch (error) {
+      // Only discard a token when the server confirms it is invalid/revoked.
+      if (error is ApiException &&
+          (error.statusCode == 401 || error.statusCode == 403)) {
+        await ApiSession.clear();
+      }
+      currentRole.value = '';
+      currentUsername.value = '';
+    }
+  }
+
   Future<bool> login() async {
     if (isLoading.value) return false;
     isLoading.value = true;
@@ -30,26 +49,24 @@ class AuthController extends GetxController {
         passwordController.text,
       );
       final role = response['role']?.toString() ?? '';
+      final token = response['token']?.toString() ?? '';
+
+      if (token.isEmpty) {
+        throw const ApiException('The server did not return an access token.');
+      }
+
       if (role != 'admin') {
-        final token = response['token']?.toString();
-        if (token != null && token.isNotEmpty) {
-          try {
-            await service.logout(token);
-          } catch (_) {
-            // Keep the administrator sign-in error clear if revocation fails.
-          }
+        try {
+          await service.logout(token);
+        } catch (_) {
+          // Keep the administrator sign-in error clear if revocation fails.
         }
         throw const ApiException(
           'This account does not have administrator access.',
         );
       }
 
-      final token = response['token']?.toString() ?? '';
-      if (token.isEmpty) {
-        throw const ApiException('The server did not return an access token.');
-      }
-
-      ApiSession.setAccessToken(token);
+      await ApiSession.setAccessToken(token);
       currentRole.value = role;
       currentUsername.value = response['username']?.toString() ?? '';
       return true;
@@ -68,7 +85,7 @@ class AuthController extends GetxController {
     } catch (_) {
       // Local access still ends even if the network is unavailable.
     } finally {
-      ApiSession.clear();
+      await ApiSession.clear();
       currentRole.value = '';
       currentUsername.value = '';
       passwordController.clear();
